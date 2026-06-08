@@ -2,7 +2,7 @@
 
 A CLI + Web English learning tool with flashcards, dictionary lookup, and multiple-choice quiz. Features a modern terminal UI with rainbow banners, a mobile-friendly PWA web app, progress tracking, and Vietnamese language support.
 
-![CLI Screenshot](images/english-tool.png)
+![CLI Screenshot](images/WindowsTerminal_9SNDoOFu2O.png)
 ![Web Screenshot](images/web_english_tool.png)
 
 ## Features
