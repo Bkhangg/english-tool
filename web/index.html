@@ -705,6 +705,9 @@ const STRINGS = {
     dict_word: "Word:",
     dict_ipa: "IPA:",
     dict_audio: "Play Audio",
+    dict_save_btn: "Save to learning",
+    dict_saved: "Saved!",
+    dict_in_wordlist: "In your word list",
     quiz_header: "Quiz Time!",
     quiz_what: "What is the meaning of:",
     quiz_correct: "CORRECT!",
@@ -823,6 +826,9 @@ const STRINGS = {
     dict_word: "T\u1eeb:",
     dict_ipa: "IPA:",
     dict_audio: "Nghe \u00e2m thanh",
+    dict_save_btn: "L\u01b0u v\u00e0o h\u1ecdc",
+    dict_saved: "\u0110\u00e3 l\u01b0u!",
+    dict_in_wordlist: "\u0110\u00e3 c\u00f3 trong danh s\u00e1ch",
     quiz_header: "B\u00e0i Ki\u1ec3m Tra!",
     quiz_what: "Ngh\u0129a c\u1ee7a t\u1eeb n\u00e0y l\u00e0:",
     quiz_correct: "\u0110\u00daNG!",
@@ -1389,7 +1395,34 @@ function renderDictResult(el, data, word) {
     });
   }
 
+  const inList = data.in_wordlist;
+  if (inList) {
+    html += `<div class="card fade-in text-center" style="border-left:3px solid var(--green)"><p style="color:var(--green);font-size:13px;font-weight:600">✅ ${t("dict_in_wordlist")}</p></div>`;
+  } else {
+    html += `<button class="btn btn-success btn-full mt-8" id="dict-save-word" style="font-size:14px">➕ ${t("dict_save_btn")}</button>`;
+  }
+
   el.innerHTML = html;
+
+  document.getElementById("dict-save-word")?.addEventListener("click", async () => {
+    const btn = document.getElementById("dict-save-word");
+    btn.textContent = "⏳ ...";
+    btn.disabled = true;
+    try {
+      const body = { word: data.word, meaning: data.vi_meaning || "" };
+      if (data.ipa) body.ipa = data.ipa;
+      const r = await api("POST", "/api/words", body);
+      if (r.ok) {
+        btn.textContent = "✅ " + t("dict_saved");
+        btn.className = "btn btn-success btn-full mt-8";
+      } else {
+        btn.textContent = "❌ " + (r.error === "word already exists" ? t("dict_in_wordlist") : t("words_add_error"));
+        setTimeout(() => { dictSearch(); }, 1500);
+      }
+    } catch {
+      btn.textContent = "❌ " + t("words_add_error");
+    }
+  });
 }
 
 function playAudio(url) {

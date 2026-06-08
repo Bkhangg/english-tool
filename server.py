@@ -226,13 +226,16 @@ def api_dictionary(word):
             result["audio"] = p["audio"]
             break
 
+    result["in_wordlist"] = False
     for w in load_words():
         if w["word"].lower() == word.lower():
+            result["in_wordlist"] = True
             result["vi_meaning"] = w.get("meaning", "")
             result["definition"] = w.get("definition", "")
             result["definition_vi"] = w.get("definition_vi", "")
             result["vi_example"] = w.get("example", "")
             result["example_vi"] = w.get("example_vi", "")
+            result["word_id"] = w["id"]
             break
 
     return json_response(result)
