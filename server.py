@@ -8,6 +8,7 @@ import sys
 import random
 import webbrowser
 import threading
+import subprocess
 
 sys.path.insert(0, os.path.dirname(__file__))
 from modules import lang
@@ -490,7 +491,10 @@ def run():
     print(f"  Press Ctrl+C to stop\n")
 
     if auto_open:
-        threading.Timer(0.5, lambda: webbrowser.open(addr)).start()
+        if is_termux:
+            threading.Timer(0.5, lambda: subprocess.run(["termux-open-url", addr], capture_output=True)).start()
+        else:
+            threading.Timer(0.5, lambda: webbrowser.open(addr)).start()
 
     try:
         server.serve_forever()
