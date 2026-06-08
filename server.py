@@ -6,6 +6,8 @@ import urllib.request
 import urllib.error
 import sys
 import random
+import webbrowser
+import threading
 
 sys.path.insert(0, os.path.dirname(__file__))
 from modules import lang
@@ -255,9 +257,35 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
 
 def run():
+    addr = f"http://localhost:{PORT}"
+
+    try:
+        term = os.environ.get("TERMUX_VERSION")
+        is_termux = term is not None
+    except Exception:
+        is_termux = False
+
+    prompt = (
+        f"Open {addr} in browser? [Y/n]: "
+        if is_termux
+        else f"Open {addr} in browser? (y/N): "
+    )
+    try:
+        choice = input(prompt).strip().lower()
+    except (EOFError, KeyboardInterrupt):
+        choice = ""
+
+    auto_open = is_termux and choice != "n"
+    if not is_termux:
+        auto_open = choice == "y"
+
     server = http.server.HTTPServer(("0.0.0.0", PORT), Handler)
-    print(f"Server running at http://localhost:{PORT}")
-    print("Press Ctrl+C to stop")
+    print(f"\n  Server running at {addr}")
+    print(f"  Press Ctrl+C to stop\n")
+
+    if auto_open:
+        threading.Timer(0.5, lambda: webbrowser.open(addr)).start()
+
     try:
         server.serve_forever()
     except KeyboardInterrupt:
