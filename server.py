@@ -200,6 +200,14 @@ def api_dictionary(word):
     return json_response(result)
 
 
+def api_grammar():
+    from modules.utils import load_json
+    import os
+    path = os.path.join(os.path.dirname(__file__), "data", "grammar.json")
+    data = load_json(path)
+    return json_response(data.get("grammar", []))
+
+
 def api_lang():
     return json_response({"lang": load_lang_strings()})
 
@@ -226,6 +234,7 @@ route("GET", "/api/stats", lambda q, b: api_stats())
 route("GET", "/api/words", lambda q, b: api_words())
 route("GET", "/api/review-words", lambda q, b: api_review_words())
 route("GET", "/api/quiz", lambda q, b: api_quiz())
+route("GET", "/api/grammar", lambda q, b: api_grammar())
 route("GET", "/api/lang", lambda q, b: api_lang())
 route("GET", "/api/dictionary", lambda q, b: api_dictionary(urllib.parse.parse_qs(q).get("word", [""])[0]))
 

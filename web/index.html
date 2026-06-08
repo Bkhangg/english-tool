@@ -361,6 +361,10 @@ body {
   <div id="quiz-content"></div>
 </div>
 
+<div id="tab-grammar" class="content">
+  <div id="grammar-content"></div>
+</div>
+
 <div id="tab-progress" class="content">
   <div id="progress-content"></div>
 </div>
@@ -400,6 +404,10 @@ body {
   <button class="tab-btn" data-tab="quiz">
     <span class="icon">✍️</span>
     <span id="tab-label-quiz">Quiz</span>
+  </button>
+  <button class="tab-btn" data-tab="grammar">
+    <span class="icon">📖</span>
+    <span id="tab-label-grammar">Grammar</span>
   </button>
   <button class="tab-btn" data-tab="progress">
     <span class="icon">📊</span>
@@ -492,6 +500,15 @@ const STRINGS = {
     fc_type_placeholder: "Type meaning here...",
     fc_type_correct: "Correct!",
     fc_type_wrong: "Wrong! The answer is:",
+    tab_grammar: "Grammar",
+    grammar_header: "Grammar Lessons",
+    grammar_tense: "Tenses",
+    grammar_conditional: "Conditionals",
+    grammar_formula: "Formula",
+    grammar_usage: "Usage",
+    grammar_keywords: "Signal words",
+    grammar_examples: "Examples",
+    grammar_expand: "Tap to expand",
   },
   vi: {
     title: "C\u00f4ng C\u1ee5 H\u1ecdc Ti\u1ebfng Anh",
@@ -568,6 +585,15 @@ const STRINGS = {
     fc_type_placeholder: "G\u00f5 ngh\u0129a t\u1ea1i \u0111\u00e2y...",
     fc_type_correct: "\u0110\u00fang!",
     fc_type_wrong: "Sai! \u0110\u00e1p \u00e1n l\u00e0:",
+    tab_grammar: "Ng\u1eef ph\u00e1p",
+    grammar_header: "B\u00e0i H\u1ecdc Ng\u1eef Ph\u00e1p",
+    grammar_tense: "C\u00e1c Th\u00ec",
+    grammar_conditional: "C\u00e2u \u0110i\u1ec1u Ki\u1ec7n",
+    grammar_formula: "C\u00f4ng th\u1ee9c",
+    grammar_usage: "C\u00e1ch d\u00f9ng",
+    grammar_keywords: "D\u1ea5u hi\u1ec7u nh\u1eadn bi\u1ebft",
+    grammar_examples: "V\u00ed d\u1ee5",
+    grammar_expand: "Ch\u1ea1m \u0111\u1ec3 xem",
   }
 };
 
@@ -597,6 +623,7 @@ function updateStrings() {
   document.getElementById("tab-label-quiz").textContent = t("tab_quiz");
   document.getElementById("tab-label-prog").textContent = t("tab_prog");
   document.getElementById("tab-label-words").textContent = t("tab_words");
+  document.getElementById("tab-label-grammar").textContent = t("tab_grammar");
   document.getElementById("tab-label-sett").textContent = t("tab_sett");
   document.getElementById("dict-input").placeholder = t("dict_placeholder");
   document.getElementById("dict-search").textContent = t("dict_search");
@@ -623,6 +650,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     if (btn.dataset.tab === "progress") renderProgress();
     if (btn.dataset.tab === "quiz") renderQuiz();
     if (btn.dataset.tab === "words") renderWords();
+    if (btn.dataset.tab === "grammar") renderGrammar();
   });
 });
 
@@ -654,6 +682,7 @@ async function init() {
   renderFlashcards();
   renderProgress();
   renderWords();
+  renderGrammar();
 }
 
 // ----- FLASHCARDS -----
@@ -1002,6 +1031,75 @@ function renderQuizComplete(el, state) {
   });
 }
 
+// ----- GRAMMAR -----
+async function renderGrammar() {
+  const el = document.getElementById("grammar-content");
+  el.innerHTML = `<div class="text-center mt-16"><div class="spinner"></div></div>`;
+  try {
+    const r = await api("GET", "/api/grammar");
+    if (!r || r.length === 0) {
+      el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--muted);padding:20px 0">Grammar data not found</p></div>`;
+      return;
+    }
+    const tenses = r.filter(g => g.category === "tense");
+    const conds = r.filter(g => g.category === "conditional");
+
+    let html = `<div class="card fade-in"><h3>${t("grammar_tense")}</h3></div>`;
+    tenses.forEach(g => { html += renderGrammarItem(g); });
+    html += `<div class="card fade-in mt-12"><h3>${t("grammar_conditional")}</h3></div>`;
+    conds.forEach(g => { html += renderGrammarItem(g); });
+
+    el.innerHTML = html;
+
+    el.querySelectorAll(".grammar-toggle").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.id;
+        const detail = document.getElementById("grammar-detail-" + id);
+        const isOpen = detail.style.display !== "none";
+        detail.style.display = isOpen ? "none" : "block";
+        btn.textContent = isOpen ? "▶" : "▼";
+      });
+    });
+  } catch {
+    el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--primary);padding:20px 0">${t("dict_network")}</p></div>`;
+  }
+}
+
+function renderGrammarItem(g) {
+  const examples = g.examples.map((ex, i) =>
+    `<div style="margin-top:${i > 0 ? '8' : '4'}px;font-size:13px">
+       <div style="color:var(--text)">▸ ${esc(ex.en)}</div>
+       <div style="color:var(--green);font-size:12px">${esc(ex.vi)}</div>
+     </div>`
+  ).join("");
+
+  const keywords = g.keywords && g.keywords.length
+    ? `<div style="margin-top:6px;font-size:12px;color:var(--muted)"><strong>${t("grammar_keywords")}:</strong> ${esc(g.keywords.join(", "))}</div>`
+    : "";
+
+  return `
+    <div class="card fade-in" style="padding:10px 16px;margin-bottom:4px">
+      <div style="display:flex;align-items:center;gap:8px;cursor:pointer" class="grammar-toggle" data-id="${g.id}">
+        <span style="font-size:12px;color:var(--cyan)">▶</span>
+        <strong style="color:var(--yellow);font-size:14px">${esc(g.title)}</strong>
+        <span style="color:var(--green);font-size:12px">(${esc(g.title_vi)})</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--muted)">${t("grammar_expand")}</span>
+      </div>
+      <div id="grammar-detail-${g.id}" style="display:none;margin-top:8px;border-top:1px solid #2a2a4e;padding-top:8px">
+        <div style="font-size:13px;color:var(--cyan);font-weight:500">${t("grammar_formula")}:</div>
+        <div style="font-size:14px;color:var(--yellow);margin-top:2px">${esc(g.formula)}</div>
+        <div style="font-size:13px;color:var(--green);margin-top:1px">${esc(g.formula_vi)}</div>
+        <div style="font-size:13px;color:var(--cyan);font-weight:500;margin-top:8px">${t("grammar_usage")}:</div>
+        <div style="font-size:13px;margin-top:2px;color:var(--text)">${esc(g.usage)}</div>
+        <div style="font-size:12px;margin-top:1px;color:var(--green)">${esc(g.usage_vi)}</div>
+        ${keywords}
+        <div style="font-size:13px;color:var(--cyan);font-weight:500;margin-top:8px">${t("grammar_examples")}:</div>
+        ${examples}
+      </div>
+    </div>
+  `;
+}
+
 // ----- PROGRESS -----
 async function renderProgress() {
   const el = document.getElementById("progress-content");
@@ -1140,7 +1238,7 @@ function esc(s) {
 // Keyboard shortcuts
 document.addEventListener("keydown", (e) => {
   if (e.target.tagName === "INPUT") return;
-  const tabMap = { "1": "flashcards", "2": "dictionary", "3": "quiz", "4": "progress", "5": "words", "6": "settings" };
+  const tabMap = { "1": "flashcards", "2": "dictionary", "3": "quiz", "4": "grammar", "5": "progress", "6": "words", "7": "settings" };
   const tab = tabMap[e.key];
   if (tab) {
     const btn = document.querySelector(`[data-tab="${tab}"]`);

@@ -46,8 +46,9 @@ def show_menu():
             ("1", lang.t("menu.flashcards"), lang.t("menu.desc.flashcards")),
             ("2", lang.t("menu.dictionary"), lang.t("menu.desc.dictionary")),
             ("3", lang.t("menu.quiz"), lang.t("menu.desc.quiz")),
-            ("4", lang.t("menu.progress"), lang.t("menu.desc.progress")),
-            ("5", lang.t("menu.settings"), lang.t("menu.desc.settings")),
+            ("4", lang.t("menu.grammar"), lang.t("menu.desc.grammar")),
+            ("5", lang.t("menu.progress"), lang.t("menu.desc.progress")),
+            ("6", lang.t("menu.settings"), lang.t("menu.desc.settings")),
         ]
 
         max_name = max(ui.visible_len(n) for _, n, _ in items)
@@ -74,10 +75,13 @@ def show_menu():
             from modules.quiz import run as quiz_run
             quiz_run()
         elif choice == "4":
+            from modules.grammar import run as grammar_run
+            grammar_run()
+        elif choice == "5":
             ui.clear()
             show_stats()
             ui.wait()
-        elif choice == "5":
+        elif choice == "6":
             settings_menu()
         elif choice in ("0", "exit", "quit"):
             ui.clear()

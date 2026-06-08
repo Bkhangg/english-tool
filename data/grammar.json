@@ -1,0 +1,212 @@
+{
+  "grammar": [
+    {
+      "id": 1,
+      "category": "tense",
+      "title": "Present Simple",
+      "title_vi": "Thì Hiện Tại Đơn",
+      "usage": "Used for habits, general truths, and repeated actions",
+      "usage_vi": "Dùng cho thói quen, sự thật hiển nhiên và hành động lặp đi lặp lại",
+      "formula": "S + V(s/es) + O",
+      "formula_vi": "Chủ ngữ + Động từ (thêm s/es) + Tân ngữ",
+      "keywords": ["always", "usually", "often", "sometimes", "every day", "every week", "never"],
+      "examples": [
+        {"en": "I wake up at 6 AM every day.", "vi": "Tôi thức dậy lúc 6 giờ sáng mỗi ngày."},
+        {"en": "She reads books in her free time.", "vi": "Cô ấy đọc sách vào thời gian rảnh."},
+        {"en": "The sun rises in the east.", "vi": "Mặt trời mọc ở phía đông."}
+      ]
+    },
+    {
+      "id": 2,
+      "category": "tense",
+      "title": "Present Continuous",
+      "title_vi": "Thì Hiện Tại Tiếp Diễn",
+      "usage": "Used for actions happening right now or around now, and for future arrangements",
+      "usage_vi": "Dùng cho hành động đang xảy ra ngay lúc nói hoặc xung quanh thời điểm hiện tại, và cho kế hoạch tương lai",
+      "formula": "S + am/is/are + V-ing",
+      "formula_vi": "Chủ ngữ + am/is/are + Động từ thêm -ing",
+      "keywords": ["now", "right now", "at the moment", "currently", "today", "this week", "look!", "listen!"],
+      "examples": [
+        {"en": "I am reading a book right now.", "vi": "Tôi đang đọc sách ngay bây giờ."},
+        {"en": "She is studying for her exam this week.", "vi": "Cô ấy đang học cho kỳ thi trong tuần này."},
+        {"en": "They are moving to a new house tomorrow.", "vi": "Họ sẽ chuyển đến nhà mới vào ngày mai."}
+      ]
+    },
+    {
+      "id": 3,
+      "category": "tense",
+      "title": "Present Perfect",
+      "title_vi": "Thì Hiện Tại Hoàn Thành",
+      "usage": "Used for past actions with present relevance, experiences, and actions that started in the past and continue",
+      "usage_vi": "Dùng cho hành động quá khứ có liên quan đến hiện tại, kinh nghiệm, và hành động bắt đầu từ quá khứ và còn tiếp diễn",
+      "formula": "S + have/has + V3/ed",
+      "formula_vi": "Chủ ngữ + have/has + Động từ cột 3 / thêm -ed",
+      "keywords": ["already", "just", "ever", "never", "yet", "since", "for", "recently", "so far"],
+      "examples": [
+        {"en": "I have already finished my homework.", "vi": "Tôi đã làm xong bài tập về nhà rồi."},
+        {"en": "She has never been to Japan.", "vi": "Cô ấy chưa bao giờ đến Nhật Bản."},
+        {"en": "They have lived here for five years.", "vi": "Họ đã sống ở đây được năm năm."}
+      ]
+    },
+    {
+      "id": 4,
+      "category": "tense",
+      "title": "Present Perfect Continuous",
+      "title_vi": "Thì Hiện Tại Hoàn Thành Tiếp Diễn",
+      "usage": "Used for actions that started in the past and are still continuing, emphasizing the duration",
+      "usage_vi": "Dùng cho hành động bắt đầu từ quá khứ và vẫn đang tiếp diễn, nhấn mạnh khoảng thời gian",
+      "formula": "S + have/has + been + V-ing",
+      "formula_vi": "Chủ ngữ + have/has + been + Động từ thêm -ing",
+      "keywords": ["for", "since", "all day", "lately", "recently", "how long"],
+      "examples": [
+        {"en": "I have been studying for three hours.", "vi": "Tôi đã học được ba tiếng đồng hồ."},
+        {"en": "It has been raining all day.", "vi": "Trời đã mưa cả ngày."},
+        {"en": "She has been working here since 2020.", "vi": "Cô ấy đã làm việc ở đây từ năm 2020."}
+      ]
+    },
+    {
+      "id": 5,
+      "category": "tense",
+      "title": "Past Simple",
+      "title_vi": "Thì Quá Khứ Đơn",
+      "usage": "Used for completed actions in the past at a specific time",
+      "usage_vi": "Dùng cho hành động đã hoàn thành trong quá khứ tại thời điểm cụ thể",
+      "formula": "S + V2/ed + O",
+      "formula_vi": "Chủ ngữ + Động từ cột 2 / thêm -ed + Tân ngữ",
+      "keywords": ["yesterday", "last night", "last week", "last month", "ago", "in 2010", "then"],
+      "examples": [
+        {"en": "I visited my grandmother yesterday.", "vi": "Tôi đã thăm bà của tôi hôm qua."},
+        {"en": "She bought a new car last week.", "vi": "Cô ấy đã mua một chiếc xe mới tuần trước."},
+        {"en": "They went to the beach last summer.", "vi": "Họ đã đi biển mùa hè năm ngoái."}
+      ]
+    },
+    {
+      "id": 6,
+      "category": "tense",
+      "title": "Past Continuous",
+      "title_vi": "Thì Quá Khứ Tiếp Diễn",
+      "usage": "Used for actions that were in progress at a specific time in the past, or interrupted by another action",
+      "usage_vi": "Dùng cho hành động đang diễn ra tại một thời điểm cụ thể trong quá khứ, hoặc bị gián đoạn bởi hành động khác",
+      "formula": "S + was/were + V-ing",
+      "formula_vi": "Chủ ngữ + was/were + Động từ thêm -ing",
+      "keywords": ["at that time", "at 8 PM yesterday", "while", "when"],
+      "examples": [
+        {"en": "I was watching TV at 8 PM last night.", "vi": "Tôi đang xem TV lúc 8 giờ tối qua."},
+        {"en": "She was cooking when I arrived.", "vi": "Cô ấy đang nấu ăn khi tôi đến."},
+        {"en": "They were playing football while it was raining.", "vi": "Họ đang chơi bóng đá trong khi trời đang mưa."}
+      ]
+    },
+    {
+      "id": 7,
+      "category": "tense",
+      "title": "Past Perfect",
+      "title_vi": "Thì Quá Khứ Hoàn Thành",
+      "usage": "Used for an action that was completed before another action or time in the past",
+      "usage_vi": "Dùng cho hành động đã hoàn thành trước một hành động hoặc thời điểm khác trong quá khứ",
+      "formula": "S + had + V3/ed",
+      "formula_vi": "Chủ ngữ + had + Động từ cột 3 / thêm -ed",
+      "keywords": ["already", "just", "never", "before", "after", "by the time", "until then"],
+      "examples": [
+        {"en": "I had already eaten when she arrived.", "vi": "Tôi đã ăn xong trước khi cô ấy đến."},
+        {"en": "She had never seen snow before she moved to Canada.", "vi": "Cô ấy chưa bao giờ thấy tuyết trước khi chuyển đến Canada."},
+        {"en": "By the time he called, I had gone to bed.", "vi": "Vào lúc anh ấy gọi, tôi đã đi ngủ rồi."}
+      ]
+    },
+    {
+      "id": 8,
+      "category": "tense",
+      "title": "Future Simple",
+      "title_vi": "Thì Tương Lai Đơn",
+      "usage": "Used for predictions, promises, spontaneous decisions, and offers",
+      "usage_vi": "Dùng cho dự đoán, lời hứa, quyết định tức thời và đề nghị",
+      "formula": "S + will + V",
+      "formula_vi": "Chủ ngữ + will + Động từ nguyên mẫu",
+      "keywords": ["tomorrow", "next week", "next month", "soon", "later", "in the future", "probably"],
+      "examples": [
+        {"en": "I will call you tomorrow.", "vi": "Tôi sẽ gọi cho bạn vào ngày mai."},
+        {"en": "It will rain later today.", "vi": "Trời sẽ mưa vào cuối ngày hôm nay."},
+        {"en": "She will help you with the project.", "vi": "Cô ấy sẽ giúp bạn với dự án."}
+      ]
+    },
+    {
+      "id": 9,
+      "category": "tense",
+      "title": "Future Continuous",
+      "title_vi": "Thì Tương Lai Tiếp Diễn",
+      "usage": "Used for actions that will be in progress at a specific time in the future",
+      "usage_vi": "Dùng cho hành động sẽ đang diễn ra tại một thời điểm cụ thể trong tương lai",
+      "formula": "S + will be + V-ing",
+      "formula_vi": "Chủ ngữ + will be + Động từ thêm -ing",
+      "keywords": ["at this time tomorrow", "at 8 PM tomorrow", "this time next week"],
+      "examples": [
+        {"en": "I will be studying at 8 PM tonight.", "vi": "Tôi sẽ đang học lúc 8 giờ tối nay."},
+        {"en": "This time next week, she will be flying to Paris.", "vi": "Giờ này tuần sau, cô ấy sẽ đang bay đến Paris."},
+        {"en": "They will be waiting for us at the airport.", "vi": "Họ sẽ đang đợi chúng ta ở sân bay."}
+      ]
+    },
+    {
+      "id": 10,
+      "category": "conditional",
+      "title": "Conditional Type 0",
+      "title_vi": "Câu Điều Kiện Loại 0",
+      "usage": "Used for general truths, scientific facts, and habits",
+      "usage_vi": "Dùng cho sự thật hiển nhiên, sự kiện khoa học và thói quen",
+      "formula": "If + S + V(s/es), S + V(s/es)",
+      "formula_vi": "Nếu + Chủ ngữ + Động từ (thêm s/es), Chủ ngữ + Động từ (thêm s/es)",
+      "keywords": [],
+      "examples": [
+        {"en": "If you heat ice, it melts.", "vi": "Nếu bạn đun nóng đá, nó sẽ tan chảy."},
+        {"en": "If it rains, the grass gets wet.", "vi": "Nếu trời mưa, cỏ sẽ ướt."},
+        {"en": "If I am tired, I go to bed early.", "vi": "Nếu tôi mệt, tôi đi ngủ sớm."}
+      ]
+    },
+    {
+      "id": 11,
+      "category": "conditional",
+      "title": "Conditional Type 1",
+      "title_vi": "Câu Điều Kiện Loại 1",
+      "usage": "Used for real and possible situations in the present or future",
+      "usage_vi": "Dùng cho tình huống có thật và có thể xảy ra ở hiện tại hoặc tương lai",
+      "formula": "If + S + V(s/es), S + will + V",
+      "formula_vi": "Nếu + Chủ ngữ + Động từ (thêm s/es), Chủ ngữ + will + Động từ nguyên mẫu",
+      "keywords": [],
+      "examples": [
+        {"en": "If it rains tomorrow, I will stay at home.", "vi": "Nếu ngày mai trời mưa, tôi sẽ ở nhà."},
+        {"en": "If she studies hard, she will pass the exam.", "vi": "Nếu cô ấy học chăm chỉ, cô ấy sẽ vượt qua kỳ thi."},
+        {"en": "If you hurry, you will catch the bus.", "vi": "Nếu bạn nhanh lên, bạn sẽ bắt kịp xe buýt."}
+      ]
+    },
+    {
+      "id": 12,
+      "category": "conditional",
+      "title": "Conditional Type 2",
+      "title_vi": "Câu Điều Kiện Loại 2",
+      "usage": "Used for unreal or imaginary situations in the present or future",
+      "usage_vi": "Dùng cho tình huống không có thật hoặc tưởng tượng ở hiện tại hoặc tương lai",
+      "formula": "If + S + V2/ed, S + would + V",
+      "formula_vi": "Nếu + Chủ ngữ + Động từ cột 2 / thêm -ed, Chủ ngữ + would + Động từ nguyên mẫu",
+      "keywords": [],
+      "examples": [
+        {"en": "If I were you, I would study harder.", "vi": "Nếu tôi là bạn, tôi sẽ học chăm chỉ hơn."},
+        {"en": "If she had more money, she would travel the world.", "vi": "Nếu cô ấy có nhiều tiền hơn, cô ấy sẽ đi du lịch vòng quanh thế giới."},
+        {"en": "If they lived closer, we would visit them more often.", "vi": "Nếu họ sống gần hơn, chúng tôi sẽ thăm họ thường xuyên hơn."}
+      ]
+    },
+    {
+      "id": 13,
+      "category": "conditional",
+      "title": "Conditional Type 3",
+      "title_vi": "Câu Điều Kiện Loại 3",
+      "usage": "Used for unreal situations in the past (impossible to change)",
+      "usage_vi": "Dùng cho tình huống không có thật trong quá khứ (không thể thay đổi)",
+      "formula": "If + S + had + V3/ed, S + would have + V3/ed",
+      "formula_vi": "Nếu + Chủ ngữ + had + Động từ cột 3 / thêm -ed, Chủ ngữ + would have + Động từ cột 3 / thêm -ed",
+      "keywords": [],
+      "examples": [
+        {"en": "If I had studied harder, I would have passed the exam.", "vi": "Nếu tôi đã học chăm chỉ hơn, tôi đã vượt qua kỳ thi."},
+        {"en": "If she had left earlier, she would have caught the train.", "vi": "Nếu cô ấy đã đi sớm hơn, cô ấy đã bắt kịp tàu."},
+        {"en": "If they had invited me, I would have gone to the party.", "vi": "Nếu họ đã mời tôi, tôi đã đi dự tiệc."}
+      ]
+    }
+  ]
+}
