@@ -399,6 +399,17 @@ body {
 
 <div id="tab-words" class="content">
   <div id="words-content"></div>
+  <details style="margin-top:4px" id="add-word-details">
+    <summary class="card" style="cursor:pointer;padding:10px 14px;font-size:13px;color:var(--cyan);font-weight:600">➕ ${t("words_add")}</summary>
+    <div class="card" style="margin-top:2px">
+      <input type="text" id="add-word-input" class="search-box" placeholder="${t("words_add_word")}" style="margin-bottom:6px">
+      <input type="text" id="add-meaning-input" class="search-box" placeholder="${t("words_add_meaning")}" style="margin-bottom:6px">
+      <input type="text" id="add-ipa-input" class="search-box" placeholder="${t("words_add_ipa")}" style="margin-bottom:6px">
+      <input type="text" id="add-example-input" class="search-box" placeholder="${t("words_add_example")}" style="margin-bottom:6px">
+      <button class="btn btn-primary btn-full" id="btn-add-word">${t("words_add_btn")}</button>
+      <p id="add-word-msg" style="font-size:12px;margin-top:6px;display:none"></p>
+    </div>
+  </details>
 </div>
 
 <div id="tab-settings" class="content">
@@ -417,6 +428,16 @@ body {
     <p style="font-size:13px;color:var(--muted);line-height:1.6;" id="about-text">
       CLI English learning tool with flashcards, dictionary lookup, quiz, and progress tracking. Built with Python &lt;3
     </p>
+  </div>
+  <div class="card">
+    <h3 id="settings-export-title">${t("settings_export")}</h3>
+    <button class="btn btn-primary btn-full mt-8" id="btn-export">📥 ${t("settings_export_btn")}</button>
+  </div>
+  <div class="card">
+    <h3 id="settings-import-title">${t("settings_import")}</h3>
+    <p style="font-size:12px;color:var(--primary);margin-bottom:8px" id="import-warning">${t("settings_import_warning")}</p>
+    <input type="file" id="import-file" accept=".json" style="display:none">
+    <button class="btn btn-warning btn-full" id="btn-import">📤 ${t("settings_import_btn")}</button>
   </div>
 </div>
 
@@ -528,6 +549,34 @@ const STRINGS = {
     fc_type_placeholder: "Type meaning here...",
     fc_type_correct: "Correct!",
     fc_type_wrong: "Wrong! The answer is:",
+    prog_streak: "Streak:",
+    prog_streak_days: "days",
+    prog_longest: "Longest:",
+    quiz_type_mode: "Type",
+    quiz_choose_mode: "Choose",
+    quiz_type_prompt: "Type the Vietnamese meaning:",
+    quiz_type_submit: "Check",
+    quiz_type_placeholder: "Type meaning here...",
+    quiz_type_correct: "Correct!",
+    quiz_type_wrong: "Wrong! The answer is:",
+    words_add: "Add Word",
+    words_add_word: "Word",
+    words_add_meaning: "Meaning (Vietnamese)",
+    words_add_ipa: "IPA (optional)",
+    words_add_example: "Example sentence (optional)",
+    words_add_btn: "Add Word",
+    words_add_success: "Added!",
+    words_add_error: "Error adding word",
+    words_add_exists: "Word already exists",
+    settings_export: "Export Data",
+    settings_export_btn: "Download backup",
+    settings_import: "Import Data",
+    settings_import_btn: "Restore from backup",
+    settings_import_warning: "This will overwrite all current progress!",
+    settings_import_success: "Data restored!",
+    grammar_quiz: "Grammar Quiz",
+    grammar_quiz_btn: "Start Grammar Quiz",
+    grammar_what: "Which grammar point?",
     tab_grammar: "Grammar",
     grammar_header: "Grammar Lessons",
     grammar_tense: "Tenses",
@@ -613,6 +662,34 @@ const STRINGS = {
     fc_type_placeholder: "G\u00f5 ngh\u0129a t\u1ea1i \u0111\u00e2y...",
     fc_type_correct: "\u0110\u00fang!",
     fc_type_wrong: "Sai! \u0110\u00e1p \u00e1n l\u00e0:",
+    prog_streak: "Chu\u1ed7i:",
+    prog_streak_days: "ng\u00e0y",
+    prog_longest: "D\u00e0i nh\u1ea5t:",
+    quiz_type_mode: "G\u00f5",
+    quiz_choose_mode: "Ch\u1ecdn",
+    quiz_type_prompt: "G\u00f5 ngh\u0129a ti\u1ebfng Vi\u1ec7t:",
+    quiz_type_submit: "Ki\u1ec3m tra",
+    quiz_type_placeholder: "G\u00f5 ngh\u0129a t\u1ea1i \u0111\u00e2y...",
+    quiz_type_correct: "\u0110\u00fang!",
+    quiz_type_wrong: "Sai! \u0110\u00e1p \u00e1n l\u00e0:",
+    words_add: "Th\u00eam T\u1eeb",
+    words_add_word: "T\u1eeb",
+    words_add_meaning: "Ngh\u0129a ti\u1ebfng Vi\u1ec7t",
+    words_add_ipa: "IPA (kh\u00f4ng b\u1eaft bu\u1ed9c)",
+    words_add_example: "V\u00ed d\u1ee5 (kh\u00f4ng b\u1eaft bu\u1ed9c)",
+    words_add_btn: "Th\u00eam t\u1eeb",
+    words_add_success: "\u0110\u00e3 th\u00eam!",
+    words_add_error: "L\u1ed7i khi th\u00eam t\u1eeb",
+    words_add_exists: "T\u1eeb n\u00e0y \u0111\u00e3 c\u00f3",
+    settings_export: "Xu\u1ea5t D\u1eef Li\u1ec7u",
+    settings_export_btn: "T\u1ea3i backup",
+    settings_import: "Nh\u1eadp D\u1eef Li\u1ec7u",
+    settings_import_btn: "Kh\u00f4i ph\u1ee5c t\u1eeb backup",
+    settings_import_warning: "Thao t\u00e1c n\u00e0y s\u1ebd ghi \u0111\u00e8 l\u00ean ti\u1ebfn \u0111\u1ed9 hi\u1ec7n t\u1ea1i!",
+    settings_import_success: "\u0110\u00e3 kh\u00f4i ph\u1ee5c!",
+    grammar_quiz: "Grammar Quiz",
+    grammar_quiz_btn: "B\u1eaft \u0111\u1ea7u Grammar Quiz",
+    grammar_what: "\u0110\u00e2y l\u00e0 ng\u1eef ph\u00e1p g\u00ec?",
     tab_grammar: "Ng\u1eef ph\u00e1p",
     grammar_header: "B\u00e0i H\u1ecdc Ng\u1eef Ph\u00e1p",
     grammar_tense: "C\u00e1c Th\u00ec",
@@ -658,6 +735,22 @@ function updateStrings() {
   document.getElementById("settings-lang-title").textContent = t("settings_lang");
   document.getElementById("settings-lang-label").textContent = t("settings_lang_label");
   document.getElementById("about-text").textContent = t("about");
+  document.getElementById("settings-export-title") && (document.getElementById("settings-export-title").textContent = t("settings_export"));
+  document.getElementById("import-warning") && (document.getElementById("import-warning").textContent = t("settings_import_warning"));
+  const addDetails = document.querySelector("#add-word-details summary");
+  if (addDetails) addDetails.textContent = "➕ " + t("words_add");
+  const addWordInp = document.getElementById("add-word-input");
+  if (addWordInp) addWordInp.placeholder = t("words_add_word");
+  const addMeaningInp = document.getElementById("add-meaning-input");
+  if (addMeaningInp) addMeaningInp.placeholder = t("words_add_meaning");
+  const addIpaInp = document.getElementById("add-ipa-input");
+  if (addIpaInp) addIpaInp.placeholder = t("words_add_ipa");
+  const addExInp = document.getElementById("add-example-input");
+  if (addExInp) addExInp.placeholder = t("words_add_example");
+  const addBtn = document.getElementById("btn-add-word");
+  if (addBtn) addBtn.textContent = t("words_add_btn");
+  document.getElementById("btn-export") && (document.getElementById("btn-export").textContent = "📥 " + t("settings_export_btn"));
+  document.getElementById("btn-import") && (document.getElementById("btn-import").textContent = "📤 " + t("settings_import_btn"));
 }
 
 async function api(method, path, body) {
@@ -695,6 +788,62 @@ document.querySelectorAll(".lang-btn").forEach(btn => {
     renderProgress();
     renderWords();
   });
+});
+
+// Export / Import
+document.addEventListener("click", (e) => {
+  if (e.target.id === "btn-export") {
+    api("GET", "/api/export").then(data => {
+      const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "english-tool-backup.json";
+      a.click();
+    });
+  }
+  if (e.target.id === "btn-import") {
+    document.getElementById("import-file").click();
+  }
+});
+document.getElementById("import-file")?.addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    const text = await file.text();
+    const data = JSON.parse(text);
+    await api("POST", "/api/import", data);
+    alert(t("settings_import_success"));
+    renderProgress();
+    renderWords();
+  } catch { alert("Invalid file"); }
+  e.target.value = "";
+});
+
+// Add Word
+document.getElementById("btn-add-word")?.addEventListener("click", async () => {
+  const word = document.getElementById("add-word-input").value.trim();
+  const meaning = document.getElementById("add-meaning-input").value.trim();
+  const ipa = document.getElementById("add-ipa-input").value.trim();
+  const example = document.getElementById("add-example-input").value.trim();
+  const msg = document.getElementById("add-word-msg");
+  if (!word || !meaning) { msg.textContent = "Fill word + meaning"; msg.style.display = "block"; return; }
+  const body = { word, meaning };
+  if (ipa) body.ipa = ipa;
+  if (example) body.example = example;
+  try {
+    const r = await api("POST", "/api/words", body);
+    if (r.error) { msg.textContent = r.error === "word already exists" ? t("words_add_exists") : t("words_add_error"); msg.style.color = "var(--primary)"; }
+    else {
+      msg.textContent = t("words_add_success");
+      msg.style.color = "var(--green)";
+      document.getElementById("add-word-input").value = "";
+      document.getElementById("add-meaning-input").value = "";
+      document.getElementById("add-ipa-input").value = "";
+      document.getElementById("add-example-input").value = "";
+      renderWords();
+    }
+  } catch { msg.textContent = t("words_add_error"); msg.style.color = "var(--primary)"; }
+  msg.style.display = "block";
 });
 
 async function init() {
@@ -950,6 +1099,8 @@ function playAudio(url) {
 }
 
 // ----- QUIZ -----
+let quizTypeMode = false;
+
 async function renderQuiz() {
   const el = document.getElementById("quiz-content");
   if (quizState && quizState.step < quizState.questions.length && !quizState.showingResult) {
@@ -980,17 +1131,24 @@ function renderQuizQuestion(el, state) {
   }
   const q = state.questions[state.step];
   const answered = state.answered;
+  const isType = quizTypeMode;
+
   el.innerHTML = `
+    <div style="text-align:right;margin-bottom:8px">
+      <button class="btn btn-outline" id="quiz-mode-toggle" style="font-size:11px;padding:4px 12px;min-height:auto">
+        ${isType ? t("quiz_choose_mode") : t("quiz_type_mode")}
+      </button>
+    </div>
     <div class="card text-center fade-in">
       <h3>${t("quiz_header")}</h3>
       <div style="font-size:12px;color:var(--muted)">${state.step + 1} / ${state.questions.length}</div>
       <div class="word-display" style="padding:12px 0">
         <div class="word">${esc(q.word)}</div>
         <div class="ipa">${esc(q.ipa)}</div>
-        <p style="font-size:13px;color:var(--muted);margin-top:8px">${t("quiz_what")}</p>
+        <p style="font-size:13px;color:var(--muted);margin-top:8px">${isType ? t("quiz_type_prompt") : t("quiz_what")}</p>
       </div>
     </div>
-    ${q.options.map((opt, i) => {
+    ${!isType ? q.options.map((opt, i) => {
       let cls = "option-btn";
       if (answered) {
         cls += " disabled";
@@ -998,21 +1156,34 @@ function renderQuizQuestion(el, state) {
         else if (opt === state.selected) cls += " wrong";
       }
       return `<button class="${cls}" data-idx="${i}" ${answered ? "disabled" : ""}>${esc(opt)}</button>`;
-    }).join("")}
-    ${answered ? `
-      <div class="card text-center fade-in mt-8">
-        <span class="result-badge ${state.selected === q.correct ? 'correct' : 'wrong'}">
-          ${state.selected === q.correct ? t("quiz_correct") : t("quiz_wrong")}
+    }).join("") : answered ? `
+      <div class="card text-center fade-in">
+        <span class="result-badge ${state.typeCorrect ? 'correct' : 'wrong'}">
+          ${state.typeCorrect ? t("quiz_type_correct") : t("quiz_type_wrong")} ${esc(q.correct)}
         </span>
         <div style="margin-top:8px;font-size:13px;color:var(--muted)">${t("quiz_score")} ${state.correct}/${state.step + 1}</div>
-        <button class="btn btn-primary btn-full mt-8" id="quiz-next">
-          ${state.step + 1 < state.questions.length ? t("quiz_next") : t("quiz_finish")}
-        </button>
       </div>
+    ` : `
+      <div style="margin-top:8px">
+        <input type="text" id="quiz-type-input" class="search-box" placeholder="${t("quiz_type_placeholder")}" autofocus>
+        <button class="btn btn-primary btn-full mt-8" id="quiz-type-submit">${t("quiz_type_submit")}</button>
+      </div>
+    `}
+    ${answered ? `
+      <button class="btn btn-primary btn-full mt-8" id="quiz-next">
+        ${state.step + 1 < state.questions.length ? t("quiz_next") : t("quiz_finish")}
+      </button>
     ` : `<p style="text-align:center;color:var(--muted);font-size:12px;margin-top:8px">${t("quiz_score")} ${state.correct}/${state.step}</p>`}
   `;
 
-  if (!answered) {
+  document.getElementById("quiz-mode-toggle")?.addEventListener("click", () => {
+    quizTypeMode = !quizTypeMode;
+    state.answered = false;
+    state.typeCorrect = null;
+    renderQuizQuestion(el, state);
+  });
+
+  if (!answered && !isType) {
     el.querySelectorAll(".option-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         const idx = parseInt(btn.dataset.idx);
@@ -1022,7 +1193,24 @@ function renderQuizQuestion(el, state) {
         renderQuizQuestion(el, state);
       });
     });
-  } else {
+  }
+
+  if (!answered && isType) {
+    const checkFn = () => {
+      const input = document.getElementById("quiz-type-input");
+      const answer = input ? input.value.trim().toLowerCase() : "";
+      state.typeCorrect = answer === q.correct.toLowerCase();
+      state.answered = true;
+      if (state.typeCorrect) state.correct++;
+      renderQuizQuestion(el, state);
+    };
+    document.getElementById("quiz-type-submit")?.addEventListener("click", checkFn);
+    document.getElementById("quiz-type-input")?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") checkFn();
+    });
+  }
+
+  if (answered) {
     document.getElementById("quiz-next")?.addEventListener("click", () => {
       state.step++;
       state.answered = false;
@@ -1074,6 +1262,7 @@ const GRAMMAR_CATS = {
 };
 
 let grammarState = { view: "categories", category: null, lessonId: null };
+let grammarQuizState = null;
 let grammarData = [];
 
 async function renderGrammar() {
@@ -1091,6 +1280,7 @@ async function renderGrammar() {
   if (grammarState.view === "categories") renderGrammarCats(el);
   else if (grammarState.view === "list") renderGrammarList(el);
   else if (grammarState.view === "detail") renderGrammarDetail(el);
+  else if (grammarState.view === "quiz") renderGrammarQuiz(el);
 }
 
 function renderGrammarCats(el) {
@@ -1102,6 +1292,7 @@ function renderGrammarCats(el) {
     <div class="card fade-in" style="text-align:center;padding:12px">
       <h3 style="margin-bottom:4px">${t("grammar_header")}</h3>
       <p style="font-size:13px;color:var(--muted)">${grammarData.length} topics · Chọn chủ đề để học</p>
+      <button class="btn btn-primary btn-full mt-8" id="btn-grammar-quiz" style="font-size:13px">✍️ ${t("grammar_quiz_btn")}</button>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" id="grammar-cat-grid">
       ${catKeys.map(k => {
@@ -1118,6 +1309,16 @@ function renderGrammarCats(el) {
       }).join("")}
     </div>
   `;
+
+  document.getElementById("btn-grammar-quiz")?.addEventListener("click", async () => {
+    try {
+      const r = await api("GET", "/api/grammar-quiz");
+      if (r.error) return;
+      grammarQuizState = { questions: r.questions, step: 0, correct: 0, answered: false };
+      grammarState = { view: "quiz", category: null, lessonId: null };
+      renderGrammar();
+    } catch {}
+  });
 
   el.querySelectorAll(".grammar-cat-card").forEach(card => {
     card.addEventListener("click", () => {
@@ -1213,6 +1414,87 @@ function renderGrammarDetail(el) {
   });
 }
 
+function renderGrammarQuiz(el) {
+  if (!grammarQuizState || grammarQuizState.step >= grammarQuizState.questions.length) {
+    if (grammarQuizState) {
+      const total = grammarQuizState.questions.length;
+      const pct = total ? Math.round(grammarQuizState.correct / total * 100) : 0;
+      el.innerHTML = `
+        <div class="card fade-in text-center">
+          <h3>${t("quiz_complete")}</h3>
+          <div style="font-size:32px;margin:12px 0">${grammarQuizState.correct}/${total}</div>
+          <div class="progress-bar" style="max-width:200px;margin:8px auto"><div class="fill" style="width:${pct}%"></div></div>
+          <p style="color:var(--muted);font-size:13px">${pct}%</p>
+        </div>
+        <button class="btn btn-primary btn-full mt-8" id="grammar-quiz-back">← ${t("grammar_header")}</button>
+      `;
+      document.getElementById("grammar-quiz-back")?.addEventListener("click", () => {
+        grammarState = { view: "categories", category: null, lessonId: null };
+        renderGrammar();
+      });
+      return;
+    }
+    grammarState = { view: "categories", category: null, lessonId: null };
+    renderGrammar();
+    return;
+  }
+
+  const q = grammarQuizState.questions[grammarQuizState.step];
+  const answered = grammarQuizState.answered;
+
+  el.innerHTML = `
+    <div class="card fade-in" style="display:flex;align-items:center;gap:8px;padding:10px 12px;cursor:pointer" id="grammar-quiz-back">
+      <span style="font-size:16px">←</span>
+      <strong style="font-size:13px;color:var(--muted)">${t("grammar_quiz")}</strong>
+      <span style="margin-left:auto;font-size:11px;color:var(--muted)">${grammarQuizState.step + 1}/${grammarQuizState.questions.length}</span>
+    </div>
+    <div class="card fade-in">
+      <p style="font-size:14px;line-height:1.5;margin-bottom:12px;white-space:pre-wrap">${esc(q.question)}</p>
+      ${q.options.map((opt, i) => {
+        let cls = "option-btn";
+        if (answered) {
+          cls += " disabled";
+          if (opt === q.correct) cls += " correct";
+          else if (opt === grammarQuizState.selected) cls += " wrong";
+        }
+        return `<button class="${cls}" data-idx="${i}" ${answered ? "disabled" : ""}>${esc(opt)}</button>`;
+      }).join("")}
+      ${answered ? `
+        <div class="text-center mt-8">
+          <span class="result-badge ${grammarQuizState.selected === q.correct ? 'correct' : 'wrong'}">
+            ${grammarQuizState.selected === q.correct ? t("quiz_correct") : t("quiz_wrong")}
+          </span>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px">${q.grammar_title} (${q.grammar_title_vi})</div>
+        </div>
+      ` : ""}
+      ${answered ? `<button class="btn btn-primary btn-full mt-8" id="grammar-quiz-next">${grammarQuizState.step + 1 < grammarQuizState.questions.length ? t("quiz_next") : t("quiz_finish")}</button>` : ""}
+    </div>
+  `;
+
+  document.getElementById("grammar-quiz-back")?.addEventListener("click", () => {
+    grammarState = { view: "categories", category: null, lessonId: null };
+    renderGrammar();
+  });
+
+  if (!answered) {
+    el.querySelectorAll(".option-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const idx = parseInt(btn.dataset.idx);
+        grammarQuizState.selected = q.options[idx];
+        grammarQuizState.answered = true;
+        if (grammarQuizState.selected === q.correct) grammarQuizState.correct++;
+        renderGrammarQuiz(el);
+      });
+    });
+  } else {
+    document.getElementById("grammar-quiz-next")?.addEventListener("click", () => {
+      grammarQuizState.step++;
+      grammarQuizState.answered = false;
+      renderGrammarQuiz(el);
+    });
+  }
+}
+
 // ----- PROGRESS -----
 async function renderProgress() {
   const el = document.getElementById("progress-content");
@@ -1246,6 +1528,14 @@ async function renderProgress() {
       <div class="stat-row">
         <span class="stat-label">${t("prog_today")}</span>
         <span class="stat-value" style="color:var(--cyan)">${r.reviews_today || 0}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">🔥 ${t("prog_streak")}</span>
+        <span class="stat-value" style="color:var(--yellow)">${r.streak || 0} ${t("prog_streak_days")}</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">🏆 ${t("prog_longest")}</span>
+        <span class="stat-value" style="color:var(--green)">${r.streak_longest || 0} ${t("prog_streak_days")}</span>
       </div>
     </div>
   `;

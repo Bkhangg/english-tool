@@ -14,7 +14,7 @@ from modules import lang
 from modules.utils import (
     load_words, load_user_data, save_user_data,
     get_word_by_id, get_next_review_words, update_after_review,
-    get_today_reviews,
+    get_today_reviews, get_streak,
 )
 
 DICT_API = "https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
@@ -60,12 +60,15 @@ def api_stats():
     learned = user_data.get("learned", {})
     total = len(words)
     learned_count = len(learned)
+    streak = get_streak()
     return json_response({
         "total": total,
         "learned": learned_count,
         "remaining": total - learned_count,
         "lang": load_lang_strings(),
         "reviews_today": get_today_reviews(),
+        "streak": streak.get("current", 0),
+        "streak_longest": streak.get("longest", 0),
     })
 
 
@@ -90,6 +93,36 @@ def api_words():
             "level": info.get("level", 0),
         })
     return json_response({"words": result, "total": len(result)})
+
+
+def api_add_word(body):
+    word = body.get("word", "").strip()
+    meaning = body.get("meaning", "").strip()
+    if not word or not meaning:
+        return json_response({"error": "missing word or meaning"}, 400)
+    words = load_words()
+    word_lower = word.lower()
+    if any(w["word"].lower() == word_lower for w in words):
+        return json_response({"error": "word already exists"}, 409)
+    new_id = max(w["id"] for w in words) + 1 if words else 1
+    entry = {
+        "id": new_id,
+        "word": word,
+        "ipa": body.get("ipa", ""),
+        "meaning": meaning,
+        "definition": body.get("definition", ""),
+        "definition_vi": body.get("definition_vi", ""),
+        "example": body.get("example", ""),
+        "example_vi": body.get("example_vi", ""),
+    }
+    from modules.utils import WORDS_FILE
+    import json, os
+    with open(WORDS_FILE, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    data["words"].append(entry)
+    with open(WORDS_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+    return json_response({"ok": True, "id": new_id})
 
 
 def api_review_words():
@@ -208,6 +241,51 @@ def api_grammar():
     return json_response(data.get("grammar", []))
 
 
+def api_grammar_quiz():
+    import os
+    from modules.utils import load_json
+    path = os.path.join(os.path.dirname(__file__), "data", "grammar.json")
+    data = load_json(path).get("grammar", [])
+    if len(data) < 2:
+        return json_response({"error": "not enough grammar items"}, 400)
+
+    n = min(10, len(data))
+    selected = random.sample(data, n)
+    questions = []
+
+    for item in selected:
+        others = [x for x in data if x["id"] != item["id"]]
+        qtype = random.choice(["formula", "usage", "identify"])
+
+        if qtype == "formula":
+            question = f"What is the formula of \"{item['title']}\"? / Công thức của \"{item['title_vi']}\" là gì?"
+            correct = item["formula"]
+            wrong = random.sample([x["formula"] for x in others], min(3, len(others)))
+            options = [correct] + wrong
+        elif qtype == "usage":
+            question = f"What is \"{item['title']}\" used for? / \"{item['title_vi']}\" dùng để làm gì?"
+            correct = item["usage"]
+            wrong = random.sample([x["usage"] for x in others], min(3, len(others)))
+            options = [correct] + wrong
+        else:
+            ex = random.choice(item["examples"])
+            question = f"Which grammar point is this? / Đây là ngữ pháp gì?\n\"{ex['en']}\""
+            correct = item["title"]
+            wrong = random.sample([x["title"] for x in others], min(3, len(others)))
+            options = [correct] + wrong
+
+        random.shuffle(options)
+        questions.append({
+            "question": question,
+            "correct": correct,
+            "options": options,
+            "grammar_title": item["title"],
+            "grammar_title_vi": item["title_vi"],
+        })
+
+    return json_response({"questions": questions, "total": len(questions)})
+
+
 def api_lang():
     return json_response({"lang": load_lang_strings()})
 
@@ -218,6 +296,22 @@ def api_lang_set(body):
         return json_response({"error": "invalid lang"}, 400)
     lang.set_language(l)
     return json_response({"ok": True, "lang": l})
+
+
+def api_export():
+    user_data = load_user_data()
+    words = load_words()
+    return json_response({
+        "user_data": user_data,
+        "custom_words": [],
+    })
+
+
+def api_import(body):
+    ud = body.get("user_data")
+    if ud:
+        save_user_data(ud)
+    return json_response({"ok": True})
 
 
 ROUTES = {
@@ -235,11 +329,15 @@ route("GET", "/api/words", lambda q, b: api_words())
 route("GET", "/api/review-words", lambda q, b: api_review_words())
 route("GET", "/api/quiz", lambda q, b: api_quiz())
 route("GET", "/api/grammar", lambda q, b: api_grammar())
+route("GET", "/api/grammar-quiz", lambda q, b: api_grammar_quiz())
 route("GET", "/api/lang", lambda q, b: api_lang())
 route("GET", "/api/dictionary", lambda q, b: api_dictionary(urllib.parse.parse_qs(q).get("word", [""])[0]))
 
 route("POST", "/api/review", lambda q, b: api_review(b))
 route("POST", "/api/lang", lambda q, b: api_lang_set(b))
+route("POST", "/api/words", lambda q, b: api_add_word(b))
+route("GET", "/api/export", lambda q, b: api_export())
+route("POST", "/api/import", lambda q, b: api_import(b))
 
 
 class Handler(http.server.BaseHTTPRequestHandler):

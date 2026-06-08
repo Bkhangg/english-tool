@@ -89,6 +89,7 @@ def update_after_review(word_id, correct):
         stats["reviews_today"] = stats.get("reviews_today", 0) + 1
 
     save_user_data(user_data)
+    update_streak()
 
 
 def get_today_reviews():
@@ -100,6 +101,33 @@ def get_today_reviews():
     return stats.get("reviews_today", 0)
 
 
+def update_streak():
+    user_data = load_user_data()
+    streak = user_data.setdefault("streak", {"current": 0, "longest": 0, "last_date": ""})
+    today = datetime.now().strftime("%Y-%m-%d")
+    yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+
+    if streak["last_date"] == today:
+        pass
+    elif streak["last_date"] == yesterday:
+        streak["current"] += 1
+    elif streak["last_date"]:
+        streak["current"] = 1
+    else:
+        streak["current"] = 1
+
+    streak["last_date"] = today
+    if streak["current"] > streak["longest"]:
+        streak["longest"] = streak["current"]
+
+    save_user_data(user_data)
+
+
+def get_streak():
+    user_data = load_user_data()
+    return user_data.get("streak", {"current": 0, "longest": 0})
+
+
 def show_stats():
     words = load_words()
     user_data = load_user_data()
@@ -107,15 +135,21 @@ def show_stats():
     total = len(words)
     learned_count = len(learned)
     remaining = total - learned_count
+    streak = get_streak()
 
     words_icon = "W:" if not ui.USE_UNICODE else "\U0001f4da"
     learned_icon = "L:" if not ui.USE_UNICODE else "\u2705"
     remaining_icon = "R:" if not ui.USE_UNICODE else "\U0001f4dd"
 
+    today_reviews = get_today_reviews()
+    streak_str = f"🔥 {streak.get('current', 0)} days" if ui.USE_UNICODE else f"Streak: {streak.get('current', 0)} days"
+
     lines = [
         f"{ui.S.BOLD}{ui.S.FG.WHITE}{words_icon}  {lang.t('stats.total')}{ui.S.RESET}  {total}",
         f"{ui.S.BOLD}{ui.S.FG.GREEN}{learned_icon}  {lang.t('stats.learned')}{ui.S.RESET}  {learned_count}",
         f"{ui.S.BOLD}{ui.S.FG.YELLOW}{remaining_icon}  {lang.t('stats.remaining')}{ui.S.RESET}  {remaining}",
+        f"{ui.S.BOLD}{ui.S.FG.CYAN}{lang.t('prog_today')}{ui.S.RESET}  {today_reviews}",
+        f"{ui.S.BOLD}{ui.S.FG.YELLOW}{streak_str}{ui.S.RESET}",
         "",
         ui.progress_bar(learned_count, total, 30),
     ]

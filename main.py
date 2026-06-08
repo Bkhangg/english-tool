@@ -37,6 +37,43 @@ def settings_menu():
             ui.wait()
 
 
+def add_word_cli():
+    from modules.utils import load_words, save_json, WORDS_FILE
+    import json
+    ui.clear()
+    ui.header(lang.t("menu.add_word"))
+    word = ui.input_prompt(f"{lang.t('words_add_word')}: ")
+    if not word:
+        return
+    meaning = ui.input_prompt(f"{lang.t('words_add_meaning')}: ")
+    if not meaning:
+        return
+    ipa = ui.input_prompt(f"{lang.t('words_add_ipa')} (Enter to skip): ")
+    example = ui.input_prompt(f"{lang.t('words_add_example')} (Enter to skip): ")
+
+    words = load_words()
+    if any(w["word"].lower() == word.lower() for w in words):
+        ui.error(lang.t("words_add_exists"))
+        ui.wait()
+        return
+
+    new_id = max(w["id"] for w in words) + 1 if words else 1
+    entry = {
+        "id": new_id,
+        "word": word,
+        "ipa": ipa,
+        "meaning": meaning,
+        "definition": "",
+        "definition_vi": "",
+        "example": example,
+        "example_vi": "",
+    }
+    data = {"words": words + [entry]}
+    save_json(WORDS_FILE, data)
+    ui.success(f"{lang.t('words_add_success')}: {word}")
+    ui.wait()
+
+
 def show_menu():
     while True:
         ui.clear()
@@ -49,6 +86,7 @@ def show_menu():
             ("4", lang.t("menu.grammar"), lang.t("menu.desc.grammar")),
             ("5", lang.t("menu.progress"), lang.t("menu.desc.progress")),
             ("6", lang.t("menu.settings"), lang.t("menu.desc.settings")),
+            ("7", lang.t("menu.add_word"), lang.t("menu.desc.add_word")),
         ]
 
         max_name = max(ui.visible_len(n) for _, n, _ in items)
@@ -83,6 +121,8 @@ def show_menu():
             ui.wait()
         elif choice == "6":
             settings_menu()
+        elif choice == "7":
+            add_word_cli()
         elif choice in ("0", "exit", "quit"):
             ui.clear()
             ui.cprint(f"\n  {ui.S.BOLD}{ui.S.FG.CYAN}{lang.t('app.exit_msg')} \u2606{ui.S.RESET}\n")
