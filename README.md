@@ -3,13 +3,17 @@
 A CLI + Web English learning tool with flashcards, dictionary lookup, and multiple-choice quiz. Features a modern terminal UI with rainbow banners, a mobile-friendly PWA web app, progress tracking, and Vietnamese language support.
 
 ![CLI Screenshot](images/english-tool.png)
+![Web Screenshot](images/web_english_tool.png)
 
 ## Features
 
-- **Flashcards** — Spaced repetition (intervals: 0→1→3→7→14→30 days), yes/no tracking
-- **Dictionary** — Lookup any English word via Free Dictionary API, with Vietnamese meaning when available
+- **Flashcards** — Spaced repetition (intervals: 0→1→3→7→14→30 days), yes/no tracking + typing mode
+- **Dictionary** — Lookup any English word via Free Dictionary API, with Vietnamese meaning + auto-translated definitions
 - **Quiz** — 10-question multiple choice, score tracking, spaced repetition feedback
-- **Progress** — Track learned words, review statistics
+- **Progress** — Track learned words, review statistics & daily reviews
+- **Word Browser** — Browse/search all words, filter by learned/new, tap to look up
+- **TTS Pronunciation** — Listen to any word via browser's speech synthesis
+- **Bilingual** — English definitions + Vietnamese translations side by side
 - **Multilingual** — English / Vietnamese toggle
 - **Web App (PWA)** — Mobile-friendly UI, installable on phone home screen
 
@@ -42,10 +46,11 @@ For phone access, find your computer's LAN IP (e.g. `192.168.1.x`) and open `htt
 5. **Settings** — Change language
 
 ### Web Tabs
-- 📚 **Flashcards** — Tap to reveal, mark as known/don't know
-- 📖 **Dictionary** — Search any English word with Vietnamese meaning
+- 📚 **Flashcards** — Tap to reveal / Type the meaning mode, TTS pronunciation
+- 📖 **Dictionary** — Search any English word with Vietnamese meaning + auto-translated definitions
 - ✍️ **Quiz** — Multiple choice with instant feedback
-- 📊 **Progress** — Learning stats with progress bar
+- 📊 **Progress** — Learning stats with progress bar & daily reviews
+- 📝 **Words** — Browse all words, search, filter by learned/new
 - ⚙️ **Settings** — Language toggle (English / Tiếng Việt)
 
 ## Project Structure
