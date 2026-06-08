@@ -327,13 +327,14 @@ def api_settings_get():
         "tts_speed": s.get("tts_speed", 0.85),
         "show_ipa": s.get("show_ipa", True),
         "font_family": s.get("font_family", "system"),
+        "theme": s.get("theme", "dark"),
     })
 
 
 def api_settings_set(body):
     ud = load_user_data()
     s = ud.setdefault("settings", {})
-    for k in ("quiz_count", "tts_speed", "show_ipa", "font_family"):
+    for k in ("quiz_count", "tts_speed", "show_ipa", "font_family", "theme"):
         if k in body:
             s[k] = body[k]
     save_user_data(ud)
