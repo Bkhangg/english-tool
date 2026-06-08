@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="theme-color" content="#1a1a2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -338,7 +338,35 @@ body {
 .word-item:active { transform: scale(0.99); }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-</style>
+
+@media (max-width: 480px) {
+  body { padding-bottom: 80px; }
+  .header { padding: 10px 12px 8px; }
+  .header h1 { font-size: 17px; }
+  .header p { font-size: 11px; }
+  .tab-btn { padding: 10px 2px; font-size: 10px; gap: 1px; }
+  .tab-btn .icon { font-size: 22px; }
+  .content { padding: 8px; }
+  .card { padding: 12px; }
+  .card h3 { font-size: 13px; }
+  .word-display { padding: 12px 0; }
+  .word-display .word { font-size: 22px; }
+  .word-display .ipa { font-size: 14px; }
+  .word-display .meaning { font-size: 16px; }
+  .word-display .example { font-size: 12px; }
+  .word-display .definition { font-size: 13px; }
+  .word-display .definition-vi { font-size: 13px; }
+  .word-display .example-vi { font-size: 12px; }
+  .btn { padding: 10px 16px; font-size: 13px; min-height: 44px; }
+  .option-btn { padding: 12px 14px; font-size: 13px; }
+  .search-box { font-size: 15px; padding: 10px 14px; }
+  .stat-label { font-size: 13px; }
+  .stat-value { font-size: 13px; }
+  .setting-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .lang-btn { padding: 8px 20px; font-size: 14px; margin-left: 0; margin-right: 4px; }
+  .def-item { font-size: 13px; }
+  .def-example { font-size: 12px; padding-left: 24px; }
+}</style>
 </head>
 <body>
 
