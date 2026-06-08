@@ -15,7 +15,7 @@ from modules import lang
 from modules.utils import (
     load_words, load_user_data, save_user_data,
     get_word_by_id, get_next_review_words, update_after_review,
-    get_today_reviews, get_streak,
+    get_today_reviews, get_streak, fetch_random_word,
 )
 
 DICT_API = "https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
@@ -175,6 +175,18 @@ def api_quiz(qs=""):
             "options": options,
         })
     return json_response({"questions": questions, "total": len(questions)})
+
+
+def api_fetch_word():
+    result = fetch_random_word()
+    if not result:
+        return json_response({"error": "fetch failed"}, 502)
+    words = load_words()
+    if any(w["word"].lower() == result["word"].lower() for w in words):
+        result["exists"] = True
+    else:
+        result["exists"] = False
+    return json_response(result)
 
 
 def api_dictionary(word):
@@ -362,6 +374,7 @@ route("GET", "/api/quiz", lambda q, b: api_quiz(q))
 route("GET", "/api/grammar", lambda q, b: api_grammar())
 route("GET", "/api/grammar-quiz", lambda q, b: api_grammar_quiz())
 route("GET", "/api/lang", lambda q, b: api_lang())
+route("GET", "/api/fetch-word", lambda q, b: api_fetch_word())
 route("GET", "/api/dictionary", lambda q, b: api_dictionary(urllib.parse.parse_qs(q).get("word", [""])[0]))
 
 route("POST", "/api/review", lambda q, b: api_review(b))

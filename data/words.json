@@ -199,6 +199,766 @@
       "definition_vi": "làm tự nguyện, không bị ép buộc",
       "example": "She does voluntary work at the hospital.",
       "example_vi": "Cô ấy làm công việc tình nguyện tại bệnh viện."
+    },
+    {
+      "word": "accept",
+      "ipa": "/əkˈsept/",
+      "meaning": "chấp nhận",
+      "definition": "to agree to receive or take something offered",
+      "definition_vi": "đồng ý nhận hoặc lấy thứ gì đó được đề nghị",
+      "example": "She accepted the job offer immediately.",
+      "example_vi": "Cô ấy đã chấp nhận lời đề nghị công việc ngay lập tức.",
+      "id": 21
+    },
+    {
+      "word": "achieve",
+      "ipa": "/əˈtʃiːv/",
+      "meaning": "đạt được",
+      "definition": "to successfully reach a goal or standard",
+      "definition_vi": "đạt được thành công một mục tiêu hoặc tiêu chuẩn",
+      "example": "He achieved his dream of becoming a doctor.",
+      "example_vi": "Anh ấy đã đạt được ước mơ trở thành bác sĩ.",
+      "id": 22
+    },
+    {
+      "word": "admit",
+      "ipa": "/ədˈmɪt/",
+      "meaning": "thừa nhận",
+      "definition": "to confess or acknowledge something",
+      "definition_vi": "thú nhận hoặc công nhận điều gì đó",
+      "example": "She admitted making a mistake.",
+      "example_vi": "Cô ấy đã thừa nhận phạm sai lầm.",
+      "id": 23
+    },
+    {
+      "word": "afford",
+      "ipa": "/əˈfɔːrd/",
+      "meaning": "đủ khả năng chi trả",
+      "definition": "to have enough money to pay for something",
+      "definition_vi": "có đủ tiền để trả cho thứ gì đó",
+      "example": "I can afford to buy a new car.",
+      "example_vi": "Tôi có đủ khả năng mua một chiếc xe mới.",
+      "id": 24
+    },
+    {
+      "word": "agree",
+      "ipa": "/əˈɡriː/",
+      "meaning": "đồng ý",
+      "definition": "to have the same opinion as someone",
+      "definition_vi": "có cùng quan điểm với ai đó",
+      "example": "We agreed to meet at the cafe.",
+      "example_vi": "Chúng tôi đã đồng ý gặp nhau ở quán cà phê.",
+      "id": 25
+    },
+    {
+      "word": "allow",
+      "ipa": "/əˈlaʊ/",
+      "meaning": "cho phép",
+      "definition": "to let someone do something",
+      "definition_vi": "để ai đó làm gì",
+      "example": "My parents allow me to go out on weekends.",
+      "example_vi": "Bố mẹ tôi cho phép tôi ra ngoài vào cuối tuần.",
+      "id": 26
+    },
+    {
+      "word": "announce",
+      "ipa": "/əˈnaʊns/",
+      "meaning": "thông báo",
+      "definition": "to make something known publicly",
+      "definition_vi": "làm cho điều gì đó được biết đến công khai",
+      "example": "The principal announced the new schedule.",
+      "example_vi": "Hiệu trưởng đã thông báo lịch trình mới.",
+      "id": 27
+    },
+    {
+      "word": "apologize",
+      "ipa": "/əˈpɒlədʒaɪz/",
+      "meaning": "xin lỗi",
+      "definition": "to say sorry for doing something wrong",
+      "definition_vi": "nói lời xin lỗi vì đã làm điều gì sai",
+      "example": "He apologized for being late.",
+      "example_vi": "Anh ấy đã xin lỗi vì đến muộn.",
+      "id": 28
+    },
+    {
+      "word": "appear",
+      "ipa": "/əˈpɪr/",
+      "meaning": "xuất hiện",
+      "definition": "to come into sight or become visible",
+      "definition_vi": "đi vào tầm nhìn hoặc trở nên có thể nhìn thấy",
+      "example": "A rainbow appeared after the rain.",
+      "example_vi": "Cầu vồng xuất hiện sau cơn mưa.",
+      "id": 29
+    },
+    {
+      "word": "arrange",
+      "ipa": "/əˈreɪndʒ/",
+      "meaning": "sắp xếp",
+      "definition": "to organize or plan something",
+      "definition_vi": "tổ chức hoặc lên kế hoạch cho điều gì đó",
+      "example": "She arranged a meeting with the client.",
+      "example_vi": "Cô ấy đã sắp xếp một cuộc họp với khách hàng.",
+      "id": 30
+    },
+    {
+      "word": "believe",
+      "ipa": "/bɪˈliːv/",
+      "meaning": "tin tưởng",
+      "definition": "to accept something as true",
+      "definition_vi": "chấp nhận điều gì đó là đúng",
+      "example": "I believe in hard work.",
+      "example_vi": "Tôi tin vào sự chăm chỉ.",
+      "id": 31
+    },
+    {
+      "word": "borrow",
+      "ipa": "/ˈbɒroʊ/",
+      "meaning": "mượn",
+      "definition": "to take something with the intention of returning it",
+      "definition_vi": "lấy thứ gì đó với ý định trả lại",
+      "example": "Can I borrow your pen?",
+      "example_vi": "Tôi có thể mượn bút của bạn không?",
+      "id": 32
+    },
+    {
+      "word": "celebrate",
+      "ipa": "/ˈselɪbreɪt/",
+      "meaning": "kỷ niệm",
+      "definition": "to mark a special occasion with festivities",
+      "definition_vi": "đánh dấu một dịp đặc biệt bằng lễ kỷ niệm",
+      "example": "We celebrated her birthday with a party.",
+      "example_vi": "Chúng tôi đã tổ chức sinh nhật cho cô ấy.",
+      "id": 33
+    },
+    {
+      "word": "complain",
+      "ipa": "/kəmˈpleɪn/",
+      "meaning": "phàn nàn",
+      "definition": "to express dissatisfaction about something",
+      "definition_vi": "bày tỏ sự không hài lòng về điều gì đó",
+      "example": "He complained about the bad service.",
+      "example_vi": "Anh ấy đã phàn nàn về dịch vụ kém.",
+      "id": 34
+    },
+    {
+      "word": "confuse",
+      "ipa": "/kənˈfjuːz/",
+      "meaning": "làm bối rối",
+      "definition": "to make someone unable to think clearly",
+      "definition_vi": "làm ai đó không thể suy nghĩ rõ ràng",
+      "example": "The instructions confused everyone.",
+      "example_vi": "Hướng dẫn đã làm mọi người bối rối.",
+      "id": 35
+    },
+    {
+      "word": "consider",
+      "ipa": "/kənˈsɪdər/",
+      "meaning": "xem xét",
+      "definition": "to think carefully about something",
+      "definition_vi": "suy nghĩ cẩn thận về điều gì đó",
+      "example": "Please consider my application.",
+      "example_vi": "Xin hãy xem xét đơn của tôi.",
+      "id": 36
+    },
+    {
+      "word": "continue",
+      "ipa": "/kənˈtɪnjuː/",
+      "meaning": "tiếp tục",
+      "definition": "to keep doing something without stopping",
+      "definition_vi": "tiếp tục làm gì đó mà không dừng lại",
+      "example": "She continued studying until midnight.",
+      "example_vi": "Cô ấy tiếp tục học đến nửa đêm.",
+      "id": 37
+    },
+    {
+      "word": "convince",
+      "ipa": "/kənˈvɪns/",
+      "meaning": "thuyết phục",
+      "definition": "to make someone believe or do something",
+      "definition_vi": "làm cho ai đó tin hoặc làm điều gì đó",
+      "example": "I convinced him to join the club.",
+      "example_vi": "Tôi đã thuyết phục anh ấy tham gia câu lạc bộ.",
+      "id": 38
+    },
+    {
+      "word": "decide",
+      "ipa": "/dɪˈsaɪd/",
+      "meaning": "quyết định",
+      "definition": "to make a choice after thinking",
+      "definition_vi": "đưa ra lựa chọn sau khi suy nghĩ",
+      "example": "We decided to go to the beach.",
+      "example_vi": "Chúng tôi đã quyết định đi biển.",
+      "id": 39
+    },
+    {
+      "word": "defend",
+      "ipa": "/dɪˈfend/",
+      "meaning": "bảo vệ",
+      "definition": "to protect someone or something from harm",
+      "definition_vi": "bảo vệ ai đó hoặc thứ gì đó khỏi nguy hiểm",
+      "example": "Dogs defend their owners bravely.",
+      "example_vi": "Chó bảo vệ chủ nhân của chúng một cách dũng cảm.",
+      "id": 40
+    },
+    {
+      "word": "deliver",
+      "ipa": "/dɪˈlɪvər/",
+      "meaning": "giao hàng",
+      "definition": "to take goods to a destination",
+      "definition_vi": "mang hàng hóa đến điểm đến",
+      "example": "The mail is delivered every morning.",
+      "example_vi": "Thư được giao mỗi buổi sáng.",
+      "id": 41
+    },
+    {
+      "word": "describe",
+      "ipa": "/dɪˈskraɪb/",
+      "meaning": "miêu tả",
+      "definition": "to say what something is like",
+      "definition_vi": "nói về điều gì đó như thế nào",
+      "example": "Can you describe the person?",
+      "example_vi": "Bạn có thể miêu tả người đó không?",
+      "id": 42
+    },
+    {
+      "word": "deserve",
+      "ipa": "/dɪˈzɜːrv/",
+      "meaning": "xứng đáng",
+      "definition": "to be worthy of something",
+      "definition_vi": "đáng được nhận điều gì đó",
+      "example": "She deserves a promotion.",
+      "example_vi": "Cô ấy xứng đáng được thăng chức.",
+      "id": 43
+    },
+    {
+      "word": "discover",
+      "ipa": "/dɪˈskʌvər/",
+      "meaning": "khám phá",
+      "definition": "to find something unexpectedly",
+      "definition_vi": "tìm thấy điều gì đó bất ngờ",
+      "example": "He discovered a new species.",
+      "example_vi": "Anh ấy đã khám phá ra một loài mới.",
+      "id": 44
+    },
+    {
+      "word": "discuss",
+      "ipa": "/dɪˈskʌs/",
+      "meaning": "thảo luận",
+      "definition": "to talk about something in detail",
+      "definition_vi": "nói về điều gì đó một cách chi tiết",
+      "example": "We discussed the plan thoroughly.",
+      "example_vi": "Chúng tôi đã thảo luận kế hoạch một cách kỹ lưỡng.",
+      "id": 45
+    },
+    {
+      "word": "disturb",
+      "ipa": "/dɪˈstɜːrb/",
+      "meaning": "làm phiền",
+      "definition": "to interrupt someone or cause trouble",
+      "definition_vi": "làm gián đoạn ai đó hoặc gây rắc rối",
+      "example": "Do not disturb me while I work.",
+      "example_vi": "Đừng làm phiền tôi khi tôi đang làm việc.",
+      "id": 46
+    },
+    {
+      "word": "encourage",
+      "ipa": "/ɪnˈkʌrɪdʒ/",
+      "meaning": "khuyến khích",
+      "definition": "to give support and confidence to someone",
+      "definition_vi": "cho ai đó sự hỗ trợ và tự tin",
+      "example": "Teachers encourage students to ask questions.",
+      "example_vi": "Giáo viên khuyến khích học sinh đặt câu hỏi.",
+      "id": 47
+    },
+    {
+      "word": "enjoy",
+      "ipa": "/ɪnˈdʒɔɪ/",
+      "meaning": "thưởng thức",
+      "definition": "to take pleasure in something",
+      "definition_vi": "có niềm vui từ điều gì đó",
+      "example": "I enjoy reading books.",
+      "example_vi": "Tôi thích đọc sách.",
+      "id": 48
+    },
+    {
+      "word": "examine",
+      "ipa": "/ɪɡˈzæmɪn/",
+      "meaning": "kiểm tra",
+      "definition": "to look at something closely",
+      "definition_vi": "nhìn vào thứ gì đó một cách kỹ lưỡng",
+      "example": "The doctor examined the patient carefully.",
+      "example_vi": "Bác sĩ đã kiểm tra bệnh nhân cẩn thận.",
+      "id": 49
+    },
+    {
+      "word": "expect",
+      "ipa": "/ɪkˈspekt/",
+      "meaning": "mong đợi",
+      "definition": "to think something will happen",
+      "definition_vi": "nghĩ rằng điều gì đó sẽ xảy ra",
+      "example": "I expect good results.",
+      "example_vi": "Tôi mong đợi kết quả tốt.",
+      "id": 50
+    },
+    {
+      "word": "explain",
+      "ipa": "/ɪkˈspleɪn/",
+      "meaning": "giải thích",
+      "definition": "to make something clear and easy to understand",
+      "definition_vi": "làm cho điều gì đó rõ ràng và dễ hiểu",
+      "example": "She explained the lesson well.",
+      "example_vi": "Cô ấy đã giải thích bài học rất tốt.",
+      "id": 51
+    },
+    {
+      "word": "explore",
+      "ipa": "/ɪkˈsplɔːr/",
+      "meaning": "khám phá",
+      "definition": "to travel through an unknown area",
+      "definition_vi": "đi qua một khu vực chưa biết",
+      "example": "They explored the old castle.",
+      "example_vi": "Họ đã khám phá lâu đài cổ.",
+      "id": 52
+    },
+    {
+      "word": "express",
+      "ipa": "/ɪkˈspres/",
+      "meaning": "bày tỏ",
+      "definition": "to show or communicate feelings",
+      "definition_vi": "thể hiện hoặc truyền đạt cảm xúc",
+      "example": "She expressed her gratitude warmly.",
+      "example_vi": "Cô ấy đã bày tỏ lòng biết ơn một cách nồng nhiệt.",
+      "id": 53
+    },
+    {
+      "word": "forgive",
+      "ipa": "/fərˈɡɪv/",
+      "meaning": "tha thứ",
+      "definition": "to stop being angry at someone",
+      "definition_vi": "ngừng tức giận với ai đó",
+      "example": "She forgave him for his mistake.",
+      "example_vi": "Cô ấy đã tha thứ cho anh ấy vì lỗi lầm của anh.",
+      "id": 54
+    },
+    {
+      "word": "improve",
+      "ipa": "/ɪmˈpruːv/",
+      "meaning": "cải thiện",
+      "definition": "to make something better",
+      "definition_vi": "làm cho điều gì đó tốt hơn",
+      "example": "I want to improve my English.",
+      "example_vi": "Tôi muốn cải thiện tiếng Anh của mình.",
+      "id": 55
+    },
+    {
+      "word": "include",
+      "ipa": "/ɪnˈkluːd/",
+      "meaning": "bao gồm",
+      "definition": "to contain as part of a whole",
+      "definition_vi": "chứa đựng như một phần của tổng thể",
+      "example": "The price includes breakfast.",
+      "example_vi": "Giá bao gồm bữa sáng.",
+      "id": 56
+    },
+    {
+      "word": "interview",
+      "ipa": "/ˈɪntərvjuː/",
+      "meaning": "phỏng vấn",
+      "definition": "to ask someone questions to learn about them",
+      "definition_vi": "hỏi ai đó câu hỏi để tìm hiểu về họ",
+      "example": "She has a job interview tomorrow.",
+      "example_vi": "Cô ấy có buổi phỏng vấn xin việc vào ngày mai.",
+      "id": 57
+    },
+    {
+      "word": "introduce",
+      "ipa": "/ˌɪntrəˈduːs/",
+      "meaning": "giới thiệu",
+      "definition": "to present someone to another person",
+      "definition_vi": "giới thiệu ai đó với người khác",
+      "example": "Let me introduce my friend.",
+      "example_vi": "Hãy để tôi giới thiệu bạn của tôi.",
+      "id": 58
+    },
+    {
+      "word": "invest",
+      "ipa": "/ɪnˈvest/",
+      "meaning": "đầu tư",
+      "definition": "to put money into something to make a profit",
+      "definition_vi": "bỏ tiền vào thứ gì đó để kiếm lợi nhuận",
+      "example": "He invested in the stock market.",
+      "example_vi": "Anh ấy đã đầu tư vào thị trường chứng khoán.",
+      "id": 59
+    },
+    {
+      "word": "involve",
+      "ipa": "/ɪnˈvɒlv/",
+      "meaning": "liên quan",
+      "definition": "to include as a necessary part",
+      "definition_vi": "bao gồm như một phần cần thiết",
+      "example": "The project involves many people.",
+      "example_vi": "Dự án liên quan đến nhiều người.",
+      "id": 60
+    },
+    {
+      "word": "manage",
+      "ipa": "/ˈmænɪdʒ/",
+      "meaning": "quản lý",
+      "definition": "to be in charge of something",
+      "definition_vi": "phụ trách điều gì đó",
+      "example": "She manages a large team.",
+      "example_vi": "Cô ấy quản lý một đội nhóm lớn.",
+      "id": 61
+    },
+    {
+      "word": "mention",
+      "ipa": "/ˈmenʃn/",
+      "meaning": "đề cập",
+      "definition": "to speak about something briefly",
+      "definition_vi": "nói về điều gì đó một cách ngắn gọn",
+      "example": "He mentioned the meeting earlier.",
+      "example_vi": "Anh ấy đã đề cập đến cuộc họp trước đó.",
+      "id": 62
+    },
+    {
+      "word": "observe",
+      "ipa": "/əbˈzɜːrv/",
+      "meaning": "quan sát",
+      "definition": "to watch carefully",
+      "definition_vi": "nhìn một cách cẩn thận",
+      "example": "Scientists observe the stars at night.",
+      "example_vi": "Các nhà khoa học quan sát các ngôi sao vào ban đêm.",
+      "id": 63
+    },
+    {
+      "word": "obtain",
+      "ipa": "/əbˈteɪn/",
+      "meaning": "đạt được, có được",
+      "definition": "to get something through effort",
+      "definition_vi": "có được thứ gì đó thông qua nỗ lực",
+      "example": "She obtained her degree last year.",
+      "example_vi": "Cô ấy đã có được bằng cấp của mình vào năm ngoái.",
+      "id": 64
+    },
+    {
+      "word": "organize",
+      "ipa": "/ˈɔːrɡənaɪz/",
+      "meaning": "tổ chức",
+      "definition": "to arrange things in an orderly way",
+      "definition_vi": "sắp xếp mọi thứ một cách có trật tự",
+      "example": "He organized the files neatly.",
+      "example_vi": "Anh ấy đã sắp xếp các tập tin một cách gọn gàng.",
+      "id": 65
+    },
+    {
+      "word": "perform",
+      "ipa": "/pərˈfɔːrm/",
+      "meaning": "biểu diễn",
+      "definition": "to do an action or show",
+      "definition_vi": "thực hiện một hành động hoặc buổi biểu diễn",
+      "example": "The band performed live on stage.",
+      "example_vi": "Ban nhạc đã biểu diễn trực tiếp trên sân khấu.",
+      "id": 66
+    },
+    {
+      "word": "prepare",
+      "ipa": "/prɪˈper/",
+      "meaning": "chuẩn bị",
+      "definition": "to make something ready",
+      "definition_vi": "làm cho thứ gì đó sẵn sàng",
+      "example": "She prepared dinner for everyone.",
+      "example_vi": "Cô ấy đã chuẩn bị bữa tối cho mọi người.",
+      "id": 67
+    },
+    {
+      "word": "prevent",
+      "ipa": "/prɪˈvent/",
+      "meaning": "ngăn chặn",
+      "definition": "to stop something from happening",
+      "definition_vi": "ngăn điều gì đó xảy ra",
+      "example": "Vaccines prevent many diseases.",
+      "example_vi": "Vắc-xin ngăn chặn nhiều bệnh tật.",
+      "id": 68
+    },
+    {
+      "word": "promise",
+      "ipa": "/ˈprɒmɪs/",
+      "meaning": "hứa",
+      "definition": "to say you will definitely do something",
+      "definition_vi": "nói rằng bạn chắc chắn sẽ làm điều gì đó",
+      "example": "I promise to call you later.",
+      "example_vi": "Tôi hứa sẽ gọi cho bạn sau.",
+      "id": 69
+    },
+    {
+      "word": "recommend",
+      "ipa": "/ˌrekəˈmend/",
+      "meaning": "giới thiệu, đề xuất",
+      "definition": "to suggest as good or suitable",
+      "definition_vi": "đề xuất như là tốt hoặc phù hợp",
+      "example": "I recommend this restaurant.",
+      "example_vi": "Tôi giới thiệu nhà hàng này.",
+      "id": 70
+    },
+    {
+      "word": "recover",
+      "ipa": "/rɪˈkʌvər/",
+      "meaning": "hồi phục",
+      "definition": "to return to health after illness",
+      "definition_vi": "trở lại sức khỏe sau khi bị bệnh",
+      "example": "She recovered from the flu quickly.",
+      "example_vi": "Cô ấy đã hồi phục từ bệnh cúm một cách nhanh chóng.",
+      "id": 71
+    },
+    {
+      "word": "refuse",
+      "ipa": "/rɪˈfjuːz/",
+      "meaning": "từ chối",
+      "definition": "to say no to something",
+      "definition_vi": "nói không với điều gì đó",
+      "example": "He refused to answer the question.",
+      "example_vi": "Anh ấy đã từ chối trả lời câu hỏi.",
+      "id": 72
+    },
+    {
+      "word": "regret",
+      "ipa": "/rɪˈɡret/",
+      "meaning": "hối tiếc",
+      "definition": "to feel sad about something you did",
+      "definition_vi": "cảm thấy buồn về điều bạn đã làm",
+      "example": "I regret not studying harder.",
+      "example_vi": "Tôi hối tiếc vì đã không học chăm chỉ hơn.",
+      "id": 73
+    },
+    {
+      "word": "relate",
+      "ipa": "/rɪˈleɪt/",
+      "meaning": "liên quan",
+      "definition": "to show a connection between things",
+      "definition_vi": "chỉ ra mối liên hệ giữa các thứ",
+      "example": "This relates to what we discussed.",
+      "example_vi": "Điều này liên quan đến những gì chúng ta đã thảo luận.",
+      "id": 74
+    },
+    {
+      "word": "release",
+      "ipa": "/rɪˈliːs/",
+      "meaning": "phát hành",
+      "definition": "to make something available to the public",
+      "definition_vi": "làm cho thứ gì đó có sẵn cho công chúng",
+      "example": "The movie was released in 2024.",
+      "example_vi": "Bộ phim đã được phát hành vào năm 2024.",
+      "id": 75
+    },
+    {
+      "word": "remind",
+      "ipa": "/rɪˈmaɪnd/",
+      "meaning": "nhắc nhở",
+      "definition": "to help someone remember something",
+      "definition_vi": "giúp ai đó nhớ điều gì",
+      "example": "Remind me to buy milk.",
+      "example_vi": "Nhắc tôi mua sữa nhé.",
+      "id": 76
+    },
+    {
+      "word": "replace",
+      "ipa": "/rɪˈpleɪs/",
+      "meaning": "thay thế",
+      "definition": "to take the place of something",
+      "definition_vi": "thay thế vị trí của thứ gì đó",
+      "example": "We need to replace the old sofa.",
+      "example_vi": "Chúng tôi cần thay thế ghế sofa cũ.",
+      "id": 77
+    },
+    {
+      "word": "require",
+      "ipa": "/rɪˈkwaɪər/",
+      "meaning": "yêu cầu",
+      "definition": "to need something",
+      "definition_vi": "cần điều gì đó",
+      "example": "This job requires patience.",
+      "example_vi": "Công việc này đòi hỏi sự kiên nhẫn.",
+      "id": 78
+    },
+    {
+      "word": "respect",
+      "ipa": "/rɪˈspekt/",
+      "meaning": "tôn trọng",
+      "definition": "to admire someone for their qualities",
+      "definition_vi": "ngưỡng mộ ai đó vì phẩm chất của họ",
+      "example": "Everyone respected the old teacher.",
+      "example_vi": "Mọi người đều tôn trọng người giáo viên già.",
+      "id": 79
+    },
+    {
+      "word": "suggest",
+      "ipa": "/səˈdʒest/",
+      "meaning": "gợi ý",
+      "definition": "to put forward an idea for consideration",
+      "definition_vi": "đưa ra ý kiến để xem xét",
+      "example": "I suggest we take a break.",
+      "example_vi": "Tôi gợi ý chúng ta nên nghỉ giải lao.",
+      "id": 80
+    },
+    {
+      "word": "support",
+      "ipa": "/səˈpɔːrt/",
+      "meaning": "ủng hộ",
+      "definition": "to help or give encouragement",
+      "definition_vi": "giúp đỡ hoặc khuyến khích",
+      "example": "My family supports my decisions.",
+      "example_vi": "Gia đình tôi ủng hộ các quyết định của tôi.",
+      "id": 81
+    },
+    {
+      "word": "survive",
+      "ipa": "/sərˈvaɪv/",
+      "meaning": "sống sót",
+      "definition": "to continue to live despite difficulty",
+      "definition_vi": "tiếp tục sống mặc dù gặp khó khăn",
+      "example": "They survived the earthquake.",
+      "example_vi": "Họ đã sống sót sau trận động đất.",
+      "id": 82
+    },
+    {
+      "word": "threaten",
+      "ipa": "/ˈθretn/",
+      "meaning": "đe dọa",
+      "definition": "to say you will cause harm",
+      "definition_vi": "nói rằng bạn sẽ gây hại",
+      "example": "The storm threatened the coastal town.",
+      "example_vi": "Cơn bão đe dọa thị trấn ven biển.",
+      "id": 83
+    },
+    {
+      "word": "translate",
+      "ipa": "/trænzˈleɪt/",
+      "meaning": "dịch",
+      "definition": "to convert words from one language to another",
+      "definition_vi": "chuyển đổi từ ngữ từ ngôn ngữ này sang ngôn ngữ khác",
+      "example": "She translates English to Vietnamese.",
+      "example_vi": "Cô ấy dịch tiếng Anh sang tiếng Việt.",
+      "id": 84
+    },
+    {
+      "word": "warn",
+      "ipa": "/wɔːrn/",
+      "meaning": "cảnh báo",
+      "definition": "to tell someone about danger",
+      "definition_vi": "nói với ai đó về nguy hiểm",
+      "example": "They warned us about the flood.",
+      "example_vi": "Họ đã cảnh báo chúng tôi về lũ lụt.",
+      "id": 85
+    },
+    {
+      "word": "ancient",
+      "ipa": "/ˈeɪnʃənt/",
+      "meaning": "cổ đại",
+      "definition": "very old, from long ago",
+      "definition_vi": "rất cũ, từ lâu đời",
+      "example": "The ancient temple is thousands of years old.",
+      "example_vi": "Ngôi đền cổ đại đã hàng nghìn năm tuổi.",
+      "id": 86
+    },
+    {
+      "word": "brave",
+      "ipa": "/breɪv/",
+      "meaning": "dũng cảm",
+      "definition": "showing courage in difficult situations",
+      "definition_vi": "thể hiện lòng can đảm trong tình huống khó khăn",
+      "example": "The brave firefighter saved the child.",
+      "example_vi": "Người lính cứu hỏa dũng cảm đã cứu đứa trẻ.",
+      "id": 87
+    },
+    {
+      "word": "curious",
+      "ipa": "/ˈkjʊriəs/",
+      "meaning": "tò mò",
+      "definition": "eager to learn or know something",
+      "definition_vi": "háo hức học hỏi hoặc biết điều gì đó",
+      "example": "Children are naturally curious.",
+      "example_vi": "Trẻ em tự nhiên rất tò mò.",
+      "id": 88
+    },
+    {
+      "word": "dangerous",
+      "ipa": "/ˈdeɪndʒərəs/",
+      "meaning": "nguy hiểm",
+      "definition": "likely to cause harm",
+      "definition_vi": "có khả năng gây hại",
+      "example": "Driving fast is dangerous.",
+      "example_vi": "Lái xe nhanh rất nguy hiểm.",
+      "id": 89
+    },
+    {
+      "word": "familiar",
+      "ipa": "/fəˈmɪliər/",
+      "meaning": "quen thuộc",
+      "definition": "known from previous experience",
+      "definition_vi": "được biết đến từ kinh nghiệm trước đây",
+      "example": "This song sounds familiar.",
+      "example_vi": "Bài hát này nghe có vẻ quen thuộc.",
+      "id": 90
+    },
+    {
+      "word": "honest",
+      "ipa": "/ˈɒnɪst/",
+      "meaning": "trung thực",
+      "definition": "truthful and sincere",
+      "definition_vi": "thật thà và chân thành",
+      "example": "Be honest with yourself.",
+      "example_vi": "Hãy trung thực với chính mình.",
+      "id": 91
+    },
+    {
+      "word": "necessary",
+      "ipa": "/ˈnesəseri/",
+      "meaning": "cần thiết",
+      "definition": "needed to achieve something",
+      "definition_vi": "cần thiết để đạt được điều gì đó",
+      "example": "Water is necessary for life.",
+      "example_vi": "Nước là cần thiết cho sự sống.",
+      "id": 92
+    },
+    {
+      "word": "patient",
+      "ipa": "/ˈpeɪʃnt/",
+      "meaning": "kiên nhẫn",
+      "definition": "able to wait calmly for a long time",
+      "definition_vi": "có thể chờ đợi một cách bình tĩnh trong thời gian dài",
+      "example": "A good teacher is patient.",
+      "example_vi": "Một giáo viên tốt là người kiên nhẫn.",
+      "id": 93
+    },
+    {
+      "word": "popular",
+      "ipa": "/ˈpɒpjələr/",
+      "meaning": "phổ biến, nổi tiếng",
+      "definition": "liked by many people",
+      "definition_vi": "được nhiều người yêu thích",
+      "example": "This song is very popular.",
+      "example_vi": "Bài hát này rất phổ biến.",
+      "id": 94
+    },
+    {
+      "word": "responsible",
+      "ipa": "/rɪˈspɒnsəbl/",
+      "meaning": "có trách nhiệm",
+      "definition": "having the duty to do something",
+      "definition_vi": "có nhiệm vụ làm điều gì đó",
+      "example": "He is responsible for the project.",
+      "example_vi": "Anh ấy chịu trách nhiệm cho dự án.",
+      "id": 95
+    },
+    {
+      "word": "useful",
+      "ipa": "/ˈjuːsfl/",
+      "meaning": "hữu ích",
+      "definition": "having a good use or purpose",
+      "definition_vi": "có công dụng hoặc mục đích tốt",
+      "example": "This tool is very useful.",
+      "example_vi": "Công cụ này rất hữu ích.",
+      "id": 96
     }
   ]
 }

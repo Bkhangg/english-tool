@@ -140,6 +140,7 @@ body {
   flex: 1;
   padding: 14px;
   display: none;
+  scroll-margin-top: 80px;
 }
 .content.active { display: block; }
 /* Card with glass effect */
@@ -536,7 +537,7 @@ body {
 </div>
 
 <div id="tab-dictionary" class="content">
-  <input type="text" id="dict-input" class="search-box" placeholder="Enter a word...">
+  <input type="text" id="dict-input" class="search-box" placeholder="Enter a word..." style="scroll-margin-top:80px">
   <button class="btn btn-primary btn-full mt-8" id="dict-search">Search</button>
   <div id="dict-result" class="mt-12"></div>
 </div>
@@ -566,6 +567,8 @@ body {
       <p id="add-word-msg" style="font-size:12px;margin-top:6px;display:none"></p>
     </div>
   </details>
+  <button class="btn btn-primary btn-full mt-8" id="btn-auto-fetch" style="margin-top:8px">🎲 Auto-Fetch Word</button>
+  <div id="auto-fetch-preview" style="display:none"></div>
 </div>
 
 <div id="tab-settings" class="content">
@@ -767,6 +770,13 @@ const STRINGS = {
     words_add_success: "Added!",
     words_add_error: "Error adding word",
     words_add_exists: "Word already exists",
+    auto_fetch_web_btn: "Auto-Fetch Word",
+    auto_fetch_web_keep: "Keep",
+    auto_fetch_web_skip: "Skip",
+    auto_fetch_fetching: "Fetching random word...",
+    auto_fetch_error: "Could not fetch word",
+    auto_fetch_exists: "Already in list",
+    auto_fetch_saved: "Saved!",
     settings_export: "Export Data",
     settings_export_btn: "Download backup",
     settings_import: "Import Data",
@@ -888,6 +898,13 @@ const STRINGS = {
     words_add_success: "\u0110\u00e3 th\u00eam!",
     words_add_error: "L\u1ed7i khi th\u00eam t\u1eeb",
     words_add_exists: "T\u1eeb n\u00e0y \u0111\u00e3 c\u00f3",
+    auto_fetch_web_btn: "T\u1ef1 \u0111\u1ed9ng l\u1ea5y t\u1eeb",
+    auto_fetch_web_keep: "Gi\u1eef l\u1ea1i",
+    auto_fetch_web_skip: "B\u1ecf qua",
+    auto_fetch_fetching: "\u0110ang l\u1ea5y t\u1eeb ng\u1eabu nhi\u00ean...",
+    auto_fetch_error: "Kh\u00f4ng th\u1ec3 l\u1ea5y t\u1eeb",
+    auto_fetch_exists: "\u0110\u00e3 c\u00f3 trong danh s\u00e1ch",
+    auto_fetch_saved: "\u0110\u00e3 l\u01b0u!",
     settings_export: "Xu\u1ea5t D\u1eef Li\u1ec7u",
     settings_export_btn: "T\u1ea3i backup",
     settings_import: "Nh\u1eadp D\u1eef Li\u1ec7u",
@@ -979,6 +996,8 @@ function updateStrings() {
   if (addExInp) addExInp.placeholder = t("words_add_example");
   const addBtn = document.getElementById("btn-add-word");
   if (addBtn) addBtn.textContent = t("words_add_btn");
+  const afBtn = document.getElementById("btn-auto-fetch");
+  if (afBtn) afBtn.textContent = "\u{1F3B2} " + t("auto_fetch_web_btn");
   document.getElementById("btn-export") && (document.getElementById("btn-export").textContent = "📥 " + t("settings_export_btn"));
   document.getElementById("btn-import") && (document.getElementById("btn-import").textContent = "📤 " + t("settings_import_btn"));
 }
@@ -1074,6 +1093,61 @@ document.getElementById("btn-add-word")?.addEventListener("click", async () => {
     }
   } catch { msg.textContent = t("words_add_error"); msg.style.color = "var(--primary)"; }
   msg.style.display = "block";
+});
+
+// Auto-Fetch Word
+document.getElementById("btn-auto-fetch")?.addEventListener("click", async () => {
+  const preview = document.getElementById("auto-fetch-preview");
+  preview.style.display = "block";
+  preview.innerHTML = `<div class="card"><p style="text-align:center;color:var(--muted)">${t("auto_fetch_fetching")}</p></div>`;
+  try {
+    const r = await api("GET", "/api/fetch-word");
+    if (r.error) {
+      preview.innerHTML = `<div class="card"><p style="text-align:center;color:var(--primary)">${t("auto_fetch_error")}</p></div>`;
+      return;
+    }
+    preview.innerHTML = `
+      <div class="card">
+        <div class="word-display">
+          <div class="word">${r.word}</div>
+          ${r.ipa ? `<div class="ipa">${r.ipa}</div>` : ""}
+          <div class="meaning">${r.meaning}</div>
+          ${r.definition ? `<div class="definition">${r.definition}</div>` : ""}
+          ${r.definition_vi ? `<div class="definition-vi">${r.definition_vi}</div>` : ""}
+          ${r.example ? `<div class="example">"${r.example}"</div>` : ""}
+          ${r.example_vi ? `<div class="example-vi">${r.example_vi}</div>` : ""}
+        </div>
+        ${r.exists ? `<p style="text-align:center;color:var(--yellow);font-size:13px">${t("auto_fetch_exists")}</p>` : `
+        <div class="btn-group">
+          <button class="btn btn-success" id="af-keep">✅ ${t("auto_fetch_web_keep")}</button>
+          <button class="btn btn-outline" id="af-skip">⏭️ ${t("auto_fetch_web_skip")}</button>
+        </div>`}
+        <p id="af-msg" style="font-size:12px;margin-top:8px;text-align:center;display:none"></p>
+      </div>`;
+    if (!r.exists) {
+      document.getElementById("af-keep").addEventListener("click", async () => {
+        const msg = document.getElementById("af-msg");
+        const body = { word: r.word, meaning: r.meaning, ipa: r.ipa, definition: r.definition, definition_vi: r.definition_vi, example: r.example, example_vi: r.example_vi };
+        try {
+          const res = await api("POST", "/api/words", body);
+          if (res.error) { msg.textContent = t("words_add_error"); msg.style.color = "var(--primary)"; }
+          else {
+            msg.textContent = t("auto_fetch_saved");
+            msg.style.color = "var(--green)";
+            document.getElementById("af-keep").remove();
+            document.getElementById("af-skip").remove();
+            renderWords();
+          }
+        } catch { msg.textContent = t("words_add_error"); msg.style.color = "var(--primary)"; }
+        msg.style.display = "block";
+      });
+      document.getElementById("af-skip").addEventListener("click", () => {
+        preview.style.display = "none";
+      });
+    }
+  } catch {
+    preview.innerHTML = `<div class="card"><p style="text-align:center;color:var(--primary)">${t("auto_fetch_error")}</p></div>`;
+  }
 });
 
 // Settings controls

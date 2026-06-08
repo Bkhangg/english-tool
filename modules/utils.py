@@ -128,6 +128,100 @@ def get_streak():
     return user_data.get("streak", {"current": 0, "longest": 0})
 
 
+def _translate_texts(texts):
+    import urllib.request
+    import urllib.parse
+    import json
+    if not texts:
+        return {}
+    batch = "\n".join(texts)
+    if len(batch) > 1500:
+        return {}
+    url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=" + urllib.parse.quote(batch)
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            result = "".join(x[0] for x in data[0]).strip()
+            if result:
+                parts = result.split("\n")
+                return {texts[i]: parts[i] for i in range(min(len(texts), len(parts)))}
+    except Exception:
+        pass
+    return {}
+
+
+def fetch_random_word():
+    import urllib.request
+    import urllib.parse
+    import json
+    max_attempts = 5
+    for _ in range(max_attempts):
+        try:
+            req = urllib.request.Request(
+                "https://random-word-api.herokuapp.com/word",
+                headers={"User-Agent": "Mozilla/5.0"}
+            )
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                words = json.loads(resp.read().decode("utf-8"))
+                word = words[0] if words else None
+                if not word:
+                    continue
+        except Exception:
+            continue
+
+        dict_url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + urllib.parse.quote(word)
+        try:
+            req = urllib.request.Request(dict_url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+        except Exception:
+            continue
+
+        result = {
+            "word": word, "ipa": "", "meaning": "",
+            "definition": "", "definition_vi": "",
+            "example": "", "example_vi": "",
+        }
+
+        for p in data[0].get("phonetics", []):
+            if p.get("text"):
+                result["ipa"] = p["text"]
+                break
+
+        for m in data[0].get("meanings", []):
+            for d in m.get("definitions", []):
+                if d.get("definition"):
+                    result["definition"] = d["definition"]
+                    if d.get("example"):
+                        result["example"] = d["example"]
+                    break
+            if result["definition"]:
+                break
+
+        texts = []
+        if result["definition"]:
+            texts.append(result["definition"])
+        if result["example"]:
+            texts.append(result["example"])
+
+        if texts:
+            trans = _translate_texts(texts)
+            if result["definition"] in trans:
+                result["definition_vi"] = trans[result["definition"]]
+            if result["example"] in trans:
+                result["example_vi"] = trans[result["example"]]
+
+        if result["definition_vi"]:
+            result["meaning"] = result["definition_vi"].split(".")[0].split(";")[0][:60].strip()
+        else:
+            result["meaning"] = word
+
+        return result
+
+    return None
+
+
 def show_stats():
     words = load_words()
     user_data = load_user_data()

@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 data/user_data.json
+english-tool.zip
+english-tool/
+data/user_data.json
