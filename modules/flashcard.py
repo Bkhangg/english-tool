@@ -34,7 +34,10 @@ def run():
             f"{ui.S.BOLD}{ui.S.FG.WHITE}{lang.t('flashcard.word')}{ui.S.RESET}      {ui.S.FG.YELLOW}{word['word'].upper()}{ui.S.RESET}",
             f"{ui.S.BOLD}{ui.S.FG.WHITE}{lang.t('flashcard.ipa')}{ui.S.RESET}       {ui.S.FG.CYAN}{word.get('ipa', 'N/A')}{ui.S.RESET}",
             f"{ui.S.BOLD}{ui.S.FG.WHITE}{lang.t('flashcard.meaning')}{ui.S.RESET}   {ui.S.FG.GREEN}{word['meaning']}{ui.S.RESET}",
+            f"{ui.S.BOLD}{ui.S.FG.WHITE}Definition{ui.S.RESET}{ui.S.FG.CYAN}  {word.get('definition', '')}{ui.S.RESET}",
+            f"                          {ui.S.FG.GREEN}{word.get('definition_vi', '')}{ui.S.RESET}",
             f"{ui.S.BOLD}{ui.S.FG.WHITE}{lang.t('flashcard.example')}{ui.S.RESET}   {ui.S.FG.BRIGHT_BLACK}{word.get('example', 'N/A')}{ui.S.RESET}",
+            f"                          {ui.S.FG.GREEN}{word.get('example_vi', '')}{ui.S.RESET}",
         ]
         ui.box(word["word"], lines)
 

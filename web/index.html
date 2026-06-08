@@ -151,6 +151,22 @@ body {
   margin-top: 8px;
   font-style: italic;
 }
+.word-display .example-vi {
+  font-size: 13px;
+  color: var(--green);
+  margin-top: 4px;
+}
+.word-display .definition {
+  font-size: 14px;
+  color: var(--cyan);
+  margin-top: 8px;
+  font-weight: 500;
+}
+.word-display .definition-vi {
+  font-size: 14px;
+  color: var(--green);
+  margin-top: 2px;
+}
 .option-btn {
   display: block;
   width: 100%;
@@ -317,6 +333,10 @@ body {
   line-height: 16px;
 }
 .fade-in { animation: fadeIn 0.3s ease; }
+.word-item { cursor: pointer; transition: transform 0.15s, border-color 0.15s; border: 1px solid transparent; }
+.word-item:hover { transform: translateX(4px); border-color: var(--cyan); }
+.word-item:active { transform: scale(0.99); }
+
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
@@ -343,6 +363,10 @@ body {
 
 <div id="tab-progress" class="content">
   <div id="progress-content"></div>
+</div>
+
+<div id="tab-words" class="content">
+  <div id="words-content"></div>
 </div>
 
 <div id="tab-settings" class="content">
@@ -380,6 +404,10 @@ body {
   <button class="tab-btn" data-tab="progress">
     <span class="icon">📊</span>
     <span id="tab-label-prog">Progress</span>
+  </button>
+  <button class="tab-btn" data-tab="words">
+    <span class="icon">📝</span>
+    <span id="tab-label-words">Words</span>
   </button>
   <button class="tab-btn" data-tab="settings">
     <span class="icon">⚙️</span>
@@ -445,6 +473,25 @@ const STRINGS = {
     settings_lang: "Language",
     settings_lang_label: "Interface language",
     about: "CLI English learning tool with flashcards, dictionary lookup, quiz, and progress tracking. Built with Python \u2764",
+    prog_today: "Reviews today:",
+    tab_words: "Words",
+    words_search: "Search...",
+    words_all: "All",
+    words_learned: "Learned",
+    words_new: "New",
+    words_loading: "Loading...",
+    words_word: "Word:",
+    words_meaning: "Meaning:",
+    words_status: "Status:",
+    words_level: "Level:",
+    words_click_dict: "Tap to look up",
+    fc_type_mode: "Type",
+    fc_reveal_mode: "Reveal",
+    fc_type_prompt: "Type the meaning:",
+    fc_type_submit: "Check",
+    fc_type_placeholder: "Type meaning here...",
+    fc_type_correct: "Correct!",
+    fc_type_wrong: "Wrong! The answer is:",
   },
   vi: {
     title: "C\u00f4ng C\u1ee5 H\u1ecdc Ti\u1ebfng Anh",
@@ -502,15 +549,44 @@ const STRINGS = {
     settings_lang: "Ng\u00f4n ng\u1eef",
     settings_lang_label: "Ng\u00f4n ng\u1eef giao di\u1ec7n",
     about: "C\u00f4ng c\u1ee5 h\u1ecdc ti\u1ebfng Anh tr\u00ean CLI v\u1edbi flashcards, t\u1eeb \u0111i\u1ec3n, b\u00e0i ki\u1ec3m tra v\u00e0 theo d\u00f5i ti\u1ebfn \u0111\u1ed9. \u0110\u01b0\u1ee3c x\u00e2y d\u1ef1ng b\u1eb1ng Python \u2764",
+    prog_today: "\u0110\u00e3 \u00f4n h\u00f4m nay:",
+    tab_words: "T\u1eeb v\u1ef1ng",
+    words_search: "T\u00ecm...",
+    words_all: "T\u1ea5t c\u1ea3",
+    words_learned: "\u0110\u00e3 h\u1ecdc",
+    words_new: "M\u1edbi",
+    words_loading: "\u0110ang t\u1ea3i...",
+    words_word: "T\u1eeb:",
+    words_meaning: "Ngh\u0129a:",
+    words_status: "Tr\u1ea1ng th\u00e1i:",
+    words_level: "C\u1ea5p \u0111\u1ed9:",
+    words_click_dict: "Ch\u1ea1m \u0111\u1ec3 tra",
+    fc_type_mode: "G\u00f5",
+    fc_reveal_mode: "Xem",
+    fc_type_prompt: "G\u00f5 ngh\u0129a c\u1ee7a t\u1eeb:",
+    fc_type_submit: "Ki\u1ec3m tra",
+    fc_type_placeholder: "G\u00f5 ngh\u0129a t\u1ea1i \u0111\u00e2y...",
+    fc_type_correct: "\u0110\u00fang!",
+    fc_type_wrong: "Sai! \u0110\u00e1p \u00e1n l\u00e0:",
   }
 };
 
 let lang = "vi";
 let fcState = null;
+let fcTypeMode = false;
 let quizState = null;
 
 function t(key) {
   return (STRINGS[lang] || STRINGS.en)[key] || key;
+}
+
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US';
+  u.rate = 0.85;
+  speechSynthesis.speak(u);
 }
 
 function updateStrings() {
@@ -520,6 +596,7 @@ function updateStrings() {
   document.getElementById("tab-label-dict").textContent = t("tab_dict");
   document.getElementById("tab-label-quiz").textContent = t("tab_quiz");
   document.getElementById("tab-label-prog").textContent = t("tab_prog");
+  document.getElementById("tab-label-words").textContent = t("tab_words");
   document.getElementById("tab-label-sett").textContent = t("tab_sett");
   document.getElementById("dict-input").placeholder = t("dict_placeholder");
   document.getElementById("dict-search").textContent = t("dict_search");
@@ -545,6 +622,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     if (btn.dataset.tab === "flashcards") renderFlashcards();
     if (btn.dataset.tab === "progress") renderProgress();
     if (btn.dataset.tab === "quiz") renderQuiz();
+    if (btn.dataset.tab === "words") renderWords();
   });
 });
 
@@ -559,19 +637,23 @@ document.querySelectorAll(".lang-btn").forEach(btn => {
     updateStrings();
     renderFlashcards();
     renderProgress();
+    renderWords();
   });
 });
 
 async function init() {
-  const r = await api("GET", "/api/lang");
-  lang = r.lang;
-  document.querySelectorAll(".lang-btn").forEach(b => {
-    b.classList.toggle("active", b.dataset.lang === lang);
-  });
-  if (lang !== "en" && lang !== "vi") lang = "vi";
-  updateStrings();
+  try {
+    const r = await api("GET", "/api/lang");
+    lang = r.lang;
+    document.querySelectorAll(".lang-btn").forEach(b => {
+      b.classList.toggle("active", b.dataset.lang === lang);
+    });
+    if (lang !== "en" && lang !== "vi") lang = "vi";
+    updateStrings();
+  } catch {}
   renderFlashcards();
   renderProgress();
+  renderWords();
 }
 
 // ----- FLASHCARDS -----
@@ -581,13 +663,17 @@ async function renderFlashcards() {
     renderFcCard(el, fcState);
     return;
   }
-  const r = await api("GET", "/api/review-words");
-  if (!r.words || r.words.length === 0) {
-    el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--muted);padding:20px 0">${t("fc_no_words")}</p></div>`;
-    return;
+  try {
+    const r = await api("GET", "/api/review-words");
+    if (!r.words || r.words.length === 0) {
+      el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--muted);padding:20px 0">${t("fc_no_words")}</p></div>`;
+      return;
+    }
+    fcState = { words: r.words, step: 0, correct: 0 };
+    renderFcCard(el, fcState);
+  } catch {
+    el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--primary);padding:20px 0">${t("dict_network")}</p></div>`;
   }
-  fcState = { words: r.words, step: 0, correct: 0 };
-  renderFcCard(el, fcState);
 }
 
 function renderFcCard(el, state) {
@@ -597,29 +683,67 @@ function renderFcCard(el, state) {
   }
   const w = state.words[state.step];
   const revealed = state.revealed;
+  const typeResult = state.typeResult;
+  const isTypeMode = fcTypeMode;
+
   el.innerHTML = `
+    <div style="text-align:right;margin-bottom:8px">
+      <button class="btn btn-outline" id="fc-mode-toggle" style="font-size:11px;padding:4px 12px;min-height:auto">
+        ${isTypeMode ? t("fc_reveal_mode") : t("fc_type_mode")}
+      </button>
+      <button class="btn btn-outline" id="fc-speak" style="font-size:11px;padding:4px 12px;min-height:auto;margin-left:4px">
+        🔊 ${t("dict_audio")}
+      </button>
+    </div>
     <div class="card fade-in">
       <div class="word-display">
         <div class="word">${esc(w.word)}</div>
         <div class="ipa">${esc(w.ipa)}</div>
-        ${revealed ? `
+        ${revealed && !isTypeMode ? `
           <div class="meaning mt-12">${esc(w.meaning)}</div>
+          ${w.definition ? `<div class="definition">📖 ${esc(w.definition)}</div>` : ""}
+          ${w.definition_vi ? `<div class="definition-vi">📝 ${esc(w.definition_vi)}</div>` : ""}
           <div class="example">${esc(w.example)}</div>
-        ` : `
+          ${w.example_vi ? `<div class="example-vi">📝 ${esc(w.example_vi)}</div>` : ""}
+        ` : !isTypeMode ? `
           <p style="color:var(--muted);font-size:13px;margin-top:16px">${t("fc_tap_reveal")}</p>
+        ` : typeResult ? `
+          <div class="meaning mt-12 ${typeResult.correct ? '' : ''}" style="color:${typeResult.correct ? 'var(--green)' : 'var(--primary)'}">
+            ${typeResult.correct ? t("fc_type_correct") : t("fc_type_wrong")} ${esc(w.meaning)}
+          </div>
+          ${w.definition ? `<div class="definition">📖 ${esc(w.definition)}</div>` : ""}
+          ${w.definition_vi ? `<div class="definition-vi">📝 ${esc(w.definition_vi)}</div>` : ""}
+          <div class="example">${esc(w.example)}</div>
+          ${w.example_vi ? `<div class="example-vi">📝 ${esc(w.example_vi)}</div>` : ""}
+        ` : `
+          <div style="margin-top:16px">
+            <p style="color:var(--muted);font-size:13px;margin-bottom:8px">${t("fc_type_prompt")}</p>
+            <input type="text" id="fc-type-input" class="search-box" placeholder="${t("fc_type_placeholder")}" autofocus>
+            <button class="btn btn-primary btn-full mt-8" id="fc-type-submit">${t("fc_type_submit")}</button>
+          </div>
         `}
       </div>
     </div>
-    ${!revealed ? `
+    ${!isTypeMode && !revealed ? `
       <button class="btn btn-primary btn-full mt-8" id="fc-reveal">${t("fc_tap_reveal")}</button>
-    ` : `
+    ` : !isTypeMode && revealed ? `
       <div class="btn-group">
         <button class="btn btn-success" id="fc-yes">${t("fc_know")}</button>
         <button class="btn btn-warning" id="fc-no">${t("fc_dont_know")}</button>
       </div>
-    `}
+    ` : isTypeMode && typeResult ? `
+      <button class="btn btn-primary btn-full mt-8" id="fc-next">${t("fc_next")}</button>
+    ` : ""}
     <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:8px">${state.step + 1} / ${state.words.length}</p>
   `;
+
+  document.getElementById("fc-mode-toggle")?.addEventListener("click", () => {
+    fcTypeMode = !fcTypeMode;
+    state.revealed = false;
+    state.typeResult = null;
+    renderFcCard(el, state);
+  });
+  document.getElementById("fc-speak")?.addEventListener("click", () => speak(w.word));
 
   document.getElementById("fc-reveal")?.addEventListener("click", () => {
     state.revealed = true;
@@ -630,14 +754,36 @@ function renderFcCard(el, state) {
     state.correct++;
     state.step++;
     state.revealed = false;
+    state.typeResult = null;
     renderFcCard(el, state);
   });
   document.getElementById("fc-no")?.addEventListener("click", async () => {
     await api("POST", "/api/review", { word_id: w.id, known: false });
     state.step++;
     state.revealed = false;
+    state.typeResult = null;
     renderFcCard(el, state);
   });
+  document.getElementById("fc-type-submit")?.addEventListener("click", () => checkFcType(state, el, w));
+  document.getElementById("fc-type-input")?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") checkFcType(state, el, w);
+  });
+  document.getElementById("fc-next")?.addEventListener("click", async () => {
+    const wasCorrect = state.typeResult?.correct;
+    await api("POST", "/api/review", { word_id: w.id, known: wasCorrect });
+    if (wasCorrect) state.correct++;
+    state.step++;
+    state.typeResult = null;
+    renderFcCard(el, state);
+  });
+}
+
+function checkFcType(state, el, w) {
+  const input = document.getElementById("fc-type-input");
+  const answer = input ? input.value.trim().toLowerCase() : "";
+  const correct = answer === w.meaning.toLowerCase();
+  state.typeResult = { correct };
+  renderFcCard(el, state);
 }
 
 function renderFcComplete(el, state) {
@@ -703,11 +849,20 @@ function renderDictResult(el, data, word) {
   if (data.audio) html += `<button class="btn btn-outline mt-8" onclick="playAudio('${esc(data.audio)}')" style="font-size:12px;padding:6px 12px">🔊 ${t("dict_audio")}</button>`;
   html += `</div></div>`;
 
+  if (data.definition) {
+    html += `<div class="card fade-in" style="border-left:3px solid var(--cyan)">
+      <h3>English</h3>
+      <div style="font-size:15px;color:var(--cyan);font-weight:500">📖 ${esc(data.definition)}</div>
+      ${data.definition_vi ? `<div style="font-size:14px;color:var(--green);margin-top:4px">📝 ${esc(data.definition_vi)}</div>` : ""}
+    </div>`;
+  }
+
   if (lang === "vi" && data.vi_meaning) {
     html += `<div class="card fade-in" style="border-left:3px solid var(--green)">
       <h3>${t("dict_vi")}</h3>
       <div style="font-size:16px;font-weight:600;color:var(--green);margin:4px 0">${esc(data.vi_meaning)}</div>
       ${data.vi_example ? `<div style="color:var(--muted);font-style:italic;font-size:13px;margin-top:4px">▸ ${esc(data.vi_example)}</div>` : ""}
+      ${data.example_vi ? `<div style="color:var(--green);font-size:13px;margin-top:2px">📝 ${esc(data.example_vi)}</div>` : ""}
     </div>`;
   }
 
@@ -717,7 +872,9 @@ function renderDictResult(el, data, word) {
       m.definitions.forEach((d, i) => {
         html += `<div class="def-item"><span class="def-num">${i+1}</span><div>
           <span>${esc(d.definition)}</span>`;
+        if (d.definition_vi) html += `<div style="font-size:13px;color:var(--green);margin-top:2px">📝 ${esc(d.definition_vi)}</div>`;
         if (d.example) html += `<div class="def-example">▸ ${esc(d.example)}</div>`;
+        if (d.example_vi) html += `<div style="font-size:12px;color:var(--green);margin-top:1px;padding-left:30px">📝 ${esc(d.example_vi)}</div>`;
         if (d.synonyms && d.synonyms.length) {
           html += `<div class="def-synonyms">${d.synonyms.map(s => `<span class="syn-tag">${esc(s)}</span>`).join("")}</div>`;
         }
@@ -742,13 +899,21 @@ async function renderQuiz() {
     renderQuizQuestion(el, quizState);
     return;
   }
-  const r = await api("GET", "/api/quiz");
-  if (r.error) {
-    el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--muted);padding:20px 0">${r.error}</p></div>`;
-    return;
+  try {
+    const r = await api("GET", "/api/quiz");
+    if (r.error) {
+      el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--primary);padding:20px 0">${r.error}</p></div>`;
+      return;
+    }
+    if (!r.questions || r.questions.length === 0) {
+      el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--muted);padding:20px 0">${t("fc_no_words")}</p></div>`;
+      return;
+    }
+    quizState = { questions: r.questions, step: 0, correct: 0, answered: false, showingResult: false };
+    renderQuizQuestion(el, quizState);
+  } catch {
+    el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--primary);padding:20px 0">${t("dict_network")}</p></div>`;
   }
-  quizState = { questions: r.questions, step: 0, correct: 0, answered: false, showingResult: false };
-  renderQuizQuestion(el, quizState);
 }
 
 function renderQuizQuestion(el, state) {
@@ -841,7 +1006,13 @@ function renderQuizComplete(el, state) {
 async function renderProgress() {
   const el = document.getElementById("progress-content");
   el.innerHTML = `<div class="text-center mt-16"><div class="spinner"></div></div>`;
-  const r = await api("GET", "/api/stats");
+  let r;
+  try {
+    r = await api("GET", "/api/stats");
+  } catch {
+    el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--primary);padding:20px 0">${t("dict_network")}</p></div>`;
+    return;
+  }
   const pct = r.total ? Math.round(r.learned / r.total * 100) : 0;
   el.innerHTML = `
     <div class="card fade-in">
@@ -861,8 +1032,102 @@ async function renderProgress() {
         <span class="stat-label">${t("prog_remaining")}</span>
         <span class="stat-value" style="color:var(--yellow)">${r.remaining}</span>
       </div>
+      <div class="stat-row">
+        <span class="stat-label">${t("prog_today")}</span>
+        <span class="stat-value" style="color:var(--cyan)">${r.reviews_today || 0}</span>
+      </div>
     </div>
   `;
+}
+
+// ----- WORDS -----
+let wordsFilter = "all";
+let wordsSearchQuery = "";
+
+async function renderWords() {
+  const el = document.getElementById("words-content");
+  el.innerHTML = `<div class="text-center mt-16"><div class="spinner"></div><p style="color:var(--muted);font-size:13px;margin-top:8px">${t("words_loading")}</p></div>`;
+  try {
+    const r = await api("GET", "/api/words");
+    const words = r.words || [];
+
+    el.innerHTML = `
+      <input type="text" id="words-search-input" class="search-box" placeholder="${t("words_search")}">
+      <div class="btn-group mt-8" id="words-filter-bar">
+        <button class="btn btn-primary" data-filter="all">${t("words_all")}</button>
+        <button class="btn btn-outline" data-filter="learned">${t("words_learned")}</button>
+        <button class="btn btn-outline" data-filter="new">${t("words_new")}</button>
+      </div>
+      <div id="words-list" class="mt-8"></div>
+    `;
+
+    document.getElementById("words-search-input").addEventListener("input", (e) => {
+      wordsSearchQuery = e.target.value.toLowerCase();
+      renderWordsList(words);
+    });
+
+    document.querySelectorAll("#words-filter-bar .btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        wordsFilter = btn.dataset.filter;
+        document.querySelectorAll("#words-filter-bar .btn").forEach(b => {
+          b.className = "btn btn-outline";
+        });
+        btn.className = "btn btn-primary";
+        renderWordsList(words);
+      });
+    });
+
+    renderWordsList(words);
+  } catch {
+    el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--primary);padding:20px 0">${t("dict_network")}</p></div>`;
+  }
+}
+
+function renderWordsList(words) {
+  const el = document.getElementById("words-list");
+  const filtered = words.filter(w => {
+    if (wordsFilter === "learned" && !w.learned) return false;
+    if (wordsFilter === "new" && w.learned) return false;
+    if (wordsSearchQuery && !w.word.toLowerCase().includes(wordsSearchQuery) && !(w.meaning || '').toLowerCase().includes(wordsSearchQuery)) return false;
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--muted);padding:20px 0">${t("words_all")} — 0</p></div>`;
+    return;
+  }
+
+  el.innerHTML = filtered.map(w => {
+    const levelDots = "●".repeat(Math.min(w.level, 5)) + "○".repeat(Math.max(0, 5 - Math.min(w.level, 5)));
+    return `
+      <div class="card fade-in word-item" data-word="${esc(w.word)}" style="cursor:pointer">
+        <div style="display:flex;justify-content:space-between;align-items:start">
+          <div>
+            <strong style="color:var(--yellow);font-size:16px">${esc(w.word)}</strong>
+            <span style="color:var(--cyan);font-size:13px;margin-left:8px">${esc(w.ipa)}</span>
+          </div>
+          <span style="font-size:12px;color:${w.learned ? 'var(--green)' : 'var(--muted)'}">${w.learned ? levelDots : "—"}</span>
+        </div>
+        <div style="margin-top:4px;font-size:14px;color:var(--green)">${esc(w.meaning)}</div>
+        ${w.definition ? `<div style="margin-top:2px;font-size:13px;color:var(--cyan)">📖 ${esc(w.definition)}</div>` : ""}
+        ${w.definition_vi ? `<div style="font-size:13px;color:var(--green)">📝 ${esc(w.definition_vi)}</div>` : ""}
+        ${w.example ? `<div style="margin-top:4px;font-size:12px;color:var(--muted);font-style:italic">${esc(w.example)}</div>` : ""}
+        ${w.example_vi ? `<div style="margin-top:2px;font-size:12px;color:var(--green);">📝 ${esc(w.example_vi)}</div>` : ""}
+        <div style="margin-top:6px;font-size:11px;color:var(--muted)">
+          ${w.learned ? `${t("words_level")} ${w.level} / 5` : t("words_new")}
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  el.querySelectorAll(".word-item").forEach(item => {
+    item.addEventListener("click", () => {
+      const word = item.dataset.word;
+      document.getElementById("dict-input").value = word;
+      document.querySelector('[data-tab="dictionary"]').click();
+      dictSearch();
+    });
+  });
 }
 
 function esc(s) {
@@ -871,6 +1136,17 @@ function esc(s) {
   d.textContent = s;
   return d.innerHTML;
 }
+
+// Keyboard shortcuts
+document.addEventListener("keydown", (e) => {
+  if (e.target.tagName === "INPUT") return;
+  const tabMap = { "1": "flashcards", "2": "dictionary", "3": "quiz", "4": "progress", "5": "words", "6": "settings" };
+  const tab = tabMap[e.key];
+  if (tab) {
+    const btn = document.querySelector(`[data-tab="${tab}"]`);
+    if (btn) btn.click();
+  }
+});
 
 init();
 </script>

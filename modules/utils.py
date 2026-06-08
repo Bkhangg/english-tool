@@ -79,7 +79,25 @@ def update_after_review(word_id, correct):
         info["next_review"] = datetime.now().isoformat()
 
     learned[wid] = info
+
+    today = datetime.now().strftime("%Y-%m-%d")
+    stats = user_data.setdefault("stats", {})
+    if stats.get("last_date") != today:
+        stats["reviews_today"] = 1
+        stats["last_date"] = today
+    else:
+        stats["reviews_today"] = stats.get("reviews_today", 0) + 1
+
     save_user_data(user_data)
+
+
+def get_today_reviews():
+    user_data = load_user_data()
+    stats = user_data.get("stats", {})
+    today = datetime.now().strftime("%Y-%m-%d")
+    if stats.get("last_date") != today:
+        return 0
+    return stats.get("reviews_today", 0)
 
 
 def show_stats():

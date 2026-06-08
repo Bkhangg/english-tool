@@ -5,140 +5,200 @@
       "word": "abandon",
       "ipa": "/əˈbændən/",
       "meaning": "bỏ rơi, từ bỏ",
-      "example": "They had to abandon the project due to lack of funds."
+      "definition": "to leave someone or something permanently; to give up",
+      "definition_vi": "bỏ rơi ai đó hoặc thứ gì đó vĩnh viễn; từ bỏ",
+      "example": "They had to abandon the project due to lack of funds.",
+      "example_vi": "Họ đã phải từ bỏ dự án vì thiếu vốn."
     },
     {
       "id": 2,
       "word": "benefit",
       "ipa": "/ˈbenɪfɪt/",
       "meaning": "lợi ích, lợi thế",
-      "example": "Regular exercise has many health benefits."
+      "definition": "an advantage or profit gained from something",
+      "definition_vi": "lợi thế hoặc lợi nhuận thu được từ việc gì đó",
+      "example": "Regular exercise has many health benefits.",
+      "example_vi": "Tập thể dục thường xuyên mang lại nhiều lợi ích cho sức khỏe."
     },
     {
       "id": 3,
       "word": "consequence",
       "ipa": "/ˈkɒnsɪkwəns/",
       "meaning": "hậu quả, kết quả",
-      "example": "He suffered the consequences of his actions."
+      "definition": "a result or effect of an action",
+      "definition_vi": "kết quả hoặc ảnh hưởng của một hành động",
+      "example": "He suffered the consequences of his actions.",
+      "example_vi": "Anh ấy đã phải chịu hậu quả từ hành động của mình."
     },
     {
       "id": 4,
       "word": "demonstrate",
       "ipa": "/ˈdemənstreɪt/",
       "meaning": "chứng minh, biểu diễn",
-      "example": "The experiment demonstrates the theory."
+      "definition": "to show clearly; to prove something",
+      "definition_vi": "chỉ rõ ràng; chứng minh điều gì đó",
+      "example": "The experiment demonstrates the theory.",
+      "example_vi": "Thí nghiệm chứng minh cho lý thuyết đó."
     },
     {
       "id": 5,
       "word": "elaborate",
       "ipa": "/ɪˈlæbərət/",
       "meaning": "phức tạp; giải thích chi tiết",
-      "example": "Could you elaborate on your proposal?"
+      "definition": "involving many details; to explain in detail",
+      "definition_vi": "liên quan đến nhiều chi tiết; giải thích chi tiết",
+      "example": "Could you elaborate on your proposal?",
+      "example_vi": "Bạn có thể giải thích chi tiết về đề xuất của mình không?"
     },
     {
       "id": 6,
       "word": "frequent",
       "ipa": "/ˈfriːkwənt/",
       "meaning": "thường xuyên",
-      "example": "She makes frequent trips to Japan."
+      "definition": "happening often; to visit a place often",
+      "definition_vi": "xảy ra thường xuyên; lui tới một nơi thường xuyên",
+      "example": "She makes frequent trips to Japan.",
+      "example_vi": "Cô ấy thường xuyên đi công tác Nhật Bản."
     },
     {
       "id": 7,
       "word": "generous",
       "ipa": "/ˈdʒenərəs/",
       "meaning": "hào phóng, rộng lượng",
-      "example": "He made a generous donation to charity."
+      "definition": "willing to give more than expected; kind",
+      "definition_vi": "sẵn sàng cho nhiều hơn mong đợi; hào phóng",
+      "example": "He made a generous donation to charity.",
+      "example_vi": "Anh ấy đã quyên góp hào phóng cho tổ chức từ thiện."
     },
     {
       "id": 8,
       "word": "hypothesis",
       "ipa": "/haɪˈpɒθəsɪs/",
       "meaning": "giả thuyết",
-      "example": "The scientist tested her hypothesis."
+      "definition": "a proposed explanation for something",
+      "definition_vi": "một giải thích được đề xuất cho điều gì đó",
+      "example": "The scientist tested her hypothesis.",
+      "example_vi": "Nhà khoa học đã kiểm tra giả thuyết của mình."
     },
     {
       "id": 9,
       "word": "inevitable",
       "ipa": "/ɪnˈevɪtəbl/",
       "meaning": "không thể tránh khỏi",
-      "example": "Change is inevitable in life."
+      "definition": "impossible to avoid or prevent",
+      "definition_vi": "không thể tránh hoặc ngăn chặn",
+      "example": "Change is inevitable in life.",
+      "example_vi": "Thay đổi là điều không thể tránh khỏi trong cuộc sống."
     },
     {
       "id": 10,
       "word": "journey",
       "ipa": "/ˈdʒɜːni/",
       "meaning": "hành trình",
-      "example": "The journey took three hours."
+      "definition": "an act of traveling from one place to another",
+      "definition_vi": "hành động đi từ nơi này đến nơi khác",
+      "example": "The journey took three hours.",
+      "example_vi": "Cuộc hành trình kéo dài ba tiếng đồng hồ."
     },
     {
       "id": 11,
       "word": "knowledge",
       "ipa": "/ˈnɒlɪdʒ/",
       "meaning": "kiến thức",
-      "example": "Knowledge is power."
+      "definition": "facts or information acquired through experience",
+      "definition_vi": "sự thật hoặc thông tin thu được qua trải nghiệm",
+      "example": "Knowledge is power.",
+      "example_vi": "Tri thức là sức mạnh."
     },
     {
       "id": 12,
       "word": "literature",
       "ipa": "/ˈlɪtrətʃə(r)/",
       "meaning": "văn học",
-      "example": "She studied English literature at university."
+      "definition": "written works, especially those of lasting value",
+      "definition_vi": "tác phẩm viết, đặc biệt là những tác phẩm có giá trị lâu dài",
+      "example": "She studied English literature at university.",
+      "example_vi": "Cô ấy học ngành văn học Anh tại trường đại học."
     },
     {
       "id": 13,
       "word": "maintain",
       "ipa": "/meɪnˈteɪn/",
       "meaning": "duy trì, bảo dưỡng",
-      "example": "It's important to maintain a healthy diet."
+      "definition": "to keep in good condition; to continue",
+      "definition_vi": "giữ trong tình trạng tốt; duy trì",
+      "example": "It's important to maintain a healthy diet.",
+      "example_vi": "Điều quan trọng là duy trì một chế độ ăn uống lành mạnh."
     },
     {
       "id": 14,
       "word": "negotiate",
       "ipa": "/nɪˈɡəʊʃieɪt/",
       "meaning": "đàm phán, thương lượng",
-      "example": "They are negotiating a new contract."
+      "definition": "to discuss to reach an agreement",
+      "definition_vi": "thảo luận để đạt được thỏa thuận",
+      "example": "They are negotiating a new contract.",
+      "example_vi": "Họ đang đàm phán một hợp đồng mới."
     },
     {
       "id": 15,
       "word": "obstacle",
       "ipa": "/ˈɒbstəkl/",
       "meaning": "chướng ngại vật, trở ngại",
-      "example": "Lack of money was the main obstacle."
+      "definition": "something that blocks progress",
+      "definition_vi": "thứ gì đó cản trở tiến trình",
+      "example": "Lack of money was the main obstacle.",
+      "example_vi": "Thiếu tiền là trở ngại chính."
     },
     {
       "id": 16,
       "word": "persuade",
       "ipa": "/pəˈsweɪd/",
       "meaning": "thuyết phục",
-      "example": "She persuaded me to join the club."
+      "definition": "to cause someone to do something by reasoning",
+      "definition_vi": "khiến ai đó làm gì bằng cách lập luận",
+      "example": "She persuaded me to join the club.",
+      "example_vi": "Cô ấy đã thuyết phục tôi tham gia câu lạc bộ."
     },
     {
       "id": 17,
       "word": "significant",
       "ipa": "/sɪɡˈnɪfɪkənt/",
       "meaning": "quan trọng, đáng kể",
-      "example": "There was a significant increase in sales."
+      "definition": "important; large enough to be noticed",
+      "definition_vi": "quan trọng; đủ lớn để được chú ý",
+      "example": "There was a significant increase in sales.",
+      "example_vi": "Đã có một sự gia tăng đáng kể trong doanh số bán hàng."
     },
     {
       "id": 18,
       "word": "temporary",
       "ipa": "/ˈtemprəri/",
       "meaning": "tạm thời",
-      "example": "This is only a temporary solution."
+      "definition": "lasting for only a limited time",
+      "definition_vi": "chỉ kéo dài trong một thời gian giới hạn",
+      "example": "This is only a temporary solution.",
+      "example_vi": "Đây chỉ là một giải pháp tạm thời."
     },
     {
       "id": 19,
       "word": "unique",
       "ipa": "/juˈniːk/",
       "meaning": "độc đáo, duy nhất",
-      "example": "Everyone has a unique personality."
+      "definition": "being the only one of its kind; special",
+      "definition_vi": "là duy nhất; đặc biệt",
+      "example": "Everyone has a unique personality.",
+      "example_vi": "Mỗi người đều có một tính cách độc đáo."
     },
     {
       "id": 20,
       "word": "voluntary",
       "ipa": "/ˈvɒləntri/",
       "meaning": "tự nguyện, tình nguyện",
-      "example": "She does voluntary work at the hospital."
+      "definition": "done willingly, not forced",
+      "definition_vi": "làm tự nguyện, không bị ép buộc",
+      "example": "She does voluntary work at the hospital.",
+      "example_vi": "Cô ấy làm công việc tình nguyện tại bệnh viện."
     }
   ]
 }

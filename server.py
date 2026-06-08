@@ -14,11 +14,33 @@ from modules import lang
 from modules.utils import (
     load_words, load_user_data, save_user_data,
     get_word_by_id, get_next_review_words, update_after_review,
+    get_today_reviews,
 )
 
 DICT_API = "https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
+GT_API = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q={text}"
 WEB_DIR = os.path.join(os.path.dirname(__file__), "web")
 PORT = int(os.environ.get("PORT", 8000))
+
+
+def translate_batch(texts):
+    if not texts:
+        return {}
+    batch = "\n".join(texts)
+    if len(batch) > 1500:
+        return {}
+    url = GT_API.format(text=urllib.parse.quote(batch))
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            result = "".join(x[0] for x in data[0]).strip()
+            if result:
+                parts = result.split("\n")
+                return {texts[i]: parts[i] for i in range(min(len(texts), len(parts)))}
+    except Exception:
+        pass
+    return {}
 
 
 def load_lang_strings():
@@ -43,7 +65,31 @@ def api_stats():
         "learned": learned_count,
         "remaining": total - learned_count,
         "lang": load_lang_strings(),
+        "reviews_today": get_today_reviews(),
     })
+
+
+def api_words():
+    words = load_words()
+    user_data = load_user_data()
+    learned = user_data.get("learned", {})
+    result = []
+    for w in words:
+        wid = str(w["id"])
+        info = learned.get(wid, {})
+        result.append({
+            "id": w["id"],
+            "word": w["word"],
+            "ipa": w.get("ipa", ""),
+            "meaning": w.get("meaning", ""),
+            "definition": w.get("definition", ""),
+            "definition_vi": w.get("definition_vi", ""),
+            "example": w.get("example", ""),
+            "example_vi": w.get("example_vi", ""),
+            "learned": wid in learned,
+            "level": info.get("level", 0),
+        })
+    return json_response({"words": result, "total": len(result)})
 
 
 def api_review_words():
@@ -55,7 +101,10 @@ def api_review_words():
             "word": w["word"],
             "ipa": w.get("ipa", ""),
             "meaning": w.get("meaning", ""),
+            "definition": w.get("definition", ""),
+            "definition_vi": w.get("definition_vi", ""),
             "example": w.get("example", ""),
+            "example_vi": w.get("example_vi", ""),
         })
     return json_response({"words": data, "total": len(data)})
 
@@ -103,13 +152,27 @@ def api_dictionary(word):
         return json_response({"error": "network error"}, 502)
 
     result = {"word": data[0].get("word", word), "meanings": []}
+
+    texts = []
+    for m in data[0].get("meanings", []):
+        for d in m.get("definitions", [])[:3]:
+            if d.get("definition"):
+                texts.append(d["definition"])
+            if d.get("example"):
+                texts.append(d["example"])
+    trans = translate_batch(texts)
+
     for m in data[0].get("meanings", []):
         pos = m.get("partOfSpeech", "")
         defs = []
         for d in m.get("definitions", [])[:3]:
             entry = {"definition": d.get("definition", "")}
+            if d.get("definition") and d["definition"] in trans:
+                entry["definition_vi"] = trans[d["definition"]]
             if d.get("example"):
                 entry["example"] = d["example"]
+                if d["example"] in trans:
+                    entry["example_vi"] = trans[d["example"]]
             if d.get("synonyms"):
                 entry["synonyms"] = d["synonyms"][:3]
             defs.append(entry)
@@ -128,7 +191,10 @@ def api_dictionary(word):
     for w in load_words():
         if w["word"].lower() == word.lower():
             result["vi_meaning"] = w.get("meaning", "")
+            result["definition"] = w.get("definition", "")
+            result["definition_vi"] = w.get("definition_vi", "")
             result["vi_example"] = w.get("example", "")
+            result["example_vi"] = w.get("example_vi", "")
             break
 
     return json_response(result)
@@ -157,6 +223,7 @@ def route(method, path, handler):
 
 
 route("GET", "/api/stats", lambda q, b: api_stats())
+route("GET", "/api/words", lambda q, b: api_words())
 route("GET", "/api/review-words", lambda q, b: api_review_words())
 route("GET", "/api/quiz", lambda q, b: api_quiz())
 route("GET", "/api/lang", lambda q, b: api_lang())
