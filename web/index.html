@@ -554,6 +554,15 @@ body {
       </div>
     </div>
   </div>
+  <div class="card">
+    <h3 id="settings-font-title">Font</h3>
+    <div class="btn-group mt-8" id="font-family-btns">
+      <button class="btn btn-primary" data-font="system">System</button>
+      <button class="btn btn-outline" data-font="serif">Serif</button>
+      <button class="btn btn-outline" data-font="mono">Mono</button>
+      <button class="btn btn-outline" data-font="rounded">Rounded</button>
+    </div>
+  </div>
   <div class="card" id="settings-quiz-count-card">
     <h3 id="settings-quiz-count-title">Quiz Questions</h3>
     <div class="btn-group mt-8" id="quiz-count-btns">
@@ -732,6 +741,7 @@ const STRINGS = {
     grammar_quiz: "Grammar Quiz",
     grammar_quiz_btn: "Start Grammar Quiz",
     grammar_what: "Which grammar point?",
+    settings_font: "Font",
     settings_quiz_count: "Quiz Questions",
     settings_tts: "TTS Speed",
     settings_ipa: "IPA Pronunciation",
@@ -848,6 +858,7 @@ const STRINGS = {
     grammar_quiz: "Grammar Quiz",
     grammar_quiz_btn: "B\u1eaft \u0111\u1ea7u Grammar Quiz",
     grammar_what: "\u0110\u00e2y l\u00e0 ng\u1eef ph\u00e1p g\u00ec?",
+    settings_font: "Ph\u00f4ng ch\u1eef",
     settings_quiz_count: "S\u1ed1 c\u00e2u Quiz",
     settings_tts: "T\u1ed1c \u0111\u1ed9 TTS",
     settings_ipa: "IPA Ph\u00e1t \u00e2m",
@@ -863,8 +874,15 @@ const STRINGS = {
   }
 };
 
+const FONTS = {
+  system: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  serif: "Georgia, 'Times New Roman', serif",
+  mono: "'Cascadia Code', 'JetBrains Mono', Consolas, monospace",
+  rounded: "system-ui, -apple-system, 'Segoe UI', sans-serif",
+};
+
 let lang = "vi";
-let appSettings = { quiz_count: 10, tts_speed: 0.85, show_ipa: true };
+let appSettings = { quiz_count: 10, tts_speed: 0.85, show_ipa: true, font_family: "system" };
 let fcState = null;
 let fcTypeMode = false;
 let quizState = null;
@@ -897,6 +915,8 @@ function updateStrings() {
   document.getElementById("settings-lang-title").textContent = t("settings_lang");
   document.getElementById("settings-lang-label").textContent = t("settings_lang_label");
   document.getElementById("about-text").textContent = t("about");
+  const fontTitle = document.getElementById("settings-font-title");
+  if (fontTitle) fontTitle.textContent = t("settings_font");
   const qcTitle = document.getElementById("settings-quiz-count-title");
   if (qcTitle) qcTitle.textContent = t("settings_quiz_count");
   const ttsTitle = document.getElementById("settings-tts-title");
@@ -1025,6 +1045,10 @@ function applySettingsUI() {
   document.querySelectorAll("#ipa-toggle-btns .btn").forEach(b => {
     b.className = "btn " + (b.dataset.ipa === String(appSettings.show_ipa) ? "btn-primary" : "btn-outline");
   });
+  document.querySelectorAll("#font-family-btns .btn").forEach(b => {
+    b.className = "btn " + (b.dataset.font === appSettings.font_family ? "btn-primary" : "btn-outline");
+  });
+  document.body.style.fontFamily = FONTS[appSettings.font_family] || FONTS.system;
 }
 
 document.querySelector("#quiz-count-btns")?.addEventListener("click", async (e) => {
@@ -1054,6 +1078,14 @@ document.querySelector("#ipa-toggle-btns")?.addEventListener("click", async (e) 
   renderQuiz();
 });
 
+document.querySelector("#font-family-btns")?.addEventListener("click", async (e) => {
+  const btn = e.target.closest("[data-font]");
+  if (!btn) return;
+  appSettings.font_family = btn.dataset.font;
+  applySettingsUI();
+  await api("POST", "/api/settings", { font_family: appSettings.font_family });
+});
+
 async function init() {
   try {
     const r = await api("GET", "/api/lang");
@@ -1069,6 +1101,7 @@ async function init() {
     if (s.quiz_count) appSettings.quiz_count = s.quiz_count;
     if (s.tts_speed) appSettings.tts_speed = s.tts_speed;
     if (s.show_ipa !== undefined) appSettings.show_ipa = s.show_ipa;
+    if (s.font_family) appSettings.font_family = s.font_family;
     applySettingsUI();
   } catch {}
   renderFlashcards();
