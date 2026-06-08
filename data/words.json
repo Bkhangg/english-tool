@@ -1,0 +1,144 @@
+{
+  "words": [
+    {
+      "id": 1,
+      "word": "abandon",
+      "ipa": "/əˈbændən/",
+      "meaning": "bỏ rơi, từ bỏ",
+      "example": "They had to abandon the project due to lack of funds."
+    },
+    {
+      "id": 2,
+      "word": "benefit",
+      "ipa": "/ˈbenɪfɪt/",
+      "meaning": "lợi ích, lợi thế",
+      "example": "Regular exercise has many health benefits."
+    },
+    {
+      "id": 3,
+      "word": "consequence",
+      "ipa": "/ˈkɒnsɪkwəns/",
+      "meaning": "hậu quả, kết quả",
+      "example": "He suffered the consequences of his actions."
+    },
+    {
+      "id": 4,
+      "word": "demonstrate",
+      "ipa": "/ˈdemənstreɪt/",
+      "meaning": "chứng minh, biểu diễn",
+      "example": "The experiment demonstrates the theory."
+    },
+    {
+      "id": 5,
+      "word": "elaborate",
+      "ipa": "/ɪˈlæbərət/",
+      "meaning": "phức tạp; giải thích chi tiết",
+      "example": "Could you elaborate on your proposal?"
+    },
+    {
+      "id": 6,
+      "word": "frequent",
+      "ipa": "/ˈfriːkwənt/",
+      "meaning": "thường xuyên",
+      "example": "She makes frequent trips to Japan."
+    },
+    {
+      "id": 7,
+      "word": "generous",
+      "ipa": "/ˈdʒenərəs/",
+      "meaning": "hào phóng, rộng lượng",
+      "example": "He made a generous donation to charity."
+    },
+    {
+      "id": 8,
+      "word": "hypothesis",
+      "ipa": "/haɪˈpɒθəsɪs/",
+      "meaning": "giả thuyết",
+      "example": "The scientist tested her hypothesis."
+    },
+    {
+      "id": 9,
+      "word": "inevitable",
+      "ipa": "/ɪnˈevɪtəbl/",
+      "meaning": "không thể tránh khỏi",
+      "example": "Change is inevitable in life."
+    },
+    {
+      "id": 10,
+      "word": "journey",
+      "ipa": "/ˈdʒɜːni/",
+      "meaning": "hành trình",
+      "example": "The journey took three hours."
+    },
+    {
+      "id": 11,
+      "word": "knowledge",
+      "ipa": "/ˈnɒlɪdʒ/",
+      "meaning": "kiến thức",
+      "example": "Knowledge is power."
+    },
+    {
+      "id": 12,
+      "word": "literature",
+      "ipa": "/ˈlɪtrətʃə(r)/",
+      "meaning": "văn học",
+      "example": "She studied English literature at university."
+    },
+    {
+      "id": 13,
+      "word": "maintain",
+      "ipa": "/meɪnˈteɪn/",
+      "meaning": "duy trì, bảo dưỡng",
+      "example": "It's important to maintain a healthy diet."
+    },
+    {
+      "id": 14,
+      "word": "negotiate",
+      "ipa": "/nɪˈɡəʊʃieɪt/",
+      "meaning": "đàm phán, thương lượng",
+      "example": "They are negotiating a new contract."
+    },
+    {
+      "id": 15,
+      "word": "obstacle",
+      "ipa": "/ˈɒbstəkl/",
+      "meaning": "chướng ngại vật, trở ngại",
+      "example": "Lack of money was the main obstacle."
+    },
+    {
+      "id": 16,
+      "word": "persuade",
+      "ipa": "/pəˈsweɪd/",
+      "meaning": "thuyết phục",
+      "example": "She persuaded me to join the club."
+    },
+    {
+      "id": 17,
+      "word": "significant",
+      "ipa": "/sɪɡˈnɪfɪkənt/",
+      "meaning": "quan trọng, đáng kể",
+      "example": "There was a significant increase in sales."
+    },
+    {
+      "id": 18,
+      "word": "temporary",
+      "ipa": "/ˈtemprəri/",
+      "meaning": "tạm thời",
+      "example": "This is only a temporary solution."
+    },
+    {
+      "id": 19,
+      "word": "unique",
+      "ipa": "/juˈniːk/",
+      "meaning": "độc đáo, duy nhất",
+      "example": "Everyone has a unique personality."
+    },
+    {
+      "id": 20,
+      "word": "voluntary",
+      "ipa": "/ˈvɒləntri/",
+      "meaning": "tự nguyện, tình nguyện",
+      "example": "She does voluntary work at the hospital."
+    }
+  ]
+}

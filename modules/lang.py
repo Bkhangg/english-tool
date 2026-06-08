@@ -1,0 +1,209 @@
+import json
+import os
+from modules.utils import DATA_DIR, load_json, save_json
+
+LANG_FILE = os.path.join(DATA_DIR, "user_data.json")
+
+_strings = {
+    "en": {
+        "app.title": "English Learning Tool",
+        "app.subtitle": "Learn English on CLI",
+        "app.tagline": "Flashcards  \u00b7  Dictionary  \u00b7  Quiz",
+        "app.menu": "MENU",
+        "app.exit_msg": "Thanks for learning! Goodbye!",
+        "app.invalid": "Invalid choice",
+        "app.settings": "Settings",
+        "app.lang_en": "English",
+        "app.lang_vi": "Ti\u1ebfng Vi\u1ec7t",
+        "app.lang_prompt": "Language",
+        "app.choose": "Choose:",
+
+        "menu.flashcards": "Flashcards",
+        "menu.dictionary": "Dictionary",
+        "menu.quiz": "Quiz",
+        "menu.progress": "Progress",
+        "menu.settings": "Settings",
+        "menu.exit": "Exit",
+        "menu.desc.flashcards": "Learn new words with spaced repetition",
+        "menu.desc.dictionary": "Lookup word meanings online",
+        "menu.desc.quiz": "Test your vocabulary knowledge",
+        "menu.desc.progress": "View your learning stats",
+        "menu.desc.settings": "Language & display settings",
+        "menu.desc.exit": "Quit the application",
+
+        "flashcard.header": "Flashcard  {i}/{total}",
+        "flashcard.reveal": "Press Enter to reveal the meaning",
+        "flashcard.word": "Word:",
+        "flashcard.ipa": "IPA:",
+        "flashcard.meaning": "Meaning:",
+        "flashcard.example": "Example:",
+        "flashcard.prompt": "Did you know this word? (Y/n):",
+        "flashcard.invalid": "Please enter y or n",
+        "flashcard.yes": "Great! Added to your knowledge!",
+        "flashcard.no": "No worries! Practice makes perfect!",
+        "flashcard.complete": "Session Complete!",
+        "flashcard.empty": "No words found in data/words.json",
+        "flashcard.none": "No words to review yet. Add more words!",
+        "flashcard.excellent": "Excellent work! {c}/{t} correct ({p}%)",
+        "flashcard.good": "Good effort! {c}/{t} correct ({p}%)",
+        "flashcard.keep": "Keep practicing! {c}/{t} correct ({p}%)",
+
+        "dictionary.header": "Dictionary",
+        "dictionary.subtitle": "Lookup any English word",
+        "dictionary.prompt": "Enter word to lookup:",
+        "dictionary.lookup": "Looking up",
+        "dictionary.notfound": "Word not found in dictionary",
+        "dictionary.network": "Network error. Check your internet connection.",
+        "dictionary.word": "Word:",
+        "dictionary.ipa": "IPA:",
+        "dictionary.audio": "Audio:",
+        "dictionary.vi_meaning": "Vietnamese meaning",
+
+        "quiz.header": "Quiz Time!",
+        "quiz.subtitle": "{n} questions \u00b7 Choose the correct meaning",
+        "quiz.question": "Question  {i}/{total}",
+        "quiz.what_is": "What is the meaning of:",
+        "quiz.prompt": "Answer (1-{n}):",
+        "quiz.invalid": "Enter a number between 1 and {n}",
+        "quiz.result_header": "Result",
+        "quiz.correct": "CORRECT!",
+        "quiz.wrong": "WRONG!",
+        "quiz.word": "Word:",
+        "quiz.meaning": "Meaning:",
+        "quiz.your_answer": "You chose:",
+        "quiz.example": "Example:",
+        "quiz.score": "Score:",
+        "quiz.complete": "Quiz Complete!",
+        "quiz.final_score": "Final Score:",
+        "quiz.percentage": "Percentage:",
+        "quiz.empty": "Need at least 4 words for quiz. Add more words!",
+        "quiz.excellent": "Excellent!",
+        "quiz.good": "Good job!",
+        "quiz.trying": "Keep trying!",
+        "quiz.study": "Study more!",
+
+        "stats.title": "Your Progress",
+        "stats.total": "Total:",
+        "stats.learned": "Learned:",
+        "stats.remaining": "Remaining:",
+
+        "ui.wait": "Press Enter to continue...",
+        "ui.yes": "y",
+        "ui.no": "n",
+        "ui.confirm": "Are you sure?",
+    },
+    "vi": {
+        "app.title": "C\u00f4ng C\u1ee5 H\u1ecdc Ti\u1ebfng Anh",
+        "app.subtitle": "H\u1ecdc ti\u1ebfng Anh ngay tr\u00ean CLI",
+        "app.tagline": "Flashcards  \u00b7  T\u1eeb \u0111i\u1ec3n  \u00b7  B\u00e0i ki\u1ec3m tra",
+        "app.menu": "TRANG CH\u00cdNH",
+        "app.exit_msg": "C\u1ea3m \u01a1n b\u1ea1n \u0111\u00e3 h\u1ecdc! T\u1ea1m bi\u1ec7t!",
+        "app.invalid": "L\u1ef1a ch\u1ecdn kh\u00f4ng h\u1ee3p l\u1ec7",
+        "app.settings": "C\u00e0i \u0111\u1eb7t",
+        "app.lang_en": "English",
+        "app.lang_vi": "Ti\u1ebfng Vi\u1ec7t",
+        "app.lang_prompt": "Ng\u00f4n ng\u1eef",
+        "app.choose": "Ch\u1ecdn:",
+
+        "menu.flashcards": "Flashcards",
+        "menu.dictionary": "T\u1eeb \u0111i\u1ec3n",
+        "menu.quiz": "B\u00e0i ki\u1ec3m tra",
+        "menu.progress": "Ti\u1ebfn \u0111\u1ed9",
+        "menu.settings": "C\u00e0i \u0111\u1eb7t",
+        "menu.exit": "Tho\u00e1t",
+        "menu.desc.flashcards": "H\u1ecdc t\u1eeb v\u1ef1ng v\u1edbi ph\u01b0\u01a1ng ph\u00e1p l\u1eb7p l\u1ea1i ng\u1eaft qu\u00e3ng",
+        "menu.desc.dictionary": "Tra ngh\u0129a t\u1eeb \u0111i\u1ec3n online",
+        "menu.desc.quiz": "Ki\u1ec3m tra v\u1ed1n t\u1eeb v\u1ef1ng c\u1ee7a b\u1ea1n",
+        "menu.desc.progress": "Xem th\u1ed1ng k\u00ea h\u1ecdc t\u1eadp",
+        "menu.desc.settings": "C\u00e0i \u0111\u1eb7t ng\u00f4n ng\u1eef & giao di\u1ec7n",
+        "menu.desc.exit": "Tho\u00e1t \u1ee9ng d\u1ee5ng",
+
+        "flashcard.header": "Flashcard  {i}/{total}",
+        "flashcard.reveal": "Nh\u1ea5n Enter \u0111\u1ec3 xem ngh\u0129a",
+        "flashcard.word": "T\u1eeb:",
+        "flashcard.ipa": "IPA:",
+        "flashcard.meaning": "Ngh\u0129a:",
+        "flashcard.example": "V\u00ed d\u1ee5:",
+        "flashcard.prompt": "B\u1ea1n bi\u1ebft t\u1eeb n\u00e0y kh\u00f4ng? (Y/n):",
+        "flashcard.invalid": "Vui l\u00f2ng nh\u1eadp y ho\u1eb7c n",
+        "flashcard.yes": "Tuy\u1ec7t! \u0110\u00e3 th\u00eam v\u00e0o ki\u1ebfn th\u1ee9c c\u1ee7a b\u1ea1n!",
+        "flashcard.no": "\u0110\u1eebng lo! Luy\u1ec7n t\u1eadp s\u1ebd th\u00e0nh c\u00f4ng!",
+        "flashcard.complete": "Ho\u00e0n Th\u00e0nh Bu\u1ed5i H\u1ecdc!",
+        "flashcard.empty": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u1eeb n\u00e0o trong data/words.json",
+        "flashcard.none": "Ch\u01b0a c\u00f3 t\u1eeb n\u00e0o \u0111\u1ec3 \u00f4n t\u1eadp. H\u00e3y th\u00eam t\u1eeb m\u1edbi!",
+        "flashcard.excellent": "Xu\u1ea5t s\u1eafc! {c}/{t} \u0111\u00fang ({p}%)",
+        "flashcard.good": "C\u1ed1 g\u1eafng t\u1ed1t! {c}/{t} \u0111\u00fang ({p}%)",
+        "flashcard.keep": "H\u00e3y ti\u1ebfp t\u1ee5c luy\u1ec7n t\u1eadp! {c}/{t} \u0111\u00fang ({p}%)",
+
+        "dictionary.header": "T\u1eeb \u0111i\u1ec3n",
+        "dictionary.subtitle": "Tra b\u1ea5t k\u1ef3 t\u1eeb ti\u1ebfng Anh n\u00e0o",
+        "dictionary.prompt": "Nh\u1eadp t\u1eeb c\u1ea7n tra:",
+        "dictionary.lookup": "\u0110ang tra",
+        "dictionary.notfound": "Kh\u00f4ng t\u00ecm th\u1ea5y t\u1eeb trong t\u1eeb \u0111i\u1ec3n",
+        "dictionary.network": "L\u1ed7i m\u1ea1ng. Ki\u1ec3m tra k\u1ebft n\u1ed1i internet.",
+        "dictionary.word": "T\u1eeb:",
+        "dictionary.ipa": "IPA:",
+        "dictionary.audio": "\u00c2m thanh:",
+        "dictionary.vi_meaning": "Ngh\u0129a ti\u1ebfng Vi\u1ec7t",
+
+        "quiz.header": "B\u00e0i Ki\u1ec3m Tra!",
+        "quiz.subtitle": "{n} c\u00e2u h\u1ecfi \u00b7 Ch\u1ecdn ngh\u0129a \u0111\u00fang",
+        "quiz.question": "C\u00e2u {i}/{total}",
+        "quiz.what_is": "Ngh\u0129a c\u1ee7a t\u1eeb n\u00e0y l\u00e0:",
+        "quiz.prompt": "Tr\u1ea3 l\u1eddi (1-{n}):",
+        "quiz.invalid": "Nh\u1eadp s\u1ed1 t\u1eeb 1 \u0111\u1ebfn {n}",
+        "quiz.result_header": "K\u1ebft qu\u1ea3",
+        "quiz.correct": "\u0110\u00daNG!",
+        "quiz.wrong": "SAI!",
+        "quiz.word": "T\u1eeb:",
+        "quiz.meaning": "Ngh\u0129a:",
+        "quiz.your_answer": "B\u1ea1n ch\u1ecdn:",
+        "quiz.example": "V\u00ed d\u1ee5:",
+        "quiz.score": "\u0110i\u1ec3m:",
+        "quiz.complete": "Ho\u00e0n Th\u00e0nh!",
+        "quiz.final_score": "T\u1ed5ng \u0111i\u1ec3m:",
+        "quiz.percentage": "Ph\u1ea7n tr\u0103m:",
+        "quiz.empty": "C\u1ea7n \u00edt nh\u1ea5t 4 t\u1eeb \u0111\u1ec3 l\u00e0m quiz. H\u00e3y th\u00eam t\u1eeb m\u1edbi!",
+        "quiz.excellent": "Xu\u1ea5t s\u1eafc!",
+        "quiz.good": "T\u1ed1t l\u1eafm!",
+        "quiz.trying": "C\u1ed1 l\u00ean!",
+        "quiz.study": "H\u00e3y h\u1ecdc th\u00eam!",
+
+        "stats.title": "Ti\u1ebfn \u0110\u1ed9 C\u1ee7a B\u1ea1n",
+        "stats.total": "T\u1ed5ng:",
+        "stats.learned": "\u0110\u00e3 h\u1ecdc:",
+        "stats.remaining": "C\u00f2n l\u1ea1i:",
+
+        "ui.wait": "Nh\u1ea5n Enter \u0111\u1ec3 ti\u1ebfp t\u1ee5c...",
+        "ui.yes": "y",
+        "ui.no": "n",
+        "ui.confirm": "B\u1ea1n c\u00f3 ch\u1eafc kh\u00f4ng?",
+    },
+}
+
+
+def t(key, **kwargs):
+    user_data = load_json(LANG_FILE)
+    lang = user_data.get("settings", {}).get("language", "vi")
+    text = _strings.get(lang, _strings["en"]).get(key, key)
+    if kwargs:
+        text = text.format(**kwargs)
+    return text
+
+
+def get_language():
+    user_data = load_json(LANG_FILE)
+    return user_data.get("settings", {}).get("language", "vi")
+
+
+def set_language(lang):
+    if lang not in _strings:
+        return False
+    user_data = load_json(LANG_FILE)
+    user_data.setdefault("settings", {})["language"] = lang
+    save_json(LANG_FILE, user_data)
+    return True
+
+
+def supported_langs():
+    return list(_strings.keys())
