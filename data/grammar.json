@@ -207,6 +207,166 @@
         {"en": "If she had left earlier, she would have caught the train.", "vi": "Nếu cô ấy đã đi sớm hơn, cô ấy đã bắt kịp tàu."},
         {"en": "If they had invited me, I would have gone to the party.", "vi": "Nếu họ đã mời tôi, tôi đã đi dự tiệc."}
       ]
+    },
+    {
+      "id": 14,
+      "category": "comparison",
+      "title": "Comparative Adjectives",
+      "title_vi": "So Sánh Hơn",
+      "usage": "Used to compare two people, things, or groups",
+      "usage_vi": "Dùng để so sánh hai người, vật hoặc nhóm",
+      "formula": "S1 + be + adj-er / more + adj + than + S2",
+      "formula_vi": "Chủ ngữ 1 + be + tính từ ngắn thêm -er / more + tính từ dài + than + Chủ ngữ 2",
+      "keywords": ["than", "much", "a lot", "a little", "far", "even"],
+      "examples": [
+        {"en": "She is taller than her brother.", "vi": "Cô ấy cao hơn anh trai của cô ấy."},
+        {"en": "This book is more interesting than that one.", "vi": "Cuốn sách này thú vị hơn cuốn kia."},
+        {"en": "It is much colder today than yesterday.", "vi": "Hôm nay lạnh hơn nhiều so với hôm qua."}
+      ]
+    },
+    {
+      "id": 15,
+      "category": "comparison",
+      "title": "Superlative Adjectives",
+      "title_vi": "So Sánh Nhất",
+      "usage": "Used to compare one person or thing with all others in a group",
+      "usage_vi": "Dùng để so sánh một người hoặc vật với tất cả những người khác trong nhóm",
+      "formula": "S + be + the + adj-est / the most + adj",
+      "formula_vi": "Chủ ngữ + be + the + tính từ ngắn thêm -est / the most + tính từ dài",
+      "keywords": ["the", "ever", "in the world", "of all", "in the class"],
+      "examples": [
+        {"en": "She is the tallest in her class.", "vi": "Cô ấy là người cao nhất trong lớp."},
+        {"en": "This is the most interesting book I have ever read.", "vi": "Đây là cuốn sách thú vị nhất tôi từng đọc."},
+        {"en": "Mount Everest is the highest mountain in the world.", "vi": "Đỉnh Everest là ngọn núi cao nhất thế giới."}
+      ]
+    },
+    {
+      "id": 16,
+      "category": "voice",
+      "title": "Passive Voice (Present & Past)",
+      "title_vi": "Câu Bị Động (Hiện Tại & Quá Khứ)",
+      "usage": "Used when the action is more important than the doer, or the doer is unknown",
+      "usage_vi": "Dùng khi hành động quan trọng hơn người thực hiện, hoặc không biết người thực hiện",
+      "formula": "S + be + V3/ed + (by + O)",
+      "formula_vi": "Chủ ngữ + be + Động từ cột 3 / thêm -ed + (by + Tân ngữ)",
+      "keywords": ["by", "is", "are", "was", "were", "being", "been"],
+      "examples": [
+        {"en": "The letter is written by John.", "vi": "Lá thư được viết bởi John."},
+        {"en": "The house was built in 1990.", "vi": "Ngôi nhà được xây vào năm 1990."},
+        {"en": "English is spoken all over the world.", "vi": "Tiếng Anh được nói trên khắp thế giới."}
+      ]
+    },
+    {
+      "id": 17,
+      "category": "modals",
+      "title": "Modal Verbs: Can, Could, Should, Must",
+      "title_vi": "Động Từ Khuyết Thiếu: Can, Could, Should, Must",
+      "usage": "Used to express ability, possibility, permission, obligation, or advice",
+      "usage_vi": "Dùng để diễn tả khả năng, khả năng có thể, sự cho phép, nghĩa vụ hoặc lời khuyên",
+      "formula": "S + modal + V (bare infinitive)",
+      "formula_vi": "Chủ ngữ + động từ khuyết thiếu + Động từ nguyên mẫu (không to)",
+      "keywords": ["can", "could", "should", "must", "might", "may"],
+      "examples": [
+        {"en": "I can swim very well.", "vi": "Tôi có thể bơi rất giỏi."},
+        {"en": "You should eat more vegetables.", "vi": "Bạn nên ăn nhiều rau hơn."},
+        {"en": "Students must wear uniforms at school.", "vi": "Học sinh phải mặc đồng phục ở trường."}
+      ]
+    },
+    {
+      "id": 18,
+      "category": "reported",
+      "title": "Reported Speech",
+      "title_vi": "Câu Tường Thuật",
+      "usage": "Used to report what someone said without quoting their exact words",
+      "usage_vi": "Dùng để thuật lại lời người khác nói mà không trích dẫn nguyên văn",
+      "formula": "S + said/told + (that) + S + V (backshifted)",
+      "formula_vi": "Chủ ngữ + said/told + (that) + Chủ ngữ + Động từ (lùi thì)",
+      "keywords": ["said", "told", "asked", "that", "if", "whether"],
+      "examples": [
+        {"en": "She said that she was tired.", "vi": "Cô ấy nói rằng cô ấy đang mệt."},
+        {"en": "He told me he would come later.", "vi": "Anh ấy nói với tôi rằng anh ấy sẽ đến sau."},
+        {"en": "They asked if I liked coffee.", "vi": "Họ hỏi tôi có thích cà phê không."}
+      ]
+    },
+    {
+      "id": 19,
+      "category": "clauses",
+      "title": "Relative Clauses",
+      "title_vi": "Mệnh Đề Quan Hệ",
+      "usage": "Used to give more information about a noun without starting a new sentence",
+      "usage_vi": "Dùng để cung cấp thêm thông tin về danh từ mà không cần bắt đầu câu mới",
+      "formula": "N + who/which/that + V + O",
+      "formula_vi": "Danh từ + who/which/that + Động từ + Tân ngữ",
+      "keywords": ["who", "which", "that", "whom", "whose", "where", "when"],
+      "examples": [
+        {"en": "The girl who is singing is my sister.", "vi": "Cô gái đang hát là em gái tôi."},
+        {"en": "This is the book that I bought yesterday.", "vi": "Đây là cuốn sách mà tôi đã mua hôm qua."},
+        {"en": "The house where I grew up is very old.", "vi": "Ngôi nhà nơi tôi lớn lên rất cũ."}
+      ]
+    },
+    {
+      "id": 20,
+      "category": "verbals",
+      "title": "Gerunds & Infinitives",
+      "title_vi": "Danh Động Từ & Động Từ Nguyên Mẫu",
+      "usage": "Used after certain verbs; gerunds (V-ing) act as nouns, infinitives (to + V) express purpose",
+      "usage_vi": "Dùng sau một số động từ; danh động từ (V-ing) đóng vai trò danh từ, nguyên mẫu (to + V) diễn tả mục đích",
+      "formula": "V + V-ing / V + to + V",
+      "formula_vi": "Động từ + V-ing / Động từ + to + Động từ nguyên mẫu",
+      "keywords": ["enjoy", "avoid", "finish", "want", "need", "plan", "decide", "like", "love", "hate"],
+      "examples": [
+        {"en": "I enjoy reading books in my free time.", "vi": "Tôi thích đọc sách vào thời gian rảnh."},
+        {"en": "She wants to learn Spanish.", "vi": "Cô ấy muốn học tiếng Tây Ban Nha."},
+        {"en": "They decided to stay at home.", "vi": "Họ quyết định ở nhà."}
+      ]
+    },
+    {
+      "id": 21,
+      "category": "articles",
+      "title": "Articles: A, An, The",
+      "title_vi": "Mạo Từ: A, An, The",
+      "usage": "Used before nouns to indicate whether the noun is specific or general",
+      "usage_vi": "Dùng trước danh từ để chỉ danh từ cụ thể hay chung chung",
+      "formula": "a/an + singular count noun / the + any noun",
+      "formula_vi": "a/an + danh từ đếm được số ít / the + bất kỳ danh từ nào",
+      "keywords": ["a", "an", "the"],
+      "examples": [
+        {"en": "I saw a cat in the garden.", "vi": "Tôi đã thấy một con mèo trong vườn."},
+        {"en": "She is an engineer.", "vi": "Cô ấy là một kỹ sư."},
+        {"en": "The sun rises in the east.", "vi": "Mặt trời mọc ở phía đông."}
+      ]
+    },
+    {
+      "id": 22,
+      "category": "prepositions",
+      "title": "Prepositions of Time: In, On, At",
+      "title_vi": "Giới Từ Chỉ Thời Gian: In, On, At",
+      "usage": "Used to indicate when something happens",
+      "usage_vi": "Dùng để chỉ thời điểm xảy ra sự việc",
+      "formula": "in + month/year/season / on + day/date / at + time",
+      "formula_vi": "in + tháng/năm/mùa / on + ngày/thứ / at + giờ",
+      "keywords": ["in", "on", "at", "morning", "afternoon", "evening", "night", "weekend"],
+      "examples": [
+        {"en": "I wake up at 6 AM.", "vi": "Tôi thức dậy lúc 6 giờ sáng."},
+        {"en": "She was born in March.", "vi": "Cô ấy sinh vào tháng Ba."},
+        {"en": "We meet on Mondays.", "vi": "Chúng tôi gặp nhau vào các ngày thứ Hai."}
+      ]
+    },
+    {
+      "id": 23,
+      "category": "prepositions",
+      "title": "Prepositions of Place: In, On, At",
+      "title_vi": "Giới Từ Chỉ Nơi Chốn: In, On, At",
+      "usage": "Used to indicate where something or someone is located",
+      "usage_vi": "Dùng để chỉ vị trí của vật hoặc người",
+      "formula": "in + enclosed space / on + surface / at + specific point",
+      "formula_vi": "in + không gian kín / on + bề mặt / at + điểm cụ thể",
+      "keywords": ["in", "on", "at", "under", "next to", "between", "behind", "in front of"],
+      "examples": [
+        {"en": "The book is on the table.", "vi": "Cuốn sách ở trên bàn."},
+        {"en": "She lives in New York.", "vi": "Cô ấy sống ở New York."},
+        {"en": "I am waiting at the bus stop.", "vi": "Tôi đang đợi ở trạm xe buýt."}
+      ]
     }
   ]
 }

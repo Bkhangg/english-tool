@@ -1060,72 +1060,157 @@ function renderQuizComplete(el, state) {
 }
 
 // ----- GRAMMAR -----
+const GRAMMAR_CATS = {
+  tense:        { icon: "⏰", label: "Tenses", label_vi: "C\u00e1c Th\u00ec" },
+  conditional:  { icon: "🔀", label: "Conditionals", label_vi: "C\u00e2u \u0110i\u1ec1u Ki\u1ec7n" },
+  comparison:   { icon: "⚖️", label: "Comparisons", label_vi: "So S\u00e1nh" },
+  voice:        { icon: "🔄", label: "Passive Voice", label_vi: "C\u00e2u B\u1ecb \u0110\u1ed9ng" },
+  modals:       { icon: "🎯", label: "Modal Verbs", label_vi: "\u0110\u1ed9ng T\u1eeb Khuy\u1ebft Thi\u1ebfu" },
+  reported:     { icon: "💬", label: "Reported Speech", label_vi: "C\u00e2u T\u01b0\u1eddng Thu\u1eadt" },
+  clauses:      { icon: "🔗", label: "Clauses", label_vi: "M\u1ec7nh \u0110\u1ec1" },
+  verbals:      { icon: "📝", label: "Gerunds & Infinitives", label_vi: "Danh \u0110\u1ed9ng T\u1eeb & Nguy\u00ean M\u1eabu" },
+  articles:     { icon: "📌", label: "Articles", label_vi: "M\u1ea1o T\u1eeb" },
+  prepositions: { icon: "📍", label: "Prepositions", label_vi: "Gi\u1edbi T\u1eeb" },
+};
+
+let grammarState = { view: "categories", category: null, lessonId: null };
+let grammarData = [];
+
 async function renderGrammar() {
   const el = document.getElementById("grammar-content");
-  el.innerHTML = `<div class="text-center mt-16"><div class="spinner"></div></div>`;
-  try {
-    const r = await api("GET", "/api/grammar");
-    if (!r || r.length === 0) {
-      el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--muted);padding:20px 0">Grammar data not found</p></div>`;
+  if (grammarData.length === 0) {
+    el.innerHTML = `<div class="text-center mt-16"><div class="spinner"></div></div>`;
+    try {
+      const r = await api("GET", "/api/grammar");
+      grammarData = r || [];
+    } catch {
+      el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--primary);padding:20px 0">${t("dict_network")}</p></div>`;
       return;
     }
-    const tenses = r.filter(g => g.category === "tense");
-    const conds = r.filter(g => g.category === "conditional");
-
-    let html = `<div class="card fade-in"><h3>${t("grammar_tense")}</h3></div>`;
-    tenses.forEach(g => { html += renderGrammarItem(g); });
-    html += `<div class="card fade-in mt-12"><h3>${t("grammar_conditional")}</h3></div>`;
-    conds.forEach(g => { html += renderGrammarItem(g); });
-
-    el.innerHTML = html;
-
-    el.querySelectorAll(".grammar-toggle").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const id = btn.dataset.id;
-        const detail = document.getElementById("grammar-detail-" + id);
-        const isOpen = detail.style.display !== "none";
-        detail.style.display = isOpen ? "none" : "block";
-        btn.textContent = isOpen ? "▶" : "▼";
-      });
-    });
-  } catch {
-    el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--primary);padding:20px 0">${t("dict_network")}</p></div>`;
   }
+  if (grammarState.view === "categories") renderGrammarCats(el);
+  else if (grammarState.view === "list") renderGrammarList(el);
+  else if (grammarState.view === "detail") renderGrammarDetail(el);
 }
 
-function renderGrammarItem(g) {
+function renderGrammarCats(el) {
+  const catKeys = Object.keys(GRAMMAR_CATS);
+  const counts = {};
+  grammarData.forEach(g => { counts[g.category] = (counts[g.category] || 0) + 1; });
+
+  el.innerHTML = `
+    <div class="card fade-in" style="text-align:center;padding:12px">
+      <h3 style="margin-bottom:4px">${t("grammar_header")}</h3>
+      <p style="font-size:13px;color:var(--muted)">${grammarData.length} topics · Chọn chủ đề để học</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" id="grammar-cat-grid">
+      ${catKeys.map(k => {
+        const c = GRAMMAR_CATS[k];
+        const cnt = counts[k] || 0;
+        return `
+          <div class="card fade-in grammar-cat-card" data-cat="${k}" style="cursor:pointer;text-align:center;padding:16px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <span style="font-size:28px">${c.icon}</span>
+            <strong style="font-size:13px;color:var(--yellow)">${c.label}</strong>
+            <span style="font-size:11px;color:var(--green)">${c.label_vi}</span>
+            <span style="font-size:11px;color:var(--muted)">${cnt} bài</span>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+
+  el.querySelectorAll(".grammar-cat-card").forEach(card => {
+    card.addEventListener("click", () => {
+      grammarState = { view: "list", category: card.dataset.cat, lessonId: null };
+      renderGrammar();
+    });
+  });
+}
+
+function renderGrammarList(el) {
+  const cat = GRAMMAR_CATS[grammarState.category];
+  const lessons = grammarData.filter(g => g.category === grammarState.category);
+
+  el.innerHTML = `
+    <div class="card fade-in" style="display:flex;align-items:center;gap:8px;padding:10px 12px;cursor:pointer" id="grammar-back-cats">
+      <span style="font-size:16px">←</span>
+      <span style="font-size:16px">${cat.icon}</span>
+      <strong style="font-size:14px;color:var(--yellow)">${cat.label}</strong>
+      <span style="font-size:12px;color:var(--green)">${cat.label_vi}</span>
+      <span style="margin-left:auto;font-size:11px;color:var(--muted)">${lessons.length} bài</span>
+    </div>
+    ${lessons.map(g => `
+      <div class="card fade-in grammar-lesson-card" data-id="${g.id}" style="cursor:pointer;padding:12px">
+        <strong style="font-size:14px;color:var(--yellow)">${esc(g.title)}</strong>
+        <div style="font-size:12px;color:var(--green);margin-top:2px">${esc(g.title_vi)}</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">${esc(g.usage)}</div>
+      </div>
+    `).join("")}
+  `;
+
+  document.getElementById("grammar-back-cats").addEventListener("click", () => {
+    grammarState = { view: "categories", category: null, lessonId: null };
+    renderGrammar();
+  });
+
+  el.querySelectorAll(".grammar-lesson-card").forEach(card => {
+    card.addEventListener("click", () => {
+      grammarState.lessonId = parseInt(card.dataset.id);
+      grammarState.view = "detail";
+      renderGrammar();
+    });
+  });
+}
+
+function renderGrammarDetail(el) {
+  const g = grammarData.find(x => x.id === grammarState.lessonId);
+  if (!g) { grammarState.view = "categories"; renderGrammar(); return; }
+
   const examples = g.examples.map((ex, i) =>
-    `<div style="margin-top:${i > 0 ? '8' : '4'}px;font-size:13px">
-       <div style="color:var(--text)">▸ ${esc(ex.en)}</div>
-       <div style="color:var(--green);font-size:12px">${esc(ex.vi)}</div>
+    `<div style="margin-top:${i > 0 ? '10' : '6'}px;padding:8px 10px;background:rgba(255,255,255,0.03);border-radius:8px">
+       <div style="font-size:14px;color:var(--text)">▸ ${esc(ex.en)}</div>
+       <div style="font-size:13px;color:var(--green);margin-top:3px">${esc(ex.vi)}</div>
      </div>`
   ).join("");
 
   const keywords = g.keywords && g.keywords.length
-    ? `<div style="margin-top:6px;font-size:12px;color:var(--muted)"><strong>${t("grammar_keywords")}:</strong> ${esc(g.keywords.join(", "))}</div>`
+    ? `<div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:4px">${g.keywords.map(kw => `<span style="background:rgba(0,212,255,0.12);color:var(--cyan);padding:3px 10px;border-radius:12px;font-size:12px">${esc(kw)}</span>`).join("")}</div>`
     : "";
 
-  return `
-    <div class="card fade-in" style="padding:10px 16px;margin-bottom:4px">
-      <div style="display:flex;align-items:center;gap:8px;cursor:pointer" class="grammar-toggle" data-id="${g.id}">
-        <span style="font-size:12px;color:var(--cyan)">▶</span>
-        <strong style="color:var(--yellow);font-size:14px">${esc(g.title)}</strong>
-        <span style="color:var(--green);font-size:12px">(${esc(g.title_vi)})</span>
-        <span style="margin-left:auto;font-size:11px;color:var(--muted)">${t("grammar_expand")}</span>
+  el.innerHTML = `
+    <div class="card fade-in" style="display:flex;align-items:center;gap:8px;padding:10px 12px;cursor:pointer" id="grammar-back-list">
+      <span style="font-size:16px">←</span>
+      <strong style="font-size:13px;color:var(--muted)">${g.title}</strong>
+    </div>
+    <div class="card fade-in">
+      <h3>${esc(g.title)}</h3>
+      <p style="font-size:13px;color:var(--green);margin-bottom:12px">${esc(g.title_vi)}</p>
+
+      <div style="background:rgba(241,196,15,0.08);border-left:3px solid var(--yellow);padding:10px 12px;border-radius:0 8px 8px 0">
+        <div style="font-size:12px;color:var(--cyan);font-weight:600;text-transform:uppercase;letter-spacing:0.5px">${t("grammar_formula")}</div>
+        <div style="font-size:15px;color:var(--yellow);margin-top:4px;font-weight:600">${esc(g.formula)}</div>
+        <div style="font-size:13px;color:var(--green);margin-top:2px">${esc(g.formula_vi)}</div>
       </div>
-      <div id="grammar-detail-${g.id}" style="display:none;margin-top:8px;border-top:1px solid #2a2a4e;padding-top:8px">
-        <div style="font-size:13px;color:var(--cyan);font-weight:500">${t("grammar_formula")}:</div>
-        <div style="font-size:14px;color:var(--yellow);margin-top:2px">${esc(g.formula)}</div>
-        <div style="font-size:13px;color:var(--green);margin-top:1px">${esc(g.formula_vi)}</div>
-        <div style="font-size:13px;color:var(--cyan);font-weight:500;margin-top:8px">${t("grammar_usage")}:</div>
-        <div style="font-size:13px;margin-top:2px;color:var(--text)">${esc(g.usage)}</div>
-        <div style="font-size:12px;margin-top:1px;color:var(--green)">${esc(g.usage_vi)}</div>
-        ${keywords}
-        <div style="font-size:13px;color:var(--cyan);font-weight:500;margin-top:8px">${t("grammar_examples")}:</div>
+
+      <div style="margin-top:14px">
+        <div style="font-size:12px;color:var(--cyan);font-weight:600;text-transform:uppercase;letter-spacing:0.5px">${t("grammar_usage")}</div>
+        <div style="font-size:14px;margin-top:4px;color:var(--text)">${esc(g.usage)}</div>
+        <div style="font-size:13px;margin-top:2px;color:var(--green)">${esc(g.usage_vi)}</div>
+      </div>
+
+      ${keywords ? `<div style="margin-top:14px"><div style="font-size:12px;color:var(--cyan);font-weight:600;text-transform:uppercase;letter-spacing:0.5px">${t("grammar_keywords")}</div>${keywords}</div>` : ""}
+
+      <div style="margin-top:14px">
+        <div style="font-size:12px;color:var(--cyan);font-weight:600;text-transform:uppercase;letter-spacing:0.5px">${t("grammar_examples")}</div>
         ${examples}
       </div>
     </div>
   `;
+
+  document.getElementById("grammar-back-list").addEventListener("click", () => {
+    grammarState = { view: "list", category: g.category, lessonId: null };
+    renderGrammar();
+  });
 }
 
 // ----- PROGRESS -----
