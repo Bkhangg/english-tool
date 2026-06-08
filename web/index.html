@@ -423,6 +423,30 @@ body {
       </div>
     </div>
   </div>
+  <div class="card" id="settings-quiz-count-card">
+    <h3 id="settings-quiz-count-title">Quiz Questions</h3>
+    <div class="btn-group mt-8" id="quiz-count-btns">
+      <button class="btn btn-outline" data-count="5">5</button>
+      <button class="btn btn-primary" data-count="10">10</button>
+      <button class="btn btn-outline" data-count="15">15</button>
+      <button class="btn btn-outline" data-count="20">20</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3 id="settings-tts-title">TTS Speed</h3>
+    <div class="btn-group mt-8" id="tts-speed-btns">
+      <button class="btn btn-outline" data-speed="0.5" id="tts-slow">Slow</button>
+      <button class="btn btn-primary" data-speed="0.85" id="tts-medium">Medium</button>
+      <button class="btn btn-outline" data-speed="1.2" id="tts-fast">Fast</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3 id="settings-ipa-title">IPA Pronunciation</h3>
+    <div class="btn-group mt-8" id="ipa-toggle-btns">
+      <button class="btn btn-primary" data-ipa="true" id="ipa-show">Show</button>
+      <button class="btn btn-outline" data-ipa="false" id="ipa-hide">Hide</button>
+    </div>
+  </div>
   <div class="card">
     <h3>About</h3>
     <p style="font-size:13px;color:var(--muted);line-height:1.6;" id="about-text">
@@ -577,6 +601,9 @@ const STRINGS = {
     grammar_quiz: "Grammar Quiz",
     grammar_quiz_btn: "Start Grammar Quiz",
     grammar_what: "Which grammar point?",
+    settings_quiz_count: "Quiz Questions",
+    settings_tts: "TTS Speed",
+    settings_ipa: "IPA Pronunciation",
     tab_grammar: "Grammar",
     grammar_header: "Grammar Lessons",
     grammar_tense: "Tenses",
@@ -690,6 +717,9 @@ const STRINGS = {
     grammar_quiz: "Grammar Quiz",
     grammar_quiz_btn: "B\u1eaft \u0111\u1ea7u Grammar Quiz",
     grammar_what: "\u0110\u00e2y l\u00e0 ng\u1eef ph\u00e1p g\u00ec?",
+    settings_quiz_count: "S\u1ed1 c\u00e2u Quiz",
+    settings_tts: "T\u1ed1c \u0111\u1ed9 TTS",
+    settings_ipa: "IPA Ph\u00e1t \u00e2m",
     tab_grammar: "Ng\u1eef ph\u00e1p",
     grammar_header: "B\u00e0i H\u1ecdc Ng\u1eef Ph\u00e1p",
     grammar_tense: "C\u00e1c Th\u00ec",
@@ -703,6 +733,7 @@ const STRINGS = {
 };
 
 let lang = "vi";
+let appSettings = { quiz_count: 10, tts_speed: 0.85, show_ipa: true };
 let fcState = null;
 let fcTypeMode = false;
 let quizState = null;
@@ -716,7 +747,7 @@ function speak(text) {
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = 'en-US';
-  u.rate = 0.85;
+  u.rate = appSettings.tts_speed;
   speechSynthesis.speak(u);
 }
 
@@ -735,6 +766,12 @@ function updateStrings() {
   document.getElementById("settings-lang-title").textContent = t("settings_lang");
   document.getElementById("settings-lang-label").textContent = t("settings_lang_label");
   document.getElementById("about-text").textContent = t("about");
+  const qcTitle = document.getElementById("settings-quiz-count-title");
+  if (qcTitle) qcTitle.textContent = t("settings_quiz_count");
+  const ttsTitle = document.getElementById("settings-tts-title");
+  if (ttsTitle) ttsTitle.textContent = t("settings_tts");
+  const ipaTitle = document.getElementById("settings-ipa-title");
+  if (ipaTitle) ipaTitle.textContent = t("settings_ipa");
   document.getElementById("settings-export-title") && (document.getElementById("settings-export-title").textContent = t("settings_export"));
   document.getElementById("import-warning") && (document.getElementById("import-warning").textContent = t("settings_import_warning"));
   const addDetails = document.querySelector("#add-word-details summary");
@@ -846,6 +883,46 @@ document.getElementById("btn-add-word")?.addEventListener("click", async () => {
   msg.style.display = "block";
 });
 
+// Settings controls
+function applySettingsUI() {
+  document.querySelectorAll("#quiz-count-btns .btn").forEach(b => {
+    b.className = "btn " + (parseInt(b.dataset.count) === appSettings.quiz_count ? "btn-primary" : "btn-outline");
+  });
+  document.querySelectorAll("#tts-speed-btns .btn").forEach(b => {
+    b.className = "btn " + (parseFloat(b.dataset.speed) === appSettings.tts_speed ? "btn-primary" : "btn-outline");
+  });
+  document.querySelectorAll("#ipa-toggle-btns .btn").forEach(b => {
+    b.className = "btn " + (b.dataset.ipa === String(appSettings.show_ipa) ? "btn-primary" : "btn-outline");
+  });
+}
+
+document.querySelector("#quiz-count-btns")?.addEventListener("click", async (e) => {
+  const btn = e.target.closest("[data-count]");
+  if (!btn) return;
+  appSettings.quiz_count = parseInt(btn.dataset.count);
+  applySettingsUI();
+  await api("POST", "/api/settings", { quiz_count: appSettings.quiz_count });
+});
+
+document.querySelector("#tts-speed-btns")?.addEventListener("click", async (e) => {
+  const btn = e.target.closest("[data-speed]");
+  if (!btn) return;
+  appSettings.tts_speed = parseFloat(btn.dataset.speed);
+  applySettingsUI();
+  await api("POST", "/api/settings", { tts_speed: appSettings.tts_speed });
+});
+
+document.querySelector("#ipa-toggle-btns")?.addEventListener("click", async (e) => {
+  const btn = e.target.closest("[data-ipa]");
+  if (!btn) return;
+  appSettings.show_ipa = btn.dataset.ipa === "true";
+  applySettingsUI();
+  await api("POST", "/api/settings", { show_ipa: appSettings.show_ipa });
+  renderFlashcards();
+  renderWords();
+  renderQuiz();
+});
+
 async function init() {
   try {
     const r = await api("GET", "/api/lang");
@@ -855,6 +932,13 @@ async function init() {
     });
     if (lang !== "en" && lang !== "vi") lang = "vi";
     updateStrings();
+  } catch {}
+  try {
+    const s = await api("GET", "/api/settings");
+    if (s.quiz_count) appSettings.quiz_count = s.quiz_count;
+    if (s.tts_speed) appSettings.tts_speed = s.tts_speed;
+    if (s.show_ipa !== undefined) appSettings.show_ipa = s.show_ipa;
+    applySettingsUI();
   } catch {}
   renderFlashcards();
   renderProgress();
@@ -904,7 +988,7 @@ function renderFcCard(el, state) {
     <div class="card fade-in">
       <div class="word-display">
         <div class="word">${esc(w.word)}</div>
-        <div class="ipa">${esc(w.ipa)}</div>
+        ${appSettings.show_ipa ? `<div class="ipa">${esc(w.ipa)}</div>` : ""}
         ${revealed && !isTypeMode ? `
           <div class="meaning mt-12">${esc(w.meaning)}</div>
           ${w.definition ? `<div class="definition">📖 ${esc(w.definition)}</div>` : ""}
@@ -1108,7 +1192,7 @@ async function renderQuiz() {
     return;
   }
   try {
-    const r = await api("GET", "/api/quiz");
+    const r = await api("GET", "/api/quiz?count=" + appSettings.quiz_count);
     if (r.error) {
       el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--primary);padding:20px 0">${r.error}</p></div>`;
       return;
@@ -1144,7 +1228,7 @@ function renderQuizQuestion(el, state) {
       <div style="font-size:12px;color:var(--muted)">${state.step + 1} / ${state.questions.length}</div>
       <div class="word-display" style="padding:12px 0">
         <div class="word">${esc(q.word)}</div>
-        <div class="ipa">${esc(q.ipa)}</div>
+        ${appSettings.show_ipa ? `<div class="ipa">${esc(q.ipa)}</div>` : ""}
         <p style="font-size:13px;color:var(--muted);margin-top:8px">${isType ? t("quiz_type_prompt") : t("quiz_what")}</p>
       </div>
     </div>
@@ -1605,7 +1689,7 @@ function renderWordsList(words) {
         <div style="display:flex;justify-content:space-between;align-items:start">
           <div>
             <strong style="color:var(--yellow);font-size:16px">${esc(w.word)}</strong>
-            <span style="color:var(--cyan);font-size:13px;margin-left:8px">${esc(w.ipa)}</span>
+            ${appSettings.show_ipa ? `<span style="color:var(--cyan);font-size:13px;margin-left:8px">${esc(w.ipa)}</span>` : ""}
           </div>
           <span style="font-size:12px;color:${w.learned ? 'var(--green)' : 'var(--muted)'}">${w.learned ? levelDots : "—"}</span>
         </div>

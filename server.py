@@ -151,12 +151,17 @@ def api_review(body):
     return json_response({"ok": True})
 
 
-def api_quiz():
+def api_quiz(qs=""):
     words = load_words()
     if len(words) < 4:
         return json_response({"error": "not enough words"}, 400)
 
-    selected = random.sample(words, min(10, len(words)))
+    params = urllib.parse.parse_qs(qs)
+    ud = load_user_data()
+    default_count = ud.get("settings", {}).get("quiz_count", 10)
+    count = int(params.get("count", [default_count])[0]) if params.get("count") else default_count
+    count = max(4, min(count, len(words)))
+    selected = random.sample(words, count)
     questions = []
     for w in selected:
         wrong = random.sample([x for x in words if x["id"] != w["id"]], 3)
@@ -314,6 +319,26 @@ def api_import(body):
     return json_response({"ok": True})
 
 
+def api_settings_get():
+    ud = load_user_data()
+    s = ud.get("settings", {})
+    return json_response({
+        "quiz_count": s.get("quiz_count", 10),
+        "tts_speed": s.get("tts_speed", 0.85),
+        "show_ipa": s.get("show_ipa", True),
+    })
+
+
+def api_settings_set(body):
+    ud = load_user_data()
+    s = ud.setdefault("settings", {})
+    for k in ("quiz_count", "tts_speed", "show_ipa"):
+        if k in body:
+            s[k] = body[k]
+    save_user_data(ud)
+    return json_response({"ok": True})
+
+
 ROUTES = {
     "GET": {},
     "POST": {},
@@ -327,7 +352,7 @@ def route(method, path, handler):
 route("GET", "/api/stats", lambda q, b: api_stats())
 route("GET", "/api/words", lambda q, b: api_words())
 route("GET", "/api/review-words", lambda q, b: api_review_words())
-route("GET", "/api/quiz", lambda q, b: api_quiz())
+route("GET", "/api/quiz", lambda q, b: api_quiz(q))
 route("GET", "/api/grammar", lambda q, b: api_grammar())
 route("GET", "/api/grammar-quiz", lambda q, b: api_grammar_quiz())
 route("GET", "/api/lang", lambda q, b: api_lang())
@@ -337,6 +362,8 @@ route("POST", "/api/review", lambda q, b: api_review(b))
 route("POST", "/api/lang", lambda q, b: api_lang_set(b))
 route("POST", "/api/words", lambda q, b: api_add_word(b))
 route("GET", "/api/export", lambda q, b: api_export())
+route("GET", "/api/settings", lambda q, b: api_settings_get())
+route("POST", "/api/settings", lambda q, b: api_settings_set(b))
 route("POST", "/api/import", lambda q, b: api_import(b))
 
 
