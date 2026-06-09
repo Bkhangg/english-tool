@@ -75,46 +75,66 @@ def add_word_cli():
 
 
 def auto_fetch_cli():
-    from modules.utils import fetch_random_word, load_words, save_json, WORDS_FILE
+    from modules.utils import fetch_random_words, load_words, save_json, WORDS_FILE
     import json
+
     ui.clear()
     ui.header(lang.t("menu.auto_fetch"))
-    ui.cprint(f"  {ui.S.FG.YELLOW}{lang.t('auto_fetch.fetching')}{ui.S.RESET}\n")
-
-    result = fetch_random_word()
-    if not result:
-        ui.error(lang.t("auto_fetch.error"))
-        ui.wait()
-        return
+    count_str = ui.input_prompt(lang.t("auto_fetch.count_prompt")).strip()
+    count = 1
+    if count_str.isdigit():
+        count = max(1, min(10, int(count_str)))
 
     words = load_words()
-    if any(w["word"].lower() == result["word"].lower() for w in words):
-        ui.error(f"\"{result['word']}\" {lang.t('auto_fetch.exists')}")
+    added = 0
+
+    for i in range(count):
+        ui.clear()
+        ui.header(lang.t("menu.auto_fetch"))
+        if count > 1:
+            ui.cprint(f"  {ui.S.FG.WHITE}{lang.t('auto_fetch.web_word_x_of_y', i=i+1, total=count)}{ui.S.RESET}\n")
+
+        ui.cprint(f"  {ui.S.FG.YELLOW}{lang.t('auto_fetch.fetching')}{ui.S.RESET}\n")
+        results = fetch_random_words(1)
+        if not results:
+            ui.error(lang.t("auto_fetch.error"))
+            ui.wait()
+            continue
+
+        result = results[0]
+        existing_words = load_words()
+        if any(w["word"].lower() == result["word"].lower() for w in existing_words):
+            ui.cprint(f"  {ui.S.FG.YELLOW}\"{result['word']}\" {lang.t('auto_fetch.exists')}{ui.S.RESET}")
+            ui.wait()
+            continue
+
+        ui.cprint(f"  {ui.S.BOLD}{ui.S.FG.CYAN}{result['word']}{ui.S.RESET}")
+        if result["ipa"]:
+            ui.cprint(f"  {ui.S.FG.BRIGHT_BLACK}{result['ipa']}{ui.S.RESET}")
+        ui.cprint(f"  {ui.S.FG.GREEN}{result['meaning']}{ui.S.RESET}")
+        if result["definition"]:
+            ui.cprint(f"  {ui.S.FG.BRIGHT_BLACK}{result['definition']}{ui.S.RESET}")
+        if result["definition_vi"]:
+            ui.cprint(f"  {ui.S.FG.GREEN}{result['definition_vi']}{ui.S.RESET}")
+        if result["example"]:
+            ui.cprint(f"  \"{ui.S.FG.BRIGHT_BLACK}{result['example']}{ui.S.RESET}\"")
+        print()
+
+        choice = ui.input_prompt(lang.t("auto_fetch.prompt")).strip().lower()
+        if choice in ("y", "yes", ""):
+            new_id = max(w["id"] for w in load_words()) + 1 if words else 1
+            result["id"] = new_id
+            data = {"words": load_words() + [result]}
+            save_json(WORDS_FILE, data)
+            ui.success(f"{lang.t('auto_fetch.saved')} \"{result['word']}\"")
+            added += 1
+        else:
+            ui.cprint(f"  {ui.S.FG.YELLOW}{lang.t('auto_fetch.skip')}{ui.S.RESET}")
         ui.wait()
-        return
 
-    ui.cprint(f"  {ui.S.BOLD}{ui.S.FG.CYAN}{result['word']}{ui.S.RESET}")
-    if result["ipa"]:
-        ui.cprint(f"  {ui.S.FG.BRIGHT_BLACK}{result['ipa']}{ui.S.RESET}")
-    ui.cprint(f"  {ui.S.FG.GREEN}{result['meaning']}{ui.S.RESET}")
-    if result["definition"]:
-        ui.cprint(f"  {ui.S.FG.BRIGHT_BLACK}{result['definition']}{ui.S.RESET}")
-    if result["definition_vi"]:
-        ui.cprint(f"  {ui.S.FG.GREEN}{result['definition_vi']}{ui.S.RESET}")
-    if result["example"]:
-        ui.cprint(f"  \"{ui.S.FG.BRIGHT_BLACK}{result['example']}{ui.S.RESET}\"")
-    print()
-
-    choice = ui.input_prompt(lang.t("auto_fetch.prompt")).strip().lower()
-    if choice in ("y", "yes", ""):
-        new_id = max(w["id"] for w in words) + 1 if words else 1
-        result["id"] = new_id
-        data = {"words": words + [result]}
-        save_json(WORDS_FILE, data)
-        ui.success(f"{lang.t('auto_fetch.saved')} \"{result['word']}\"")
-    else:
-        ui.cprint(f"  {ui.S.FG.YELLOW}{lang.t('auto_fetch.skip')}{ui.S.RESET}")
-    ui.wait()
+    if count > 1:
+        ui.success(lang.t("auto_fetch.done", n=added))
+        ui.wait()
 
 
 def show_menu():

@@ -155,21 +155,67 @@ def fetch_random_word():
     import urllib.request
     import urllib.parse
     import json
-    max_attempts = 5
-    for _ in range(max_attempts):
+    import random
+
+    fallback_words = [
+        "abandon", "absorb", "accept", "accuse", "achieve", "acquire", "adapt",
+        "adjust", "admire", "admit", "adopt", "advise", "afford", "announce",
+        "apologize", "appear", "applaud", "appreciate", "approach", "arrange",
+        "arrive", "assume", "assure", "astonish", "attach", "attempt", "attend",
+        "attract", "balance", "beg", "behave", "belong", "blame", "borrow",
+        "bother", "breathe", "bury", "calculate", "capture", "celebrate",
+        "challenge", "collapse", "command", "compare", "compete", "complain",
+        "confess", "confuse", "connect", "conquer", "consider", "consist",
+        "consult", "contain", "continue", "contribute", "convince", "correct",
+        "create", "criticize", "decide", "declare", "decline", "decorate",
+        "defend", "define", "deliver", "demand", "deny", "depend", "describe",
+        "deserve", "desire", "destroy", "determine", "develop", "devote",
+        "discover", "discuss", "display", "distinguish", "disturb", "divide",
+        "doubt", "earn", "educate", "employ", "enable", "encounter", "encourage",
+        "engage", "enhance", "enjoy", "ensure", "entertain", "establish",
+        "evaluate", "examine", "exceed", "exchange", "exclude", "excuse",
+        "exercise", "exist", "expand", "expect", "explain", "explore",
+        "express", "extend", "extract", "fascinate", "forbid", "forecast",
+        "forgive", "form", "generate", "guarantee", "hesitate", "identify",
+        "ignore", "illustrate", "imagine", "imitate", "imply", "impose",
+        "impress", "improve", "include", "indicate", "inform", "inhabit",
+        "insist", "inspire", "install", "integrate", "intend", "interfere",
+        "interpret", "interrupt", "introduce", "invent", "invest", "investigate",
+        "involve", "isolate", "maintain", "manage", "manufacture", "measure",
+        "mention", "motivate", "negotiate", "observe", "obtain", "occupy",
+        "operate", "oppose", "organize", "overcome", "perform", "persist",
+        "persuade", "possess", "predict", "prepare", "preserve", "prevent",
+        "produce", "promise", "promote", "propose", "protest", "purchase",
+        "pursue", "qualify", "question", "realize", "recall", "recognize",
+        "recommend", "recover", "reduce", "refer", "reflect", "refuse",
+        "regret", "reject", "relate", "release", "rely", "remain", "remind",
+        "remove", "replace", "represent", "request", "require", "rescue",
+        "resign", "resist", "resolve", "respect", "respond", "restore",
+        "restrict", "reveal", "revolt", "sacrifice", "satisfy", "scatter",
+        "seize", "select", "separate", "settle", "submit", "subtract",
+        "succeed", "suggest", "supply", "support", "suppose", "surround",
+        "survive", "suspect", "suspend", "tolerate", "transform", "translate",
+        "tremble", "trust", "undertake", "unite", "update", "urge", "utilize",
+        "vanish", "wander", "warn", "whisper", "worship", "wrap", "yield",
+    ]
+
+    def _get_random_word():
         try:
             req = urllib.request.Request(
                 "https://random-word-api.herokuapp.com/word",
                 headers={"User-Agent": "Mozilla/5.0"}
             )
-            with urllib.request.urlopen(req, timeout=10) as resp:
+            with urllib.request.urlopen(req, timeout=5) as resp:
                 words = json.loads(resp.read().decode("utf-8"))
-                word = words[0] if words else None
-                if not word:
-                    continue
+                if words and words[0]:
+                    return words[0]
         except Exception:
-            continue
+            pass
+        return random.choice(fallback_words)
 
+    max_attempts = 5
+    for _ in range(max_attempts):
+        word = _get_random_word()
         dict_url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + urllib.parse.quote(word)
         try:
             req = urllib.request.Request(dict_url, headers={"User-Agent": "Mozilla/5.0"})
@@ -220,6 +266,20 @@ def fetch_random_word():
         return result
 
     return None
+
+
+def fetch_random_words(count=1):
+    words = load_words()
+    existing = {w["word"].lower() for w in words}
+    results = []
+    attempts = 0
+    while len(results) < count and attempts < count * 5:
+        r = fetch_random_word()
+        attempts += 1
+        if r and r["word"].lower() not in existing:
+            existing.add(r["word"].lower())
+            results.append(r)
+    return results
 
 
 def show_stats():

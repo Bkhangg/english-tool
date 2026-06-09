@@ -558,16 +558,21 @@ body {
   <div id="words-content"></div>
   <details style="margin-top:4px" id="add-word-details">
     <summary class="card" style="cursor:pointer;padding:10px 14px;font-size:13px;color:var(--cyan);font-weight:600">➕ ${t("words_add")}</summary>
-    <div class="card" style="margin-top:2px">
-      <input type="text" id="add-word-input" class="search-box" placeholder="${t("words_add_word")}" style="margin-bottom:6px">
-      <input type="text" id="add-meaning-input" class="search-box" placeholder="${t("words_add_meaning")}" style="margin-bottom:6px">
-      <input type="text" id="add-ipa-input" class="search-box" placeholder="${t("words_add_ipa")}" style="margin-bottom:6px">
-      <input type="text" id="add-example-input" class="search-box" placeholder="${t("words_add_example")}" style="margin-bottom:6px">
+    <div class="card" style="margin-top:8px">
+      <input type="text" id="add-word-input" class="search-box" placeholder="${t("words_add_word")}" style="margin-bottom:12px">
+      <input type="text" id="add-meaning-input" class="search-box" placeholder="${t("words_add_meaning")}" style="margin-bottom:12px">
+      <input type="text" id="add-ipa-input" class="search-box" placeholder="${t("words_add_ipa")}" style="margin-bottom:12px">
+      <input type="text" id="add-example-input" class="search-box" placeholder="${t("words_add_example")}" style="margin-bottom:16px">
       <button class="btn btn-primary btn-full" id="btn-add-word">${t("words_add_btn")}</button>
-      <p id="add-word-msg" style="font-size:12px;margin-top:6px;display:none"></p>
+      <p id="add-word-msg" style="font-size:12px;margin-top:10px;display:none"></p>
     </div>
   </details>
-  <button class="btn btn-primary btn-full mt-8" id="btn-auto-fetch" style="margin-top:8px">🎲 Auto-Fetch Word</button>
+  <div class="btn-group mt-8" id="af-count-btns" style="margin-top:8px">
+    <button class="btn btn-primary" data-af-count="1">1</button>
+    <button class="btn btn-outline" data-af-count="5">5</button>
+    <button class="btn btn-outline" data-af-count="10">10</button>
+  </div>
+  <button class="btn btn-primary btn-full" id="btn-auto-fetch">🎲 Auto-Fetch Word</button>
   <div id="auto-fetch-preview" style="display:none"></div>
 </div>
 
@@ -777,6 +782,8 @@ const STRINGS = {
     auto_fetch_error: "Could not fetch word",
     auto_fetch_exists: "Already in list",
     auto_fetch_saved: "Saved!",
+    auto_fetch_word_x_of_y: "Word {i}/{total}",
+    auto_fetch_done: "Done! {n} word(s) added.",
     settings_export: "Export Data",
     settings_export_btn: "Download backup",
     settings_import: "Import Data",
@@ -905,6 +912,8 @@ const STRINGS = {
     auto_fetch_error: "Kh\u00f4ng th\u1ec3 l\u1ea5y t\u1eeb",
     auto_fetch_exists: "\u0110\u00e3 c\u00f3 trong danh s\u00e1ch",
     auto_fetch_saved: "\u0110\u00e3 l\u01b0u!",
+    auto_fetch_word_x_of_y: "T\u1eeb {i}/{total}",
+    auto_fetch_done: "Xong! \u0110\u00e3 th\u00eam {n} t\u1eeb.",
     settings_export: "Xu\u1ea5t D\u1eef Li\u1ec7u",
     settings_export_btn: "T\u1ea3i backup",
     settings_import: "Nh\u1eadp D\u1eef Li\u1ec7u",
@@ -998,6 +1007,9 @@ function updateStrings() {
   if (addBtn) addBtn.textContent = t("words_add_btn");
   const afBtn = document.getElementById("btn-auto-fetch");
   if (afBtn) afBtn.textContent = "\u{1F3B2} " + t("auto_fetch_web_btn");
+  document.querySelectorAll("#af-count-btns .btn").forEach(b => {
+    b.textContent = b.dataset.afCount;
+  });
   document.getElementById("btn-export") && (document.getElementById("btn-export").textContent = "📥 " + t("settings_export_btn"));
   document.getElementById("btn-import") && (document.getElementById("btn-import").textContent = "📤 " + t("settings_import_btn"));
 }
@@ -1095,56 +1107,78 @@ document.getElementById("btn-add-word")?.addEventListener("click", async () => {
   msg.style.display = "block";
 });
 
+// Auto-Fetch count selector
+let afCount = 1;
+document.querySelector("#af-count-btns")?.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-af-count]");
+  if (!btn) return;
+  afCount = parseInt(btn.dataset.afCount);
+  document.querySelectorAll("#af-count-btns .btn").forEach(b => {
+    b.className = "btn " + (parseInt(b.dataset.afCount) === afCount ? "btn-primary" : "btn-outline");
+  });
+});
+
 // Auto-Fetch Word
+function showAfWord(words, index, added) {
+  const preview = document.getElementById("auto-fetch-preview");
+  if (index >= words.length) {
+    preview.innerHTML = `<div class="card"><p style="text-align:center;color:var(--green);font-weight:600">${t("auto_fetch_done", { n: added })}</p></div>`;
+    renderWords();
+    return;
+  }
+  const r = words[index];
+  preview.innerHTML = `
+    <div class="card">
+      ${words.length > 1 ? `<p style="font-size:12px;color:var(--muted);margin-bottom:8px;text-align:center">${t("auto_fetch_word_x_of_y", { i: index+1, total: words.length })}</p>` : ""}
+      <div class="word-display">
+        <div class="word">${r.word}</div>
+        ${r.ipa ? `<div class="ipa">${r.ipa}</div>` : ""}
+        <div class="meaning">${r.meaning}</div>
+        ${r.definition ? `<div class="definition">${r.definition}</div>` : ""}
+        ${r.definition_vi ? `<div class="definition-vi">${r.definition_vi}</div>` : ""}
+        ${r.example ? `<div class="example">"${r.example}"</div>` : ""}
+        ${r.example_vi ? `<div class="example-vi">${r.example_vi}</div>` : ""}
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-success" id="af-keep">✅ ${t("auto_fetch_web_keep")}</button>
+        <button class="btn btn-outline" id="af-skip">⏭️ ${t("auto_fetch_web_skip")}</button>
+      </div>
+      <p id="af-msg" style="font-size:12px;margin-top:8px;text-align:center;display:none"></p>
+    </div>`;
+  document.getElementById("af-keep").addEventListener("click", async () => {
+    const msg = document.getElementById("af-msg");
+    const body = { word: r.word, meaning: r.meaning, ipa: r.ipa, definition: r.definition, definition_vi: r.definition_vi, example: r.example, example_vi: r.example_vi };
+    try {
+      const res = await api("POST", "/api/words", body);
+      if (res.error) {
+        msg.textContent = t("words_add_error");
+        msg.style.color = "var(--primary)";
+        msg.style.display = "block";
+      } else {
+        showAfWord(words, index + 1, added + 1);
+      }
+    } catch {
+      msg.textContent = t("words_add_error");
+      msg.style.color = "var(--primary)";
+      msg.style.display = "block";
+    }
+  });
+  document.getElementById("af-skip").addEventListener("click", () => {
+    showAfWord(words, index + 1, added);
+  });
+}
+
 document.getElementById("btn-auto-fetch")?.addEventListener("click", async () => {
   const preview = document.getElementById("auto-fetch-preview");
   preview.style.display = "block";
   preview.innerHTML = `<div class="card"><p style="text-align:center;color:var(--muted)">${t("auto_fetch_fetching")}</p></div>`;
   try {
-    const r = await api("GET", "/api/fetch-word");
-    if (r.error) {
+    const r = await api("GET", "/api/fetch-words?count=" + afCount);
+    if (r.error || !r.words || r.words.length === 0) {
       preview.innerHTML = `<div class="card"><p style="text-align:center;color:var(--primary)">${t("auto_fetch_error")}</p></div>`;
       return;
     }
-    preview.innerHTML = `
-      <div class="card">
-        <div class="word-display">
-          <div class="word">${r.word}</div>
-          ${r.ipa ? `<div class="ipa">${r.ipa}</div>` : ""}
-          <div class="meaning">${r.meaning}</div>
-          ${r.definition ? `<div class="definition">${r.definition}</div>` : ""}
-          ${r.definition_vi ? `<div class="definition-vi">${r.definition_vi}</div>` : ""}
-          ${r.example ? `<div class="example">"${r.example}"</div>` : ""}
-          ${r.example_vi ? `<div class="example-vi">${r.example_vi}</div>` : ""}
-        </div>
-        ${r.exists ? `<p style="text-align:center;color:var(--yellow);font-size:13px">${t("auto_fetch_exists")}</p>` : `
-        <div class="btn-group">
-          <button class="btn btn-success" id="af-keep">✅ ${t("auto_fetch_web_keep")}</button>
-          <button class="btn btn-outline" id="af-skip">⏭️ ${t("auto_fetch_web_skip")}</button>
-        </div>`}
-        <p id="af-msg" style="font-size:12px;margin-top:8px;text-align:center;display:none"></p>
-      </div>`;
-    if (!r.exists) {
-      document.getElementById("af-keep").addEventListener("click", async () => {
-        const msg = document.getElementById("af-msg");
-        const body = { word: r.word, meaning: r.meaning, ipa: r.ipa, definition: r.definition, definition_vi: r.definition_vi, example: r.example, example_vi: r.example_vi };
-        try {
-          const res = await api("POST", "/api/words", body);
-          if (res.error) { msg.textContent = t("words_add_error"); msg.style.color = "var(--primary)"; }
-          else {
-            msg.textContent = t("auto_fetch_saved");
-            msg.style.color = "var(--green)";
-            document.getElementById("af-keep").remove();
-            document.getElementById("af-skip").remove();
-            renderWords();
-          }
-        } catch { msg.textContent = t("words_add_error"); msg.style.color = "var(--primary)"; }
-        msg.style.display = "block";
-      });
-      document.getElementById("af-skip").addEventListener("click", () => {
-        preview.style.display = "none";
-      });
-    }
+    showAfWord(r.words, 0, 0);
   } catch {
     preview.innerHTML = `<div class="card"><p style="text-align:center;color:var(--primary)">${t("auto_fetch_error")}</p></div>`;
   }

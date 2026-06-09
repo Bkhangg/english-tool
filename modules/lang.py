@@ -47,6 +47,10 @@ _strings = {
         "auto_fetch.web_btn": "Auto-Fetch Word",
         "auto_fetch.web_keep": "Keep",
         "auto_fetch.web_skip": "Skip",
+        "auto_fetch.batch_btn": "Auto-Fetch Batch",
+        "auto_fetch.count_prompt": "How many words? (1-10):",
+        "auto_fetch.web_word_x_of_y": "Word {i}/{total}",
+        "auto_fetch.done": "Done! {n} word(s) added.",
 
         "words_add_word": "Word",
         "words_add_meaning": "Meaning (Vietnamese)",
@@ -170,6 +174,10 @@ _strings = {
         "auto_fetch.web_btn": "T\u1ef1 \u0111\u1ed9ng l\u1ea5y t\u1eeb",
         "auto_fetch.web_keep": "Gi\u1eef l\u1ea1i",
         "auto_fetch.web_skip": "B\u1ecf qua",
+        "auto_fetch.batch_btn": "L\u1ea5y h\u00e0ng lo\u1ea1t",
+        "auto_fetch.count_prompt": "L\u1ea5y bao nhi\u00eau t\u1eeb? (1-10):",
+        "auto_fetch.web_word_x_of_y": "T\u1eeb {i}/{total}",
+        "auto_fetch.done": "Xong! \u0110\u00e3 th\u00eam {n} t\u1eeb.",
 
         "words_add_word": "T\u1eeb",
         "words_add_meaning": "Ngh\u0129a ti\u1ebfng Vi\u1ec7t",
