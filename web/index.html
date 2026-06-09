@@ -556,8 +556,15 @@ body {
 
 <div id="tab-words" class="content">
   <div id="words-content"></div>
-  <details style="margin-top:4px" id="add-word-details">
-    <summary class="card" style="cursor:pointer;padding:10px 14px;font-size:13px;color:var(--cyan);font-weight:600">➕ ${t("words_add")}</summary>
+  <div class="btn-group" id="af-count-btns">
+    <button class="btn btn-primary" data-af-count="1">1</button>
+    <button class="btn btn-outline" data-af-count="5">5</button>
+    <button class="btn btn-outline" data-af-count="10">10</button>
+  </div>
+  <button class="btn btn-primary btn-full" id="btn-auto-fetch">🎲 Auto-Fetch Word</button>
+  <div id="auto-fetch-preview" style="display:none"></div>
+  <details style="margin-top:12px" id="add-word-details">
+    <summary class="card" style="cursor:pointer;padding:10px 14px;font-size:13px;color:var(--muted);font-weight:600">➕ ${t("words_add")}</summary>
     <div class="card" style="margin-top:8px">
       <input type="text" id="add-word-input" class="search-box" placeholder="${t("words_add_word")}" style="margin-bottom:12px">
       <input type="text" id="add-meaning-input" class="search-box" placeholder="${t("words_add_meaning")}" style="margin-bottom:12px">
@@ -567,13 +574,6 @@ body {
       <p id="add-word-msg" style="font-size:12px;margin-top:10px;display:none"></p>
     </div>
   </details>
-  <div class="btn-group mt-8" id="af-count-btns" style="margin-top:8px">
-    <button class="btn btn-primary" data-af-count="1">1</button>
-    <button class="btn btn-outline" data-af-count="5">5</button>
-    <button class="btn btn-outline" data-af-count="10">10</button>
-  </div>
-  <button class="btn btn-primary btn-full" id="btn-auto-fetch">🎲 Auto-Fetch Word</button>
-  <div id="auto-fetch-preview" style="display:none"></div>
 </div>
 
 <div id="tab-settings" class="content">
