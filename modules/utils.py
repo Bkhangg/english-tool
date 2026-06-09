@@ -40,6 +40,20 @@ def get_word_by_id(word_id):
     return None
 
 
+def get_words_by_levels(levels, limit=10):
+    user_data = load_user_data()
+    learned = user_data.get("learned", {})
+    words = load_words()
+    filtered = []
+    for w in words:
+        wid = str(w["id"])
+        info = learned.get(wid, {})
+        lvl = info.get("level", 0) if wid in learned else 0
+        if lvl in levels:
+            filtered.append(w)
+    return filtered[:limit]
+
+
 def get_next_review_words(limit=10):
     user_data = load_user_data()
     now = datetime.now().isoformat()

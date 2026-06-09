@@ -14,8 +14,9 @@ sys.path.insert(0, os.path.dirname(__file__))
 from modules import lang
 from modules.utils import (
     load_words, load_user_data, save_user_data,
-    get_word_by_id, get_next_review_words, update_after_review,
-    get_today_reviews, get_streak, fetch_random_word, fetch_random_words,
+    get_word_by_id, get_next_review_words, get_words_by_levels,
+    update_after_review, get_today_reviews, get_streak,
+    fetch_random_word, fetch_random_words,
 )
 
 DICT_API = "https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
@@ -126,8 +127,18 @@ def api_add_word(body):
     return json_response({"ok": True, "id": new_id})
 
 
-def api_review_words():
-    words = get_next_review_words(limit=10)
+def api_review_words(qs=""):
+    params = urllib.parse.parse_qs(qs)
+    levels_str = params.get("levels", [""])[0]
+    if levels_str:
+        levels = [int(x) for x in levels_str.split(",") if x.strip().isdigit() and 0 <= int(x.strip()) <= 5]
+    else:
+        levels = None
+
+    if levels:
+        words = get_words_by_levels(levels, limit=10)
+    else:
+        words = get_next_review_words(limit=10)
     data = []
     for w in words:
         data.append({
@@ -377,7 +388,7 @@ def route(method, path, handler):
 
 route("GET", "/api/stats", lambda q, b: api_stats())
 route("GET", "/api/words", lambda q, b: api_words())
-route("GET", "/api/review-words", lambda q, b: api_review_words())
+route("GET", "/api/review-words", lambda q, b: api_review_words(q))
 route("GET", "/api/quiz", lambda q, b: api_quiz(q))
 route("GET", "/api/grammar", lambda q, b: api_grammar())
 route("GET", "/api/grammar-quiz", lambda q, b: api_grammar_quiz())

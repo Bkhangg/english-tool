@@ -688,6 +688,13 @@ const STRINGS = {
     tab_sett: "Settings",
     fc_header: "Flashcards",
     fc_review_btn: "Start Review",
+    fc_filter_title: "Filter by Level",
+    fc_level0: "New",
+    fc_level1: "Beginner",
+    fc_level2: "Learning",
+    fc_level3: "Familiar",
+    fc_level4: "Well known",
+    fc_level5: "Mastered",
     fc_no_words: "No words to review yet!",
     fc_loading: "Loading...",
     fc_word: "Word:",
@@ -818,6 +825,13 @@ const STRINGS = {
     tab_sett: "C\u00e0i \u0111\u1eb7t",
     fc_header: "Flashcards",
     fc_review_btn: "B\u1eaft \u0111\u1ea7u \u00f4n t\u1eadp",
+    fc_filter_title: "L\u1ecdc theo c\u1ea5p \u0111\u1ed9",
+    fc_level0: "Ch\u01b0a h\u1ecdc",
+    fc_level1: "H\u1ecdc d\u1edf",
+    fc_level2: "\u0110ang h\u1ecdc",
+    fc_level3: "Kh\u00e1 thu\u1ed9c",
+    fc_level4: "Thu\u1ed9c nhi\u1ec1u",
+    fc_level5: "Th\u00e0nh th\u1ea1o",
     fc_no_words: "Ch\u01b0a c\u00f3 t\u1eeb n\u00e0o \u0111\u1ec3 \u00f4n!",
     fc_loading: "\u0110ang t\u1ea3i...",
     fc_word: "T\u1eeb:",
@@ -951,6 +965,7 @@ let lang = "vi";
 let appSettings = { quiz_count: 10, tts_speed: 0.85, show_ipa: true, font_family: "system", theme: "dark" };
 let fcState = null;
 let fcTypeMode = false;
+let fcLevels = null;
 let quizState = null;
 
 function t(key) {
@@ -1282,10 +1297,40 @@ async function renderFlashcards() {
     renderFcCard(el, fcState);
     return;
   }
+  if (!fcLevels) {
+    const levelLabels = [
+      "0 — " + t("fc_level0"),
+      "1 — " + t("fc_level1"),
+      "2 — " + t("fc_level2"),
+      "3 — " + t("fc_level3"),
+      "4 — " + t("fc_level4"),
+      "5 — " + t("fc_level5"),
+    ];
+    el.innerHTML = `
+      <div class="card fade-in">
+        <h3>${t("fc_filter_title")}</h3>
+        <div style="margin-top:8px">
+          ${levelLabels.map((l, i) => `
+            <label style="display:block;padding:8px 0;font-size:14px;cursor:pointer">
+              <input type="checkbox" class="fc-level-cb" value="${i}" checked> ${l}
+            </label>
+          `).join("")}
+        </div>
+        <button class="btn btn-primary btn-full mt-8" id="fc-start-filtered">${t("fc_review_btn")}</button>
+      </div>`;
+    document.getElementById("fc-start-filtered")?.addEventListener("click", async () => {
+      const checked = [...document.querySelectorAll(".fc-level-cb:checked")].map(cb => cb.value);
+      fcLevels = checked.join(",");
+      renderFlashcards();
+    });
+    return;
+  }
   try {
-    const r = await api("GET", "/api/review-words");
+    const url = fcLevels ? "/api/review-words?levels=" + fcLevels : "/api/review-words";
+    const r = await api("GET", url);
     if (!r.words || r.words.length === 0) {
       el.innerHTML = `<div class="card text-center fade-in"><p style="color:var(--muted);padding:20px 0">${t("fc_no_words")}</p></div>`;
+      fcLevels = null;
       return;
     }
     fcState = { words: r.words, step: 0, correct: 0 };
@@ -1426,6 +1471,7 @@ function renderFcComplete(el, state) {
   `;
   document.getElementById("fc-restart")?.addEventListener("click", () => {
     fcState = null;
+    fcLevels = null;
     renderFlashcards();
   });
 }

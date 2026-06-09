@@ -1,5 +1,5 @@
 from modules import ui, lang
-from modules.utils import load_words, update_after_review, get_next_review_words, show_stats
+from modules.utils import load_words, update_after_review, get_next_review_words, get_words_by_levels, show_stats
 
 
 def run():
@@ -9,7 +9,25 @@ def run():
         ui.wait()
         return
 
-    review_words = get_next_review_words(limit=10)
+    ui.clear()
+    ui.header(lang.t("flashcard.header"))
+    level_labels = [
+        f"  {ui.S.FG.CYAN}[0]{ui.S.RESET}  {lang.t('flashcard.level0')}",
+        f"  {ui.S.FG.CYAN}[1]{ui.S.RESET}  {lang.t('flashcard.level1')}",
+        f"  {ui.S.FG.CYAN}[2]{ui.S.RESET}  {lang.t('flashcard.level2')}",
+        f"  {ui.S.FG.CYAN}[3]{ui.S.RESET}  {lang.t('flashcard.level3')}",
+        f"  {ui.S.FG.CYAN}[4]{ui.S.RESET}  {lang.t('flashcard.level4')}",
+        f"  {ui.S.FG.CYAN}[5]{ui.S.RESET}  {lang.t('flashcard.level5')}",
+    ]
+    for l in level_labels:
+        ui.cprint(l)
+    print()
+    choice = ui.input_prompt(f"  {ui.S.FG.YELLOW}{lang.t('flashcard.level_prompt')}{ui.S.RESET}").strip()
+    selected = [int(x) for x in choice.split(",") if x.strip().isdigit() and 0 <= int(x.strip()) <= 5]
+    if not selected:
+        selected = [0, 1, 2, 3, 4, 5]
+
+    review_words = get_words_by_levels(selected, limit=10)
     if not review_words:
         ui.info(lang.t("flashcard.none"))
         ui.wait()
