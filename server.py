@@ -120,7 +120,7 @@ def api_add_word(body):
     import json, os
     with open(WORDS_FILE, "r", encoding="utf-8") as f:
         data = json.load(f)
-    data["words"].append(entry)
+    data["words"].insert(0, entry)
     with open(WORDS_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     return json_response({"ok": True, "id": new_id})
@@ -467,14 +467,11 @@ class Handler(http.server.BaseHTTPRequestHandler):
         except json.JSONDecodeError:
             body = {}
 
-        if path == "/api/review":
-            result = api_review(body)
-        elif path == "/api/lang":
-            result = api_lang_set(body)
-        else:
+        handler = ROUTES["POST"].get(path)
+        if not handler:
             self._send(404, {"Content-Type": "application/json"}, b'{"error":"not found"}')
             return
-
+        result = handler(None, body)
         self._send(*result)
 
     def do_OPTIONS(self):

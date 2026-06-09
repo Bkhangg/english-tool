@@ -68,7 +68,7 @@ def add_word_cli():
         "example": example,
         "example_vi": "",
     }
-    data = {"words": words + [entry]}
+    data = {"words": [entry] + words}
     save_json(WORDS_FILE, data)
     ui.success(f"{lang.t('words_add_success')}: {word}")
     ui.wait()
@@ -124,7 +124,7 @@ def auto_fetch_cli():
         if choice in ("y", "yes", ""):
             new_id = max(w["id"] for w in load_words()) + 1 if words else 1
             result["id"] = new_id
-            data = {"words": load_words() + [result]}
+            data = {"words": [result] + load_words()}
             save_json(WORDS_FILE, data)
             ui.success(f"{lang.t('auto_fetch.saved')} \"{result['word']}\"")
             added += 1
